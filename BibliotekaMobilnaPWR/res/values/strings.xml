@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Biblioteka Mobilna PWR</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_main">Biblioteka PWR</string>
+    <string name="main_title">Tytuł</string>
+    <string name="main_author">Autor</string>
+    <string name="main_search">Szukaj</string>
+    <string name="main_reservations">Rezerwacje</string>
+    <string name="main_books">Moje książki</string>
+    <string name="main_account">Konto</string>
+    <string name="main_logout">Wyloguj</string>
+    <string name="main_login">Zaloguj</string>
+    <string name="login_title">Logowanie</string>
+    <string name="login_login">Login</string>
+    <string name="login_password">Hasło</string>
+
+</resources>
