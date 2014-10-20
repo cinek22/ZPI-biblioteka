@@ -16,5 +16,35 @@
     <string name="login_title">Logowanie</string>
     <string name="login_login">Login</string>
     <string name="login_password">Hasło</string>
+    <string-array name ="where_search">
+        <item >Katalog Główny PWr</item>
+        <item >Czasopisma</item>
+        <item >Narodowy Zasób Biblioteczny</item>
+        <item >Wypożyczalnia Główna</item>
+        <item >Czytelnia Główna</item>
+        <item >Sekcja Informacji Naukowo-Technicznej</item>
+        <item >Czytelnia Kowale</item>
+        <item >Zbiory Specjalne</item>
+        <item >Oddział Centrum przy Wydziale Architektury (bud. E4)</item>
+        <item >Oddział Centrum przy Wydziale Architektury (bud. E1)</item>
+        <item >Oddział Centrum przy Wydziale Budownictwa Lądowego i Wodnego</item>
+        <item >Oddział Centrum przy Wydziale Chemicznym</item>
+        <item >Oddział Centrum przy Wydziale Elektroniki (bud. C6)</item>
+        <item >Oddział Centrum przy Wydziale Elektroniki (bud. C5)</item>
+        <item >Oddział Centrum przy Wydziale Elektroniki (bud. C3)</item>
+        <item >Oddział Centrum przy Wydziale Elektrycznym</item>
+        <item >Oddział Centrum przy Wydziale Geoinżynierii, Górnictwa i Geologii</item>
+        <item >Oddział Centrum przy Wydziale Inżynierii Środowiska</item>
+        <item >Oddział Centrum przy Wydziale Informatyki i Zarządzania</item>
+        <item >Oddział Centrum przy Wydziale Mechaniczno-Energetycznym</item>
+        <item >Oddział Centrum przy Wydziale Mechanicznym</item>
+        <item >Oddział Centrum przy Wydziale Podstawowych Problemów Techniki (bud. A1)</item>
+        <item >Oddział Centrum przy Wydziale Podstawowych Problemów Techniki (bud. C11)</item>
+        <item >Oddział Centrum przy Studium Języków Obcych</item>
+        <item >Oddział Centrum przy Studium Wychowania Fizycznego i Sportu</item>
+        <item >Oddział Centrum przy Wydziale Techniczno-Przyrodniczym w Legnicy</item>
+        <item >Oddział Centrum przy Wydziale Techniczno-Informatycznym w Jeleniej Górze</item>
+        <item >Oddział Centrum przy Wydziale Techniczno-Inżynieryjnym w Wałbrzychu</item>
+    </string-array>
 
 </resources>

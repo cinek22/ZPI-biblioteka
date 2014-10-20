@@ -11,7 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 import android.os.Build;
 
@@ -22,6 +24,7 @@ public class Main extends Activity {
 	private Button mBooks;
 	private Button mAccount;
 	private Button mLogout;
+	private Spinner spinner;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,13 @@ public class Main extends Activity {
 		mBooks  = (Button) findViewById(R.id.main_books);
 		mAccount  = (Button) findViewById(R.id.main_account);
 		mLogout  = (Button) findViewById(R.id.main_logout);
+		
+		spinner = (Spinner)findViewById(R.id.spinner1);
+		//dodany spiner z wyborem co ma przeszukiwaæ bez obs³ugi zdarzeñ !
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+		        R.array.where_search, android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);
 	}
 	
 	private void setFieldsVisibility(boolean isLogged){
