@@ -32,6 +32,7 @@ public class LoginActivity extends Activity {
 	private EditText mLogin;
 	private EditText mPassword;
 	private Button mLoginButton;
+	private String mLoginUrl;
 
 	
 	@Override
@@ -39,6 +40,8 @@ public class LoginActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.logowanie);
+		mLoginUrl = StringsAndLinks.MAIN_PAGE + (!StringsAndLinks.SESSION_ID.equals("") ? StringsAndLinks.SESSION_ID : "") + StringsAndLinks.LOGIN_ADDRESS;
+		Log.d("TEST", "LoginActivity LoginURL = "+mLoginUrl);
 		setupView();
 		setupListeners();
 	}
@@ -89,7 +92,55 @@ public class LoginActivity extends Activity {
 	    public String postData() {
 		    // Create a new HttpClient and Post Header
 		    HttpClient httpclient = new DefaultHttpClient();
-		    HttpPost httppost = new HttpPost(StringsAndLinks.LOGIN_ADDRESS);
+		    HttpPost httppost = new HttpPost(mLoginUrl);
+		    
+		    getLoginLink();
+		    
+		    Log.d("TEST", "Setting cookie: "+StringsAndLinks.COOKIE_STRING + StringsAndLinks.SESSION_ID);
+		    httppost.addHeader("Cookie", StringsAndLinks.COOKIE_STRING + StringsAndLinks.SESSION_ID);
+		    
+		    try {
+		        // Add your data
+		        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+		        nameValuePairs.add(new BasicNameValuePair("bor_id", mLogin.getText().toString()));
+		        nameValuePairs.add(new BasicNameValuePair("bor_verification", mPassword.getText().toString()));
+		        nameValuePairs.add(new BasicNameValuePair("bor_library", "TUR50"));
+		        nameValuePairs.add(new BasicNameValuePair("func", "login-session"));
+		        nameValuePairs.add(new BasicNameValuePair("login_source", ""));
+		        nameValuePairs.add(new BasicNameValuePair("x", "10"));
+		        nameValuePairs.add(new BasicNameValuePair("y", "2"));
+		        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+		        // Execute HTTP Post Request
+		        HttpResponse response = httpclient.execute(httppost);
+		        InputStream inputStream = response.getEntity().getContent();
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder stringBuilder = new StringBuilder();
+
+                String bufferedStrChunk = null;
+
+                while((bufferedStrChunk = bufferedReader.readLine()) != null){
+                    stringBuilder.append(bufferedStrChunk);
+                }
+                Log.d("TEST", "LoginActivity logowanie - odpowiedü serwera: "+stringBuilder.toString());
+                return stringBuilder.toString();
+                
+		    } catch (ClientProtocolException e) {
+		        Log.e("TEST", "Error getting response: "+e);
+		    } catch (IOException e) {
+		    	 Log.e("TEST", "Error getting response: "+e);
+		    }
+		    return null;
+		} 
+	    
+	    private String getLoginLink(){
+	    	
+	    	HttpClient httpclient = new DefaultHttpClient();
+		    HttpPost httppost = new HttpPost(StringsAndLinks.MAIN_PAGE);
 
 		    try {
 		        // Add your data
@@ -113,7 +164,7 @@ public class LoginActivity extends Activity {
                 while((bufferedStrChunk = bufferedReader.readLine()) != null){
                     stringBuilder.append(bufferedStrChunk);
                 }
-                
+                Log.d("TEST", "LoginActivity getLoginLink() "+stringBuilder.toString());
                 return stringBuilder.toString();
                 
 		    } catch (ClientProtocolException e) {
@@ -121,7 +172,12 @@ public class LoginActivity extends Activity {
 		    } catch (IOException e) {
 		    	 Log.e("TEST", "Error getting response: "+e);
 		    }
-		    return null;
-		} 
+	    	return StringsAndLinks.MAIN_PAGE+StringsAndLinks.LOGIN_ADDRESS;
+	    }
+	    
+	    private void extractSession(){
+	    	
+	    }
+	    
 	}
 }
