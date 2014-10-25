@@ -26,6 +26,9 @@
         <activity
             android:name="com.example.bibliotekamobilnapwr.LoginActivity"
             android:label="@string/app_name" />
+        <activity
+            android:name="com.example.bibliotekamobilnapwr.ParseURLActivity"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>

@@ -25,7 +25,7 @@ public class ParseURLActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.logowanie);
+		setContentView(R.layout.main);
 		setupView();
 		setupListeners();
 	}
@@ -62,9 +62,11 @@ public class ParseURLActivity extends Activity{
 	        StringBuffer buffer = new StringBuffer();
 	        try {
 	            Document doc  = Jsoup.connect(strings[0]).get();
-	            Elements metaElems = doc.select("class=td1");
-	            buffer.append("DATA\r\n");
-	            for (Element metaElem : metaElems) {
+	            /*Log.d("TEST", doc.)*/
+	            Elements metaElems = doc.parents();
+	            Log.d("TEST", metaElems.toString());
+	            buffer.append(metaElems);
+	            /*for (Element metaElem : metaElems) {
 	            	String lp = metaElem.attr("lp");
 	            	String selector = metaElem.attr("selector");
 	                String author = metaElem.attr("author");
@@ -72,13 +74,14 @@ public class ParseURLActivity extends Activity{
 	                String egzemplarzy = metaElem.attr("egzemplarzy");
 	                String adresElektroniczny = metaElem.attr("adresElektroniczny");
 	                buffer.append("lp ["+lp+"] - selector ["+selector+"] - author  ["+author+"] - title ["+title+"] - egzemplarzy ["+egzemplarzy+"] - adresElektroniczny ["+adresElektroniczny+"] \r\n");
-	            }
+	            }*/
 	        }
 	        catch(Throwable t) {
-	            t.printStackTrace();
+//	            Toast.makeText(ParseURLActivity.this, "Nie znaleziono ¿adnej ksi¹zki", Toast.LENGTH_LONG).show();
+	        	t.printStackTrace();
 	        }
 
-	        System.out.print(buffer.toString());
+	        Log.d("TEST", buffer.toString());
 
 	        //Mo¿na to zwracaæ na jakimœ edittext
 	        //jednak lepiej konwertowaæ do xml-a
