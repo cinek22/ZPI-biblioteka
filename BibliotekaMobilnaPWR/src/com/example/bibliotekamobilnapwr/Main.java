@@ -1,21 +1,16 @@
 package com.example.bibliotekamobilnapwr;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.os.Build;
 
 public class Main extends Activity {
 	
@@ -116,8 +111,8 @@ public class Main extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(Main.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
-				
+				//Toast.makeText(Main.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
+				startActivity(new Intent(Main.this,Konto.class));
 			}
 		});
 		
@@ -125,8 +120,8 @@ public class Main extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(Main.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
-				
+				//Toast.makeText(Main.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
+				startActivity(new Intent(Main.this,KsiazkiActivity.class));
 			}
 		});
 		
@@ -134,8 +129,8 @@ public class Main extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(Main.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
-				
+				//Toast.makeText(Main.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
+				startActivity(new Intent(Main.this,Rezerwacje.class));
 			}
 		});
 		

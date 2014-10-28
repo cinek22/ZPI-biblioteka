@@ -80,9 +80,16 @@ public class LoginActivity extends Activity {
 	       if(resp != null){
 	    	   Log.d("TEST", "Odpowiedü "+resp);
 	    	   if(!resp.contains("Identyfikator/Has")){
+	    		   if(mLogin.getText().toString().startsWith("PWR")){
 	    		   Toast.makeText(LoginActivity.this, "Zalogowano pomyúlnie", Toast.LENGTH_LONG).show();
 	    		   getSharedPreferences("LIBRARY", MODE_PRIVATE).edit().putString("LOGIN", mLogin.getText().toString()).commit();
 	    		   getSharedPreferences("LIBRARY", MODE_PRIVATE).edit().putString("PASSWORD", mLogin.getText().toString()).commit();
+	    		   finish();
+	    		   }else{
+	    			   Toast.makeText(LoginActivity.this, "Nieprawid≥owy login/haslo", Toast.LENGTH_LONG).show();
+	    		   }
+	    	   }else{
+	    		   Toast.makeText(LoginActivity.this, "Nieprawid≥owy login/haslo", Toast.LENGTH_LONG).show();
 	    	   }
 	       }else{
 	    	   Log.e("TEST", "Resp == NULL");
@@ -92,12 +99,18 @@ public class LoginActivity extends Activity {
 	    public String postData() {
 		    // Create a new HttpClient and Post Header
 		    HttpClient httpclient = new DefaultHttpClient();
-		    HttpPost httppost = new HttpPost(mLoginUrl);
+		    HttpPost httppost = new HttpPost(mLoginUrl+"&login_source=&bor_id="+mLogin.getText().toString()+"&bor_verification="+mPassword.getText().toString()+"&bor_library=TUR50&x=43&y=10");
 		    
 		    getLoginLink();
 		    
 		    Log.d("TEST", "Setting cookie: "+StringsAndLinks.COOKIE_STRING + StringsAndLinks.SESSION_ID);
+		    httppost.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+		    httppost.addHeader("Accept-Encoding", "gzip, deflate");
+		    httppost.addHeader("Accept-Language", "pl,en-US;q=0.7,en;q=0.3");
+		    httppost.addHeader("Connection", "keep-alive");
 		    httppost.addHeader("Cookie", StringsAndLinks.COOKIE_STRING + StringsAndLinks.SESSION_ID);
+		    httppost.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0");
+		    httppost.addHeader("Host", "aleph.bg.pwr.wroc.pl");
 		    
 		    try {
 		        // Add your data

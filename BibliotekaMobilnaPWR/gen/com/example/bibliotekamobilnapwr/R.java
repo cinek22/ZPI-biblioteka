@@ -36,26 +36,59 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a000c;
-        public static final int container=0x7f0a0000;
-        public static final int login_login_btn=0x7f0a0003;
-        public static final int login_login_et=0x7f0a0001;
-        public static final int login_password_et=0x7f0a0002;
-        public static final int main_account=0x7f0a000a;
-        public static final int main_author_et=0x7f0a0005;
-        public static final int main_books=0x7f0a0009;
-        public static final int main_logout=0x7f0a000b;
-        public static final int main_reservations=0x7f0a0008;
-        public static final int main_search=0x7f0a0007;
-        public static final int main_title_et=0x7f0a0004;
-        public static final int spinner1=0x7f0a0006;
+        public static final int action_settings=0x7f0a0023;
+        public static final int button1=0x7f0a0017;
+        public static final int button1E=0x7f0a0006;
+        public static final int button2=0x7f0a0007;
+        public static final int container=0x7f0a000e;
+        public static final int editText1=0x7f0a0009;
+        public static final int editText2=0x7f0a000c;
+        public static final int editText3=0x7f0a000d;
+        public static final int login_login_btn=0x7f0a001a;
+        public static final int login_login_et=0x7f0a0018;
+        public static final int login_password_et=0x7f0a0019;
+        public static final int main_account=0x7f0a0021;
+        public static final int main_author_et=0x7f0a001c;
+        public static final int main_books=0x7f0a0020;
+        public static final int main_logout=0x7f0a0022;
+        public static final int main_reservations=0x7f0a001f;
+        public static final int main_search=0x7f0a001e;
+        public static final int main_title_et=0x7f0a001b;
+        public static final int spinner1=0x7f0a001d;
+        public static final int tableRow1=0x7f0a000f;
+        public static final int tableRow2=0x7f0a0010;
+        public static final int tableRow3=0x7f0a0011;
+        public static final int tableRow4=0x7f0a0016;
+        public static final int textView1=0x7f0a0000;
+        public static final int textView10=0x7f0a0012;
+        public static final int textView11=0x7f0a0013;
+        public static final int textView12=0x7f0a0014;
+        public static final int textView13=0x7f0a0015;
+        public static final int textView2=0x7f0a0001;
+        public static final int textView3=0x7f0a0002;
+        public static final int textView4=0x7f0a0003;
+        public static final int textView5=0x7f0a0004;
+        public static final int textView6=0x7f0a0005;
+        public static final int textView7=0x7f0a0008;
+        public static final int textView8=0x7f0a000a;
+        public static final int textView9=0x7f0a000b;
     }
     public static final class layout {
-        public static final int logowanie=0x7f030000;
-        public static final int main=0x7f030001;
+        public static final int activity_edytuj_konto=0x7f030000;
+        public static final int activity_konto=0x7f030001;
+        public static final int activity_ksiazki=0x7f030002;
+        public static final int activity_rezerwacje=0x7f030003;
+        public static final int fragment_konto=0x7f030004;
+        public static final int fragment_ksiazki=0x7f030005;
+        public static final int fragment_rezerwacje=0x7f030006;
+        public static final int logowanie=0x7f030007;
+        public static final int main=0x7f030008;
     }
     public static final class menu {
-        public static final int main=0x7f090000;
+        public static final int konto=0x7f090000;
+        public static final int ksiazki=0x7f090001;
+        public static final int main=0x7f090002;
+        public static final int rezerwacje=0x7f090003;
     }
     public static final class string {
         public static final int action_settings=0x7f060002;
@@ -72,6 +105,10 @@ public final class R {
         public static final int main_reservations=0x7f060007;
         public static final int main_search=0x7f060006;
         public static final int main_title=0x7f060004;
+        public static final int title_activity_edytuj_konto=0x7f060012;
+        public static final int title_activity_konto=0x7f060010;
+        public static final int title_activity_ksiazki=0x7f060011;
+        public static final int title_activity_rezerwacje=0x7f06000f;
         public static final int title_main=0x7f060003;
     }
     public static final class style {

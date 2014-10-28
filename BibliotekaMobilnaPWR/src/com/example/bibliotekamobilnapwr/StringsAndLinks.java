@@ -1,8 +1,8 @@
 package com.example.bibliotekamobilnapwr;
 
 public class StringsAndLinks {
-	public static String COOKIE_STRING = "ALEPH_SESSION_ID = ";
-	public static String SESSION_ID = "NYRGGL2HJC13BJFY3FHC3S3KXBDQ3FQT7L3N9B77H1SC59IDIY";
+	public static String COOKIE_STRING = "__utma=84080792.895347480.1394980478.1401651913.1412192255.5; __utmz=84080792.1412192255.5.3.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); ALEPH_SESSION_ID=";
+	public static String SESSION_ID = "IDYICBUGJHQ1L2TJHBAKGNVK1X69Y48RBUEPK4UDVP9DGQ9LNM";
 	public static final String MAIN_PAGE = "http://aleph.bg.pwr.wroc.pl/F/";
 	public static final String LOGIN_ADDRESS = "?func=file&file_name=login-session";
 	public static final String SEARCH_TITLE_NOLOGGED = "http://aleph.bg.pwr.wroc.pl/F/?func=find-a&find_code=WSU&request=";
