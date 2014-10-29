@@ -35,8 +35,7 @@ public class ParseURLActivity extends Activity {
 		
 		Intent intent = getIntent();
 	    String message = intent.getStringExtra("URL");
-		
-	    Toast.makeText(ParseURLActivity.this, message, Toast.LENGTH_LONG).show();
+	    parseURL.execute(message);
 	    
 		btnBack.setOnClickListener(new View.OnClickListener() {
 
@@ -46,13 +45,6 @@ public class ParseURLActivity extends Activity {
 				startActivity(intent);
 			}
 		});
-
-		mWynik.setText(message);
-	}
-
-	public void execute(String[] strings) {
-		String s = strings[0];
-		parseURL.execute(s);
 	}
 
 	private void setupView() {
@@ -95,17 +87,17 @@ public class ParseURLActivity extends Activity {
 				 * zaawansowane / </td>
 				 */
 
-				/*
-				 * Elements description2 =
-				 * document.select("td[class=td1]{width=\"\"][align=top]");
-				 */
+				
+				 Elements description2 =
+				 document.select("table.short_table");
+				 
 
-				resultTextFmt = document.toString();
+				resultTextFmt = description2.toString();
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			/*mWynik.setText(Html.fromHtml(resultTextFmt));*/
+			mWynik.setText(Html.fromHtml(resultTextFmt));
 			/* mWynik.setText(resultTextFmt); */
 			mProgressDialog.dismiss();
 			return null;
