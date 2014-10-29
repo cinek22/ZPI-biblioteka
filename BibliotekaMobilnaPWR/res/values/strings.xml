@@ -52,5 +52,6 @@
     <string name="title_activity_konto">Konto</string>
     <string name="title_activity_ksiazki">KsiazkiActivity</string>
     <string name="title_activity_edytuj_konto">EdytujKonto</string>
+    <string name="btnString">Powrót</string>
 
 </resources>

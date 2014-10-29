@@ -9,11 +9,14 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 public class Main extends Activity {
 	
+	private EditText mTitle;
+	private EditText mAuthor;
 	private Button mSearch;
 	private Button mReservations;
 	private Button mBooks;
@@ -52,6 +55,8 @@ public class Main extends Activity {
 	}
 	
 	private void setupView(){
+		mTitle = (EditText) findViewById(R.id.main_title_et);
+		mAuthor = (EditText) findViewById(R.id.main_author_et);
 		mSearch = (Button) findViewById(R.id.main_search);
 		mReservations = (Button) findViewById(R.id.main_reservations);
 		mBooks  = (Button) findViewById(R.id.main_books);
@@ -97,12 +102,28 @@ public class Main extends Activity {
 		}
 	}
 	
+	/*
+	 * 
+	 * Wyszukiwanie ksi¹¿ki dla u¿ytkownika nie zalogowanego
+	 * 
+	 * */
+	
 	private void setupListeners(){
-		mSearch.setOnClickListener(new View.OnClickListener() {
+			mSearch.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(Main.this, ParseURLActivity.class));
+			if(!mTitle.getText().toString().equals("")
+						&& !mAuthor.getText().toString().equals("")){
+				
+				String siteUrl = (StringsAndLinks.SEARCH_TITLE_NOLOGGED+mTitle.getText().toString()+StringsAndLinks.SEARCH_AUTHOR_NOLOGGED+mAuthor.getText().toString()+StringsAndLinks.SEARCH_END_NOLOGGED);
+				
+				Intent intent = new Intent(Main.this, ParseURLActivity.class);
+				intent.putExtra("URL", siteUrl);
+				startActivity(intent);
+			}else{
+					Toast.makeText(Main.this, "Obydwa pola musz¹ byæ wype³nione", Toast.LENGTH_LONG).show();
+				}
 				
 			}
 		});

@@ -2,90 +2,121 @@ package com.example.bibliotekamobilnapwr;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class ParseURLActivity extends Activity{
-	
-	private EditText mTitle;
-	private EditText mAuthor;
-	private Button mSearch;
+public class ParseURLActivity extends Activity {
+
+	private TextView mWynik;
+	private Button btnBack;
+	ParseURL parseURL = new ParseURL();
+
+	ProgressDialog mProgressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.result_nolog);
 		setupView();
-		setupListeners();
-	}
-	
-	private void setupView(){
-		mTitle = (EditText) findViewById(R.id.main_title_et);
-		mAuthor = (EditText) findViewById(R.id.main_author_et);
-		mSearch  = (Button) findViewById(R.id.main_search);
-	}
-	
-	private void setupListeners(){
-		mSearch.setOnClickListener(new View.OnClickListener() {
-			
+		
+		Intent intent = getIntent();
+	    String message = intent.getStringExtra("URL");
+		
+	    Toast.makeText(ParseURLActivity.this, message, Toast.LENGTH_LONG).show();
+	    
+		btnBack.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
-			if(!mTitle.getText().toString().equals("")
-						&& !mAuthor.getText().toString().equals("")){
-				
-				String siteUrl = (StringsAndLinks.SEARCH_TITLE_NOLOGGED+mTitle+StringsAndLinks.SEARCH_AUTHOR_NOLOGGED+mAuthor+StringsAndLinks.SEARCH_END_NOLOGGED);
-	            ( new ParseURL() ).execute(new String[]{siteUrl});				
-			}else{
-					Toast.makeText(ParseURLActivity.this, "Obydwa pola musz¹ byæ wype³nione", Toast.LENGTH_LONG).show();
-				}
-				
+				Intent intent = new Intent(ParseURLActivity.this, Main.class);
+				startActivity(intent);
 			}
 		});
+
+		mWynik.setText(message);
 	}
-	
-	public class ParseURL extends AsyncTask<String, Void, String> {
-		
-		@Override 
-	    protected String doInBackground(String... strings) {
-			
-	        StringBuffer buffer = new StringBuffer();
-	        try {
-	            Document doc  = Jsoup.connect(strings[0]).get();
-	            /*Log.d("TEST", doc.)*/
-	            Elements metaElems = doc.parents();
-	            Log.d("TEST", metaElems.toString());
-	            buffer.append(metaElems);
-	            /*for (Element metaElem : metaElems) {
-	            	String lp = metaElem.attr("lp");
-	            	String selector = metaElem.attr("selector");
-	                String author = metaElem.attr("author");
-	                String title = metaElem.attr("title");
-	                String egzemplarzy = metaElem.attr("egzemplarzy");
-	                String adresElektroniczny = metaElem.attr("adresElektroniczny");
-	                buffer.append("lp ["+lp+"] - selector ["+selector+"] - author  ["+author+"] - title ["+title+"] - egzemplarzy ["+egzemplarzy+"] - adresElektroniczny ["+adresElektroniczny+"] \r\n");
-	            }*/
-	        }
-	        catch(Throwable t) {
-//	            Toast.makeText(ParseURLActivity.this, "Nie znaleziono ¿adnej ksi¹zki", Toast.LENGTH_LONG).show();
-	        	t.printStackTrace();
-	        }
 
-	        Log.d("TEST", buffer.toString());
+	public void execute(String[] strings) {
+		String s = strings[0];
+		parseURL.execute(s);
+	}
 
-	        //Mo¿na to zwracaæ na jakimœ edittext
-	        //jednak lepiej konwertowaæ do xml-a
-	        return buffer.toString();
-	    }
-	
-}}
+	private void setupView() {
+		mWynik = (TextView) findViewById(R.id.resultNoLog);
+		mWynik.setMovementMethod(new ScrollingMovementMethod());
+		btnBack = (Button) findViewById(R.id.btnBack);
+
+	}
+
+	public class ParseURL extends AsyncTask<Void, Void, Void> {
+
+		String resultTextFmt;
+		String URL;
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			mProgressDialog = new ProgressDialog(ParseURLActivity.this);
+			mProgressDialog.setTitle("Search Book");
+			mProgressDialog.setMessage("Loading...");
+			mProgressDialog.setIndeterminate(false);
+			mProgressDialog.show();
+			doInBackground();
+		}
+
+		public void execute(String string) {
+			URL = string;
+			onPreExecute();
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			try {
+
+				Document document = Jsoup.connect(URL).get();
+
+				/*
+				 * <td class=td1 width="" valign=top>Cornell, Gary. </td> <td
+				 * class=td1 width="" valign=top>Java :&nbsp;techniki
+				 * zaawansowane / </td>
+				 */
+
+				/*
+				 * Elements description2 =
+				 * document.select("td[class=td1]{width=\"\"][align=top]");
+				 */
+
+				resultTextFmt = document.toString();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			/*mWynik.setText(Html.fromHtml(resultTextFmt));*/
+			/* mWynik.setText(resultTextFmt); */
+			mProgressDialog.dismiss();
+			return null;
+		}
+
+		/*
+		 * @Override protected void onPostExecute (Void result){
+		 * 
+		 * mWynik.setText(Html.fromHtml(resultTextFmt));
+		 * mProgressDialog.dismiss(); }
+		 */
+
+	}
+}
