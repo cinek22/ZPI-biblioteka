@@ -2,6 +2,7 @@ package com.example.bibliotekamobilnapwr;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import android.app.Activity;
@@ -56,7 +57,7 @@ public class ParseURLActivity extends Activity {
 
 	public class ParseURL extends AsyncTask<Void, Void, Void> {
 
-		String resultTextFmt;
+		StringBuilder resultTextFmt = new StringBuilder();
 		String URL;
 
 		@Override
@@ -80,35 +81,33 @@ public class ParseURLActivity extends Activity {
 			try {
 
 				Document document = Jsoup.connect(URL).get();
-
-				/*
-				 * <td class=td1 width="" valign=top>Cornell, Gary. </td> <td
-				 * class=td1 width="" valign=top>Java :&nbsp;techniki
-				 * zaawansowane / </td>
-				 */
-
-				
-				 Elements description2 =
-				 document.select("table.short_table");
+				Elements description2 = document.select("body table#short_table tr[valign=baseline]");
 				 
-
-				resultTextFmt = description2.toString();
+				 
+				 for (Element desc : description2) {
+					 
+					 resultTextFmt.append("Autor ");
+					 resultTextFmt.append(desc.select("td[valign=top]").get(2).text());
+					 resultTextFmt.append(System.getProperty("line.separator"));
+					 resultTextFmt.append("Tytu³ ");
+					 resultTextFmt.append(desc.select("td[valign=top]").get(3).text());
+					 resultTextFmt.append(desc.select("td[valign=top]").get(4).text());
+					 resultTextFmt.append(System.getProperty("line.separator"));
+					 resultTextFmt.append("Dostêpnoœæ ");
+					 resultTextFmt.append(desc.select("td[valign=top]").get(5).text());
+					 resultTextFmt.append(System.getProperty("line.separator"));
+					 resultTextFmt.append(System.getProperty("line.separator"));
+			 
+					}
+				 
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			mWynik.setText(Html.fromHtml(resultTextFmt));
-			/* mWynik.setText(resultTextFmt); */
+			mWynik.setText(resultTextFmt);
 			mProgressDialog.dismiss();
 			return null;
 		}
-
-		/*
-		 * @Override protected void onPostExecute (Void result){
-		 * 
-		 * mWynik.setText(Html.fromHtml(resultTextFmt));
-		 * mProgressDialog.dismiss(); }
-		 */
 
 	}
 }
