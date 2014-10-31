@@ -64,6 +64,7 @@ public class Main extends Activity {
 		mLogout  = (Button) findViewById(R.id.main_logout);
 		
 		spinner = (Spinner)findViewById(R.id.spinner1);
+		
 		//dodany spiner z wyborem co ma przeszukiwaæ bez obs³ugi zdarzeñ !
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
 		        R.array.where_search, android.R.layout.simple_spinner_item);
@@ -103,10 +104,11 @@ public class Main extends Activity {
 	}
 	
 	/*
+	 * *********************************************************
 	 * 
 	 * Wyszukiwanie ksi¹¿ki dla u¿ytkownika nie zalogowanego
-	 * 
-	 * */
+	 *
+	 * *********************************************************/
 	
 	private void setupListeners(){
 			mSearch.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +124,10 @@ public class Main extends Activity {
 				intent.putExtra("URL", siteUrl);
 				startActivity(intent);
 			}else{
-					Toast.makeText(Main.this, "Obydwa pola musz¹ byæ wype³nione", Toast.LENGTH_LONG).show();
+	
+				String ss = String.valueOf(spinner.getFirstVisiblePosition());
+				Toast.makeText(Main.this, ss, Toast.LENGTH_LONG).show();
+					/*Toast.makeText(Main.this, "Obydwa pola musz¹ byæ wype³nione", Toast.LENGTH_LONG).show();*/
 				}
 				
 			}
@@ -168,5 +173,75 @@ public class Main extends Activity {
 			}
 		});
 	}
-
+/*
+ * *********************************************************
+ * 
+ * Jako wynik zwraca skrót katalogu który jest zaznaczony
+ *
+ * *********************************************************/
+	String whichIsSelected (int i){
+        String result;
+        switch (i) {
+            case 0:  result = "TUR";
+                     break;
+            case 1:  result = "TURCZAS";
+                     break;
+            case 2:  result = "TURNZB";
+                     break;
+            case 3:  result = "BGMG";
+                     break;
+            case 4:  result = "BGCG";
+                     break;
+            case 5:  result = "BGIN";
+                     break;
+            case 6:  result = "BGCK";
+                     break;
+            case 7:  result = "BGZS";
+                     break;
+            case 8:  result = "BI1";
+                     break;
+            case 9: result = "BI12";
+                     break;
+            case 10: result = "BW2";
+                     break;
+            case 11: result = "BW3";
+                     break;
+            case 12: result = "B412";
+            		 break;
+            case 13: result = "BI28";
+            		 break;
+            case 14: result = "B612";
+            		 break;
+            case 15: result = "BW5";
+            		 break;
+            case 16: result = "BW6";
+            		 break;
+            case 17: result = "BW7";
+            		 break;
+            case 18: result = "BW8";
+            		 break;
+            case 19: result = "BW9";
+            		 break;
+            case 20: result = "BW10";
+            		 break;
+            case 21: result = "BI9";
+            		 break;
+            case 22: result = "BI18";
+            		 break;
+            case 23: result = "BSJO";
+            		 break;
+            case 24: result = "BSWF";
+            		 break;
+            case 25: result = "BFL";
+            		 break;
+            case 26: result = "BFJG";
+            	     break;
+            case 27: result = "BFW";
+            		 break;
+            default: result = "TUR";
+                     break;
+        }               
+                     return result;
+	
+	}
 }
