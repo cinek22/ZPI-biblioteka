@@ -118,16 +118,16 @@ public class Main extends Activity {
 			if(!mTitle.getText().toString().equals("")
 						&& !mAuthor.getText().toString().equals("")){
 				
-				String siteUrl = (StringsAndLinks.SEARCH_TITLE_NOLOGGED+mTitle.getText().toString()+StringsAndLinks.SEARCH_AUTHOR_NOLOGGED+mAuthor.getText().toString()+StringsAndLinks.SEARCH_END_NOLOGGED);
+				String selectedBase = whichIsSelected(spinner.getFirstVisiblePosition());
+				
+				String siteUrl = (StringsAndLinks.SEARCH_TITLE_NOLOGGED+mTitle.getText().toString()+StringsAndLinks.SEARCH_AUTHOR_NOLOGGED+mAuthor.getText().toString()+StringsAndLinks.SEARCH_BASE_NOLOGGED+selectedBase+StringsAndLinks.SEARCH_END_NOLOGGED);
+				
 				
 				Intent intent = new Intent(Main.this, ParseURLActivity.class);
 				intent.putExtra("URL", siteUrl);
 				startActivity(intent);
 			}else{
-	
-				String ss = String.valueOf(spinner.getFirstVisiblePosition());
-				Toast.makeText(Main.this, ss, Toast.LENGTH_LONG).show();
-					/*Toast.makeText(Main.this, "Obydwa pola musz¹ byæ wype³nione", Toast.LENGTH_LONG).show();*/
+					Toast.makeText(Main.this, "Obydwa pola musz¹ byæ wype³nione", Toast.LENGTH_LONG).show();
 				}
 				
 			}
