@@ -53,5 +53,26 @@
     <string name="title_activity_ksiazki">KsiazkiActivity</string>
     <string name="title_activity_edytuj_konto">EdytujKonto</string>
     <string name="btnString">Powrót</string>
+    <string name="title_activity_account">AccountActivity</string>
+    <string name="doneButton">Zatwierdź</string>
+    <string name="backButton">Anuluj</string>
+    <string name="book_Author">Autor</string>
+    <string name="book_Title">Tytuł</string>
+    <string name="find_books">Wyszukane egzemplarze</string>
+    <string name="book_stat">Status</string>
+    <string name="book_order">Zamówienie</string>
+    <string name="reserve_button">Rezerwuj</string>
+    <string name="title_account">Moje konto</string>
+    <string name="account_name">Imię</string>
+    <string name="account_surname">Nazwisko</string>
+    <string name="account_butt_pass">Hasło</string>
+    <string name="changePass_title">Zmiana hasła</string>
+    <string name="current_pass">Podaj bieżące hasło</string>
+    <string name="new_pass">Podaj nowe hasło</string>
+    <string name="new_pass_confirm">Potwierdź nowe hasło</string>
+    <string name="button_save_pass">Zmień hasło</string>
+    <string name="button_back_pass">Anuluj</string>
+    <string name="title_activity_change_pass">ChangePassActivity</string>
+    <string name="title_activity_list_reserve">ListReserveActivity</string>
 
 </resources>

@@ -138,7 +138,7 @@ public class Main extends Activity {
 			@Override
 			public void onClick(View v) {
 				//Toast.makeText(Main.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
-				startActivity(new Intent(Main.this,Konto.class));
+				startActivity(new Intent(Main.this,AccountActivity.class));
 			}
 		});
 		
@@ -146,8 +146,8 @@ public class Main extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				//Toast.makeText(Main.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
-				startActivity(new Intent(Main.this,KsiazkiActivity.class));
+				Toast.makeText(Main.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
+				//startActivity(new Intent(Main.this,KsiazkiActivity.class));
 			}
 		});
 		
@@ -156,7 +156,7 @@ public class Main extends Activity {
 			@Override
 			public void onClick(View v) {
 				//Toast.makeText(Main.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
-				startActivity(new Intent(Main.this,Rezerwacje.class));
+				startActivity(new Intent(Main.this,ListReserveActivity.class));
 			}
 		});
 		
