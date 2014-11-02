@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center" >
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:text="@string/title_account"
+        android:textSize="22dp"
+        android:textColor="@color/blue"/>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp">
+        <TextView 
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/account_name"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+        
+        <TextView 
+            android:id="@+id/account_name_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Adam"
+            android:layout_weight="2"/>
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp">
+        <TextView 
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/account_surname"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+        
+        <TextView 
+            android:id="@+id/account_surname_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Kowalski"
+            android:layout_weight="2"/>
+    </LinearLayout>
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:gravity="right">
+	    
+	    <Button 
+	        android:id="@+id/account_button_pass"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="10dp"
+	        android:layout_marginRight="25dp"
+	        android:layout_marginLeft="25dp"
+	        android:padding="10dp"
+	        android:gravity="left"
+	        android:background="@color/green_transparent"
+	        android:text="@string/account_butt_pass"/>
+	    </LinearLayout>
+</LinearLayout>
