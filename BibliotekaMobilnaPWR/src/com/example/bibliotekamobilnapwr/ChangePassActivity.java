@@ -37,9 +37,22 @@ public class ChangePassActivity extends Activity{
 			
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(ChangePassActivity.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
+				//Toast.makeText(ChangePassActivity.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
+				if(!currentPass.getText().toString().equals("")&&!newPass.getText().toString().equals("")
+						&&!newPassConfirm.getText().toString().equals("")&&newPass.getText().toString().equals(newPassConfirm.getText().toString())){
+					//new ChangePassTask().execute();
+				 
+				}else {
+					Toast.makeText(ChangePassActivity.this,"Wszystkie pola musz¹ byæ wype³nione/Podane has³a s¹ ró¿ne",Toast.LENGTH_LONG).show();
+				}
 			}
 		});
+		
+	}
+	
+	
+	class ChangePassTask 
+	{
 		
 	}
 
