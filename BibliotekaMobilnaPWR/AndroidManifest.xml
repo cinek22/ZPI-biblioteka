@@ -48,15 +48,15 @@
             android:label="@string/title_activity_edytuj_konto" >
         </activity>
         <activity
-            android:name=".AccountActivity"
+            android:name="com.example.bibliotekamobilnapwr.AccountActivity"
             android:label="@string/title_activity_account" >
         </activity>
         <activity
-            android:name=".ChangePassActivity"
+            android:name="com.example.bibliotekamobilnapwr.ChangePassActivity"
             android:label="@string/title_activity_change_pass" >
         </activity>
         <activity
-            android:name=".ListReserveActivity"
+            android:name="com.example.bibliotekamobilnapwr.ListReserveActivity"
             android:label="@string/title_activity_list_reserve" >
         </activity>
     </application>
