@@ -84,7 +84,7 @@ public class AccountActivity extends Activity{
 				//document jsoup
 				Document document =  Jsoup.connect(URL).get();
 				Elements description = document.select("body div.title");
-				Toast.makeText(AccountActivity.this, "otrzymano"+description.toString(), Toast.LENGTH_LONG).show();
+				Toast.makeText(AccountActivity.this, "otrzymano"+description.text(), Toast.LENGTH_LONG).show();
 				
 			}catch(Exception e){
 				e.printStackTrace();
