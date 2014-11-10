@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -34,8 +35,8 @@ import android.widget.Toast;
 
 public class ParseURLActivity extends Activity {
 
-	public static final String GREEN_1       = "#7FA016";
-	public static final String GREEN_2       = "#3F5300";
+	public static final String GREEN_1 = "#7FA016";
+	public static final String GREEN_2 = "#3F5300";
 	TableLayout table_layout;
 	TableLayout table;
 	private Button btnBack;
@@ -47,7 +48,7 @@ public class ParseURLActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.result_book_nolog);
+		setContentView(R.layout.result_book);
 		setupView();
 
 		Intent intent = getIntent();
@@ -97,14 +98,18 @@ public class ParseURLActivity extends Activity {
 			try {
 				// Document jsoupe
 				Document document = Jsoup.connect(URL).get();
-				
-				Elements error = document
-						.select("body table#short_table tr[valign=baseline]");
-				
+
 				Elements description2 = document
 						.select("body table#short_table tr[valign=baseline]");
-				createXML(description2);
-			mProgressDialog.dismiss();
+				if (description2.size() != 0) {
+					createXML(description2);
+				} else {
+					
+					String error="Nie odnaleziono rekordów odpowiadaj¹cych zapytaniu.";
+					errorMessage(error);
+							
+				}
+				mProgressDialog.dismiss();
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -152,29 +157,27 @@ public class ParseURLActivity extends Activity {
 				// create: <availability>
 				org.w3c.dom.Element availibility = doc
 						.createElement("availibility");
-				
+
 				// create: <baza>
-				org.w3c.dom.Element baza = doc
-						.createElement("baza");
+				org.w3c.dom.Element baza = doc.createElement("baza");
 				// add egz : value
 				Element egz = desc.select("td[valign=top]").get(5);
-				
-				//parsujemy do href-ow
+
+				// parsujemy do href-ow
 				Elements e = egz.select("a");
-				for(Element a : e ){
-					//opis linku jako id
+				for (Element a : e) {
+					// opis linku jako id
 					baza.setAttribute("baza", a.text());
-					//link [href]
+					// link [href]
 					baza.setTextContent(a.attr("href"));
-/*					
-				//opis linku
-					String link = a.text();
-					
-				//wyci¹gamy poszeczególne elementy
-					//link
-				String href = a.attr("href");*/
+					/*
+					 * //opis linku String link = a.text();
+					 * 
+					 * //wyci¹gamy poszeczególne elementy //link String href =
+					 * a.attr("href");
+					 */
 				}
-				
+
 				availibility.appendChild(baza);
 				book.appendChild(availibility);
 			}
@@ -249,38 +252,78 @@ public class ParseURLActivity extends Activity {
 
 			// availibility
 			LinearLayout lAvailibility = new LinearLayout(this);
-			lAvailibility.setLayoutParams(new LayoutParams(60, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+			lAvailibility.setLayoutParams(new LayoutParams(60,
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 			lAvailibility.setOrientation(LinearLayout.VERTICAL);
-			
-			/*TextView tvAvailibility = new TextView(this);
-			tvAvailibility.setLayoutParams(new LayoutParams(60,
-					LayoutParams.WRAP_CONTENT));*/
-			
-			NodeList list = doc.getElementsByTagName("availibility")
-					.item(i).getChildNodes();
 
-			
-			
-			for(int j=0; j < list.getLength(); j++){
+			/*
+			 * TextView tvAvailibility = new TextView(this);
+			 * tvAvailibility.setLayoutParams(new LayoutParams(60,
+			 * LayoutParams.WRAP_CONTENT));
+			 */
+
+			NodeList list = doc.getElementsByTagName("availibility").item(i)
+					.getChildNodes();
+
+			for (int j = 0; j < list.getLength(); j++) {
 				Node aNode = list.item(j);
-				 NamedNodeMap attributes = aNode.getAttributes();
-		            for (int a = 0; a < attributes.getLength(); a++) {
-		             Node theAttribute = attributes.item(a);
-//		             Toast.makeText(ParseURLActivity.this, theAttribute.getLocalName() + "=" + theAttribute.getNodeValue(), Toast.LENGTH_SHORT).show();
-//		             System.out.println(theAttribute.getNodeName() + "=" + theAttribute.getNodeValue());
-		             	         
-		             TextView tvAvailibility = new TextView(this);
-		             tvAvailibility.setText(theAttribute.getNodeValue());        
-		             tvAvailibility.setTextColor(Color.parseColor(c));
-		            lAvailibility.addView(tvAvailibility); 
-		            
-		        }
-		            row.addView(lAvailibility);
+				NamedNodeMap attributes = aNode.getAttributes();
+				for (int a = 0; a < attributes.getLength(); a++) {
+					Node theAttribute = attributes.item(a);
+					// Toast.makeText(ParseURLActivity.this,
+					// theAttribute.getLocalName() + "=" +
+					// theAttribute.getNodeValue(), Toast.LENGTH_SHORT).show();
+					// System.out.println(theAttribute.getNodeName() + "=" +
+					// theAttribute.getNodeValue());
+
+					TextView tvAvailibility = new TextView(this);
+					tvAvailibility.setText(theAttribute.getNodeValue());
+					tvAvailibility.setTextColor(Color.parseColor(c));
+					lAvailibility.addView(tvAvailibility);
+
+				}
+				row.addView(lAvailibility);
 			}
 
 			table_layout.addView(row);
 
 		}
 	}
+	
+	private void errorMessage ( String error){
+		TableRow rowMenu = new TableRow(this);
+		TextView menuAuthor = new TextView(this);
+		menuAuthor.setLayoutParams(new LayoutParams(60,
+				LayoutParams.WRAP_CONTENT));
+		menuAuthor.setText("Autor");
+		menuAuthor.setTextSize(18);
+		rowMenu.addView(menuAuthor);
+
+		TextView menuTitle = new TextView(this);
+		menuTitle.setLayoutParams(new LayoutParams(60,
+				LayoutParams.WRAP_CONTENT));
+		menuTitle.setText("Tytu³");
+		menuTitle.setTextSize(18);
+		rowMenu.addView(menuTitle);
+
+		TextView menuAvailibility = new TextView(this);
+		menuAvailibility.setLayoutParams(new LayoutParams(60,
+				LayoutParams.WRAP_CONTENT));
+		menuAvailibility.setText("Dostêpnoœæ");
+		menuAvailibility.setTextSize(18);
+		rowMenu.addView(menuAvailibility);
+
+		table.addView(rowMenu);
+		
+		TextView message = new TextView(this);
+		message.setText(error);
+		message.setTextColor(Color.RED);
+		message.setTextSize(24);
+		message.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+		table_layout.addView(message);
+		
+	}
+
+	
 
 }
