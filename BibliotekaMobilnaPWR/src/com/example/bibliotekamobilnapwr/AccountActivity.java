@@ -1,5 +1,7 @@
 package com.example.bibliotekamobilnapwr;
 
+
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -21,6 +23,7 @@ public class AccountActivity extends Activity{
 	private TextView ownName;
 	private TextView ownSurname;
 	private Button password;
+	SessionManager session;
 	
 	ProgressDialog mProgressDialog;
 	
@@ -37,6 +40,8 @@ public class AccountActivity extends Activity{
 		String message = intent.getStringExtra("URL_account");
 		accountURL.execute(message);
 		Log.d("TEST", "AccountActivity accountURL = "+accountURL.toString());
+		
+		
 	}
 	
 	private void setupView(){
@@ -60,6 +65,7 @@ public class AccountActivity extends Activity{
 	{
 
 		String URL;
+		//HttpPost httppost; 
 		
 		@Override
 		protected void onPreExecute() {
@@ -80,11 +86,19 @@ public class AccountActivity extends Activity{
 		
 		@Override
 		protected Void doInBackground(Void... params) {
-			try{
+			try{				
+				
 				//document jsoup
 				Document document =  Jsoup.connect(URL).get();
 				Elements description = document.select("body div.title");
-				Toast.makeText(AccountActivity.this, "otrzymano"+description.text(), Toast.LENGTH_LONG).show();
+				//Toast.makeText(AccountActivity.this, "otrzymano"+description.text(), Toast.LENGTH_LONG).show();
+								
+				String dane = description.text();
+				String [] personID;
+				personID = dane.split(" ");
+				ownName.setText(personID[3]);
+				ownSurname.setText(personID[2]);
+				
 				
 				ownName.setText(description.text());
 				
@@ -96,7 +110,8 @@ public class AccountActivity extends Activity{
 			}
 			mProgressDialog.dismiss();
 			return null;
-		}
+		}		
+		
 		
 	}
 

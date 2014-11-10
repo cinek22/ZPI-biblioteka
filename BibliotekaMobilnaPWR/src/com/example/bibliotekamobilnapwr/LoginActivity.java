@@ -59,7 +59,8 @@ public class LoginActivity extends Activity {
 			public void onClick(View v) {
 				if(!mLogin.getText().toString().equals("")
 						&& !mPassword.getText().toString().equals("")){
-					new LoginTask().execute();					
+//					new LoginTask().execute();	
+					SessionManager.login(LoginActivity.this, mLogin.getText().toString(), mPassword.getText().toString());
 				}else{
 					Toast.makeText(LoginActivity.this, "Obydwa pola musz¹ byæ wype³nione", Toast.LENGTH_LONG).show();
 				}
