@@ -1,8 +1,11 @@
 package com.example.bibliotekamobilnapwr;
 
+
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -144,17 +147,20 @@ public class Main extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-
 				
-				String siteUrl = (StringsAndLinks.MAIN_PAGE+StringsAndLinks.MY_ACCOUNT);
-
-				//String siteUrl = (StringsAndLinks.MAIN_PAGE+(!StringsAndLinks.SESSION_ID.equals("") ? StringsAndLinks.SESSION_ID : "")+StringsAndLinks.MY_ACCOUNT);
+				
+				String siteUrl = (StringsAndLinks.MAIN_PAGE+StringsAndLinks.MY_ACCOUNT);			
 				Intent intent = new Intent(Main.this, AccountActivity.class);
 				intent.putExtra("URL_account", siteUrl);
-				startActivity(intent);
+				startActivity(intent);				
+				
+				/* String siteURL2;
+				 siteURL2 = SessionManager.buildLink(StringsAndLinks.MY_ACCOUNT).toString();				 
+				 Intent intent = new Intent(Main.this,AccountActivity.class);	
+				 intent.putExtra("URL_account", siteURL2);
+				 startActivity(intent);		*/		
 				
 				//Toast.makeText(Main.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
-				startActivity(new Intent(Main.this,AccountActivity.class));
 			}
 		});
 		

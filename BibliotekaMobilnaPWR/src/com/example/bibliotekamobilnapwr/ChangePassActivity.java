@@ -61,8 +61,9 @@ public class ChangePassActivity extends Activity{
 				//Toast.makeText(ChangePassActivity.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
 				if(!currentPass.getText().toString().equals("")&&!newPass.getText().toString().equals("")
 						&&!newPassConfirm.getText().toString().equals("")&&newPass.getText().toString().equals(newPassConfirm.getText().toString())){
+					
+					
 					new ChangePassTask().execute();
-				 
 				}else {
 					Toast.makeText(ChangePassActivity.this,"Wszystkie pola musz¹ byæ wype³nione/Podane has³a s¹ ró¿ne",Toast.LENGTH_LONG).show();
 				}
@@ -88,7 +89,7 @@ public class ChangePassActivity extends Activity{
 					Toast.makeText(ChangePassActivity.this, "Has³o zosta³o zmienione", Toast.LENGTH_LONG).show();	    		   
 	    		   
 				}else{
-					Toast.makeText(ChangePassActivity.this, "Has³o nie zosta³o zmienione1", Toast.LENGTH_LONG).show();
+					Toast.makeText(ChangePassActivity.this, "Has³o nie zosta³o zmienione", Toast.LENGTH_LONG).show();
 				}
 			}else{
 				Log.e("TEST", "Resp == NULL");
@@ -102,14 +103,7 @@ public class ChangePassActivity extends Activity{
 			
 			getChangePassLink();
 			
-			Log.d("TESTCo", "Setting cookie: "+StringsAndLinks.COOKIE_STRING + StringsAndLinks.SESSION_ID);
-			httppost.addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-			httppost.addHeader("Accept-Encoding","gzip, deflate");
-			httppost.addHeader("Accept-Language","pl,en-US;q=0.7,en;q=0.3");
-			httppost.addHeader("Connection", "keep-alive");
-			httppost.addHeader("Cookie", StringsAndLinks.COOKIE_STRING + StringsAndLinks.SESSION_ID);
-			httppost.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0");
-			httppost.addHeader("Host", "aleph.bg.pwr.wroc.pl");
+			httppost = SessionManager.buildLink(StringsAndLinks.CHANGE_PASSWORD);
 			
 			try {
 		        // Add your data
