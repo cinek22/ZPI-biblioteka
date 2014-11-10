@@ -146,7 +146,8 @@ public class Main extends Activity {
 			public void onClick(View v) {
 
 				
-				String siteUrl = (StringsAndLinks.MAIN_PAGE+StringsAndLinks.MY_ACCOUNT);
+//				String siteUrl = (StringsAndLinks.MAIN_PAGE+StringsAndLinks.MY_ACCOUNT);
+				String siteUrl = (StringsAndLinks.MAIN_PAGE+"?func=login-session&login_source=LOGIN-BOR&bor_id=pwr192264&bor_verification=marcin&bor_library=TUR50&x=0&y=0");
 
 				//String siteUrl = (StringsAndLinks.MAIN_PAGE+(!StringsAndLinks.SESSION_ID.equals("") ? StringsAndLinks.SESSION_ID : "")+StringsAndLinks.MY_ACCOUNT);
 				Intent intent = new Intent(Main.this, AccountActivity.class);

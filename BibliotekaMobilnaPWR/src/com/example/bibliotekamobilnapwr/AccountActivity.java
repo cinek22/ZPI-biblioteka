@@ -86,6 +86,8 @@ public class AccountActivity extends Activity{
 				Elements description = document.select("body div.title");
 				Toast.makeText(AccountActivity.this, "otrzymano"+description.text(), Toast.LENGTH_LONG).show();
 				
+				ownName.setText(description.text());
+				
 			}catch(Exception e){
 				e.printStackTrace();
 				

@@ -12,6 +12,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -21,6 +25,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
@@ -92,10 +97,14 @@ public class ParseURLActivity extends Activity {
 			try {
 				// Document jsoupe
 				Document document = Jsoup.connect(URL).get();
+				
+				Elements error = document
+						.select("body table#short_table tr[valign=baseline]");
+				
 				Elements description2 = document
 						.select("body table#short_table tr[valign=baseline]");
-
 				createXML(description2);
+			mProgressDialog.dismiss();
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -103,7 +112,6 @@ public class ParseURLActivity extends Activity {
 						Toast.LENGTH_LONG).show();
 			}
 
-			mProgressDialog.dismiss();
 			return null;
 		}
 
@@ -144,11 +152,32 @@ public class ParseURLActivity extends Activity {
 				// create: <availability>
 				org.w3c.dom.Element availibility = doc
 						.createElement("availibility");
+				
+				// create: <baza>
+				org.w3c.dom.Element baza = doc
+						.createElement("baza");
+				// add egz : value
+				Element egz = desc.select("td[valign=top]").get(5);
+				
+				//parsujemy do href-ow
+				Elements e = egz.select("a");
+				for(Element a : e ){
+					//opis linku jako id
+					baza.setAttribute("baza", a.text());
+					//link [href]
+					baza.setTextContent(a.attr("href"));
+/*					
+				//opis linku
+					String link = a.text();
+					
+				//wyci¹gamy poszeczególne elementy
+					//link
+				String href = a.attr("href");*/
+				}
+				
+				availibility.appendChild(baza);
 				book.appendChild(availibility);
-				availibility.setTextContent(desc.select("td[valign=top]")
-						.get(5).text());
 			}
-
 			// create Transformer object
 			Transformer transformer = TransformerFactory.newInstance()
 					.newTransformer();
@@ -219,13 +248,35 @@ public class ParseURLActivity extends Activity {
 			row.addView(tvTitle);
 
 			// availibility
-			TextView tvAvailibility = new TextView(this);
+			LinearLayout lAvailibility = new LinearLayout(this);
+			lAvailibility.setLayoutParams(new LayoutParams(60, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+			lAvailibility.setOrientation(LinearLayout.VERTICAL);
+			
+			/*TextView tvAvailibility = new TextView(this);
 			tvAvailibility.setLayoutParams(new LayoutParams(60,
-					LayoutParams.WRAP_CONTENT));
-			tvAvailibility.setText(doc.getElementsByTagName("availibility")
-					.item(i).getTextContent());
-			tvAvailibility.setTextColor(Color.parseColor(c));
-			row.addView(tvAvailibility);
+					LayoutParams.WRAP_CONTENT));*/
+			
+			NodeList list = doc.getElementsByTagName("availibility")
+					.item(i).getChildNodes();
+
+			
+			
+			for(int j=0; j < list.getLength(); j++){
+				Node aNode = list.item(j);
+				 NamedNodeMap attributes = aNode.getAttributes();
+		            for (int a = 0; a < attributes.getLength(); a++) {
+		             Node theAttribute = attributes.item(a);
+//		             Toast.makeText(ParseURLActivity.this, theAttribute.getLocalName() + "=" + theAttribute.getNodeValue(), Toast.LENGTH_SHORT).show();
+//		             System.out.println(theAttribute.getNodeName() + "=" + theAttribute.getNodeValue());
+		             	         
+		             TextView tvAvailibility = new TextView(this);
+		             tvAvailibility.setText(theAttribute.getNodeValue());        
+		             tvAvailibility.setTextColor(Color.parseColor(c));
+		            lAvailibility.addView(tvAvailibility); 
+		            
+		        }
+		            row.addView(lAvailibility);
+			}
 
 			table_layout.addView(row);
 
