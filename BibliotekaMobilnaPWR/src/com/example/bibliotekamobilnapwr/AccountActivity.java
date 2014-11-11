@@ -23,6 +23,7 @@ public class AccountActivity extends Activity{
 	private TextView ownName;
 	private TextView ownSurname;
 	private Button password;
+	private Button history;
 	SessionManager session;
 	
 	ProgressDialog mProgressDialog;
@@ -48,6 +49,7 @@ public class AccountActivity extends Activity{
 		ownName = (TextView)findViewById(R.id.account_name_tv);
 		ownSurname = (TextView)findViewById(R.id.account_surname_tv);
 		password = (Button)findViewById(R.id.account_button_pass);
+		history = (Button) findViewById(R.id.history_button);
 	}
 	
 	private void setupListeners(){
@@ -57,6 +59,16 @@ public class AccountActivity extends Activity{
 			public void onClick(View v) {
 				Intent intent = new Intent(AccountActivity.this, ChangePassActivity.class);
 				startActivityForResult(intent, 200);
+			}
+		});
+		
+		history.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(AccountActivity.this,HistoryActivity.class);
+				startActivity(intent);
+				
 			}
 		});
 	}
@@ -91,16 +103,16 @@ public class AccountActivity extends Activity{
 				//document jsoup
 				Document document =  Jsoup.connect(URL).get();
 				Elements description = document.select("body div.title");
-				//Toast.makeText(AccountActivity.this, "otrzymano"+description.text(), Toast.LENGTH_LONG).show();
+				
+				//Toast.makeText(AccountActivity.this, "otrzymano "+description.text(), Toast.LENGTH_LONG).show();
 								
 				String dane = description.text();
 				String [] personID;
 				personID = dane.split(" ");
 				ownName.setText(personID[3]);
-				ownSurname.setText(personID[2]);
+				ownSurname.setText(personID[2]);				
 				
-				
-				ownName.setText(description.text());
+				//ownName.setText(description.text());
 				
 			}catch(Exception e){
 				e.printStackTrace();

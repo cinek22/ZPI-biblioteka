@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.bibliotekamobilnapwr.Main"
+            android:name=".Main"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,43 +26,49 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.bibliotekamobilnapwr.LoginActivity"
+            android:name=".LoginActivity"
             android:label="@string/app_name" />
         <activity
-            android:name="com.example.bibliotekamobilnapwr.ParseURLActivity"
+            android:name=".ParseURLActivity"
             android:label="@string/app_name" />
         <activity
-            android:name="com.example.bibliotekamobilnapwr.Rezerwacje"
+            android:name=".Rezerwacje"
             android:label="@string/title_activity_rezerwacje" >
         </activity>
         <activity
-            android:name="com.example.bibliotekamobilnapwr.Konto"
+            android:name=".Konto"
             android:label="@string/title_activity_konto" >
         </activity>
         <activity
-            android:name="com.example.bibliotekamobilnapwr.KsiazkiActivity"
+            android:name=".KsiazkiActivity"
             android:label="@string/title_activity_ksiazki" >
         </activity>
         <activity
-            android:name="com.example.bibliotekamobilnapwr.EdytujKonto"
+            android:name=".EdytujKonto"
             android:label="@string/title_activity_edytuj_konto" >
         </activity>
         <activity
-            android:name="com.example.bibliotekamobilnapwr.AccountActivity"
+            android:name=".AccountActivity"
             android:label="@string/title_activity_account" >
         </activity>
         <activity
-            android:name="com.example.bibliotekamobilnapwr.ChangePassActivity"
+            android:name=".ChangePassActivity"
             android:label="@string/title_activity_change_pass" >
         </activity>
         <activity
-            android:name="com.example.bibliotekamobilnapwr.ListReserveActivity"
+            android:name=".ListReserveActivity"
             android:label="@string/title_activity_list_reserve" >
         </activity>
          <activity
             android:name="com.example.bibliotekamobilnapwr.BookingActivity"
             android:label="@string/title_activity_rezerwacje" >
+        </activity>        
+        <activity
+            android:name=".HistoryActivity"
+            android:label="@string/title_activity_history" >
         </activity>
     </application>
 
 </manifest>
+
+

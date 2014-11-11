@@ -144,14 +144,11 @@ public class Main extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-
-				
-				
+			
 				String siteUrl = (StringsAndLinks.MAIN_PAGE+StringsAndLinks.MY_ACCOUNT);			
 				Intent intent = new Intent(Main.this, AccountActivity.class);
 				intent.putExtra("URL_account", siteUrl);
-				startActivity(intent);
-				
+				startActivity(intent);				
 				//Toast.makeText(Main.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
 			}
 		});
