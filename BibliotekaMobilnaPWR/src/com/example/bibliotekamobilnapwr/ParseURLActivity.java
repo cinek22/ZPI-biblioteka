@@ -196,6 +196,7 @@ public class ParseURLActivity extends Activity {
 	private void createTable(int quantityBook, org.w3c.dom.Document doc) {
 		
 		TableRow rowMenu = new TableRow(this);
+		
 		TextView menuAuthor = new TextView(this);
 		menuAuthor.setLayoutParams(new LayoutParams(60,
 				LayoutParams.WRAP_CONTENT));
@@ -218,6 +219,7 @@ public class ParseURLActivity extends Activity {
 		rowMenu.addView(menuAvailibility);
 
 		table.addView(rowMenu);
+		
 		for (int i = 0; i < quantityBook; i++) {
 			String c;
 			if (i == 0 || i % 2 == 0) {

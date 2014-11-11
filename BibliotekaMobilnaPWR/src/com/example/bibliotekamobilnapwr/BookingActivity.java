@@ -41,10 +41,10 @@ public class BookingActivity extends Activity{
 		Intent intent = getIntent();
 		String message = intent.getStringExtra("URL");
 		
-		Toast.makeText(BookingActivity.this, message, Toast.LENGTH_SHORT).show();
+		/*Toast.makeText(BookingActivity.this, message, Toast.LENGTH_SHORT).show();*/
 		
-		/*Booking booking = new Booking();
-		booking.onPreExecute();*/
+		Booking booking = new Booking();
+		booking.execute(message);
 		
 		
 /*		btnBack.setOnClickListener(new View.OnClickListener() {
@@ -91,10 +91,13 @@ public class BookingActivity extends Activity{
 		protected Void doInBackground(Void... params) {
 			try {
 				// Document jsoupe
-				Document document = Jsoup.connect("http://aleph.bg.pwr.wroc.pl/F/FEXRR6D58GX4BP1K6DINPCSDCFV7M7X37SA8E3GDRTPE3R2ICV-41383?func=item-global&doc_library=TUR01&doc_number=000145275&year=&volume=&sub_library=BG-MG").get();
+				Document document = Jsoup.connect("http://aleph.bg.pwr.wroc.pl"+URL).get();
 				Elements description2 = document
 						.select("body table[border=0]");
-				createXML(description2);
+				
+				Toast.makeText(BookingActivity.this, description2.text(), Toast.LENGTH_LONG).show();
+				
+				/*createXML(description2);*/
 				mProgressDialog.dismiss();
 
 			} catch (Exception e) {
