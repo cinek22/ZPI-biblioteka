@@ -50,7 +50,7 @@ public class HistoryActivity extends Activity {
 		setContentView(R.layout.activity_history);
 		setupView();
 		setupListeners();
-		
+		history.execute(URL);
 	}
 
 
@@ -76,12 +76,29 @@ public class HistoryActivity extends Activity {
 	public class History extends AsyncTask<Void, Void, Void>
 	{
 
+	
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			mProgressDialog = new ProgressDialog(HistoryActivity.this);
+			mProgressDialog.setTitle("Rent history");
+			mProgressDialog.setMessage("Loading...");
+			mProgressDialog.setIndeterminate(false);
+			mProgressDialog.show();
+			doInBackground();
+		}
+		
+		public void execute(String string) {
+			URL = string;
+			onPreExecute();
+		}
 		@Override
 		protected Void doInBackground(Void... params) {
 			try{
+				
 				Document document = Jsoup.connect(URL).get();
 				
-				Elements description = document.select("body");
+				Elements description = document.select("");
 				Toast.makeText(HistoryActivity.this, " odp  "+description.text(), Toast.LENGTH_LONG).show();
 				/*if(description.size()!=0){
 					createXML(description);
@@ -152,20 +169,7 @@ public class HistoryActivity extends Activity {
 			
 		}
 
-		public void execute(String string) {
-			URL = string;
-			onPreExecute();
-		}
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			mProgressDialog = new ProgressDialog(HistoryActivity.this);
-			mProgressDialog.setTitle("Rent history");
-			mProgressDialog.setMessage("Loading...");
-			mProgressDialog.setIndeterminate(false);
-			mProgressDialog.show();
-			doInBackground();
-		}
+	
 		
 	}
 }
