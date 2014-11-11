@@ -12,67 +12,61 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TableRow.LayoutParams;
-import android.widget.TextView;
 import android.widget.Toast;
 
-public class ParseURLActivity extends Activity {
 
-	public static final String GREEN_1 = "#7FA016";
-	public static final String GREEN_2 = "#3F5300";
+public class BookingActivity extends Activity{
+
 	TableLayout table_layout;
 	TableLayout table;
-	private Button btnBack;
-	ParseURL parseURL = new ParseURL();
-
+/*	private Button btnBack;*/
 	ProgressDialog mProgressDialog;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.result_book);
+		setContentView(R.layout.booking_activity);
 		setupView();
-
+		
 		Intent intent = getIntent();
 		String message = intent.getStringExtra("URL");
-		parseURL.execute(message);
-
-		btnBack.setOnClickListener(new View.OnClickListener() {
+		
+		Toast.makeText(BookingActivity.this, message, Toast.LENGTH_SHORT).show();
+		
+		/*Booking booking = new Booking();
+		booking.onPreExecute();*/
+		
+		
+/*		btnBack.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(ParseURLActivity.this, Main.class);
+				Intent intent = new Intent(BookingActivity.this, ParseURLActivity.class);
 				startActivity(intent);
 			}
-		});
+		});*/
+		
 	}
 
 	private void setupView() {
-		table_layout = (TableLayout) findViewById(R.id.tableLayout1);
-		table = (TableLayout) findViewById(R.id.table);
-		btnBack = (Button) findViewById(R.id.btnBack);
+		table_layout = (TableLayout) findViewById(R.id.tableLayout_booking);
+		table = (TableLayout) findViewById(R.id.table_booking);
+		/*btnBack = (Button) findViewById(R.id.btnBack);*/
 
 	}
-
-	public class ParseURL extends AsyncTask<Void, Void, Void> {
+	
+	
+	public class Booking extends AsyncTask<Void, Void, Void> {
 
 		StringBuilder resultTextFmt = new StringBuilder();
 		String URL;
@@ -80,7 +74,7 @@ public class ParseURLActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			mProgressDialog = new ProgressDialog(ParseURLActivity.this);
+			mProgressDialog = new ProgressDialog(BookingActivity.this);
 			mProgressDialog.setTitle("Search Book");
 			mProgressDialog.setMessage("Loading...");
 			mProgressDialog.setIndeterminate(false);
@@ -97,23 +91,15 @@ public class ParseURLActivity extends Activity {
 		protected Void doInBackground(Void... params) {
 			try {
 				// Document jsoupe
-				Document document = Jsoup.connect(URL).get();	
-
+				Document document = Jsoup.connect("http://aleph.bg.pwr.wroc.pl/F/FEXRR6D58GX4BP1K6DINPCSDCFV7M7X37SA8E3GDRTPE3R2ICV-41383?func=item-global&doc_library=TUR01&doc_number=000145275&year=&volume=&sub_library=BG-MG").get();
 				Elements description2 = document
-						.select("body table#short_table tr[valign=baseline]");
-				if (description2.size() != 0) {
-					createXML(description2);
-				} else {
-					
-					String error="Nie odnaleziono rekordów odpowiadaj¹cych zapytaniu.";
-					errorMessage(error);
-							
-				}
+						.select("body table[border=0]");
+				createXML(description2);
 				mProgressDialog.dismiss();
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				Toast.makeText(ParseURLActivity.this, "B³¹d po³¹czenia",
+				Toast.makeText(BookingActivity.this, "B³¹d po³¹czenia",
 						Toast.LENGTH_LONG).show();
 			}
 
@@ -129,7 +115,7 @@ public class ParseURLActivity extends Activity {
 			org.w3c.dom.Document doc = DocumentBuilderFactory.newInstance()
 					.newDocumentBuilder().newDocument();
 			// create root: <search>
-			org.w3c.dom.Element root = doc.createElement("search");
+			org.w3c.dom.Element root = doc.createElement("booking");
 			doc.appendChild(root);
 
 			for (Element desc : description2) {
@@ -137,50 +123,45 @@ public class ParseURLActivity extends Activity {
 				org.w3c.dom.Element book = doc.createElement("book");
 				root.appendChild(book);
 				// add attr: id =
-				book.setAttribute("book", desc.select("td[valign=top]").get(0)
-						.text());
 				quantityBook++;
+				book.setAttribute("book", String.valueOf(quantityBook));
 
-				// create: <author>
-				org.w3c.dom.Element author = doc.createElement("author");
-				book.appendChild(author);
-				author.setTextContent(desc.select("td[valign=top]").get(2)
+				// create: <zamowienie>
+			/*	org.w3c.dom.Element zamowienie = doc.createElement("zamowienie");
+				book.appendChild(zamowienie);
+				Elements a = desc.select("a");
+				zamowienie.setTextContent(a.attr("href"));
+				Toast.makeText(BookingActivity.this, "Z "+zamowienie, Toast.LENGTH_LONG).show();*/
+				/*zamowienie.setTextContent(desc.select("td[valign=top] a").get(0)
+						.text());*/
+
+				// create: <status>
+				org.w3c.dom.Element status = doc.createElement("status");
+				book.appendChild(status);
+				status.setTextContent(desc.select("td.td1").get(2)
 						.text());
-
-				// create: <title>
-				org.w3c.dom.Element title = doc.createElement("title");
-				book.appendChild(title);
-				title.setTextContent(desc.select("td[valign=top]").get(3)
-						.text()
-						+ desc.select("td[valign=top]").get(4).text());
-
-				// create: <availability>
-				org.w3c.dom.Element availibility = doc
-						.createElement("availibility");
-
+				Toast.makeText(BookingActivity.this, "S "+status, Toast.LENGTH_LONG).show();
 				
-				// add egz : value
-				Element egz = desc.select("td[valign=top]").get(5);
-
-				// parsujemy do href-ow
-				Elements e = egz.select("a");
-				for (Element a : e) {
-					// create: <baza>
-					org.w3c.dom.Element baza = doc.createElement("baza");
-					// opis linku jako id
-					baza.setAttribute("baza", a.text());
-					// link [href]
-					baza.setTextContent(a.attr("href"));
-					/*
-					 * //opis linku String link = a.text();
-					 * 
-					 * //wyci¹gamy poszeczególne elementy //link String href =
-					 * a.attr("href");
-					 */	
-					availibility.appendChild(baza);				
-				}
-				book.appendChild(availibility);
+				// create: <data>
+				org.w3c.dom.Element data = doc.createElement("data");
+				book.appendChild(data);
+				data.setTextContent(desc.select("td.td1").get(3)
+						.text());
+				Toast.makeText(BookingActivity.this, "d "+data, Toast.LENGTH_LONG).show();
 				
+				// create: <biblioteka>
+				org.w3c.dom.Element biblioteka = doc.createElement("biblioteka");
+				book.appendChild(biblioteka);
+				biblioteka.setTextContent(desc.select("td.td1").get(4)
+						.text());
+				Toast.makeText(BookingActivity.this, "B "+biblioteka, Toast.LENGTH_LONG).show();
+				
+				// create: <sygnatura>
+				org.w3c.dom.Element sygnatura = doc.createElement("sygnatura");
+				book.appendChild(sygnatura);
+				sygnatura.setTextContent(desc.select("td.td1").get(6)
+						.text());
+				Toast.makeText(BookingActivity.this, "S "+status, Toast.LENGTH_LONG).show();
 			}
 			// create Transformer object
 			Transformer transformer = TransformerFactory.newInstance()
@@ -188,13 +169,12 @@ public class ParseURLActivity extends Activity {
 			StringWriter writer = new StringWriter();
 			StreamResult result = new StreamResult(writer);
 			transformer.transform(new DOMSource(doc), result);
-			createTable(quantityBook, doc);
+//			createTable(quantityBook, doc);
 		}
 
-	}
 
-	private void createTable(int quantityBook, org.w3c.dom.Document doc) {
-		
+/*	private void createTable(int quantityBook, org.w3c.dom.Document doc) {
+
 		TableRow rowMenu = new TableRow(this);
 		TextView menuAuthor = new TextView(this);
 		menuAuthor.setLayoutParams(new LayoutParams(60,
@@ -218,6 +198,7 @@ public class ParseURLActivity extends Activity {
 		rowMenu.addView(menuAvailibility);
 
 		table.addView(rowMenu);
+
 		for (int i = 0; i < quantityBook; i++) {
 			String c;
 			if (i == 0 || i % 2 == 0) {
@@ -227,6 +208,10 @@ public class ParseURLActivity extends Activity {
 			}
 
 			TableRow row = new TableRow(this);
+			
+			 * row.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+			 * LayoutParams.WRAP_CONTENT));
+			 
 
 			// author
 			TextView tvAuthor = new TextView(this);
@@ -252,73 +237,39 @@ public class ParseURLActivity extends Activity {
 					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 			lAvailibility.setOrientation(LinearLayout.VERTICAL);
 
+			
+			 * TextView tvAvailibility = new TextView(this);
+			 * tvAvailibility.setLayoutParams(new LayoutParams(60,
+			 * LayoutParams.WRAP_CONTENT));
+			 
+
 			NodeList list = doc.getElementsByTagName("availibility").item(i)
 					.getChildNodes();
 
 			for (int j = 0; j < list.getLength(); j++) {
-				
 				Node aNode = list.item(j);
 				NamedNodeMap attributes = aNode.getAttributes();
-				
-				final String URL = list.item(j).getTextContent();
+				for (int a = 0; a < attributes.getLength(); a++) {
+					Node theAttribute = attributes.item(a);
+					// Toast.makeText(ParseURLActivity.this,
+					// theAttribute.getLocalName() + "=" +
+					// theAttribute.getNodeValue(), Toast.LENGTH_SHORT).show();
+					// System.out.println(theAttribute.getNodeName() + "=" +
+					// theAttribute.getNodeValue());
 
 					TextView tvAvailibility = new TextView(this);
-					tvAvailibility.setText(attributes.item(0).getNodeValue());
+					tvAvailibility.setText(theAttribute.getNodeValue());
 					tvAvailibility.setTextColor(Color.parseColor(c));
-					
-					tvAvailibility.setOnClickListener(new View.OnClickListener() {
+					lAvailibility.addView(tvAvailibility);
 
-						@Override
-						public void onClick(View v) {
-							Intent intent = new Intent(ParseURLActivity.this, BookingActivity.class);
-							intent.putExtra("URL", URL);
-							startActivity(intent);
-						}
-					});
-					
-					lAvailibility.addView(tvAvailibility);				
-
+				}
+				row.addView(lAvailibility);
 			}
-			row.addView(lAvailibility);
+
 			table_layout.addView(row);
 
-		}
-	}
-	
-	private void errorMessage ( String error){
-		TableRow rowMenu = new TableRow(this);
-		TextView menuAuthor = new TextView(this);
-		menuAuthor.setLayoutParams(new LayoutParams(60,
-				LayoutParams.WRAP_CONTENT));
-		menuAuthor.setText("Autor");
-		menuAuthor.setTextSize(18);
-		rowMenu.addView(menuAuthor);
-
-		TextView menuTitle = new TextView(this);
-		menuTitle.setLayoutParams(new LayoutParams(60,
-				LayoutParams.WRAP_CONTENT));
-		menuTitle.setText("Tytu³");
-		menuTitle.setTextSize(18);
-		rowMenu.addView(menuTitle);
-
-		TextView menuAvailibility = new TextView(this);
-		menuAvailibility.setLayoutParams(new LayoutParams(60,
-				LayoutParams.WRAP_CONTENT));
-		menuAvailibility.setText("Dostêpnoœæ");
-		menuAvailibility.setTextSize(18);
-		rowMenu.addView(menuAvailibility);
-
-		table.addView(rowMenu);
-		
-		TextView message = new TextView(this);
-		message.setText(error);
-		message.setTextColor(Color.RED);
-		message.setTextSize(24);
-		message.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-		table_layout.addView(message);
-		
+		}*/
 	}
 
 	
-
 }

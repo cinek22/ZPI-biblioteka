@@ -59,6 +59,10 @@
             android:name="com.example.bibliotekamobilnapwr.ListReserveActivity"
             android:label="@string/title_activity_list_reserve" >
         </activity>
+         <activity
+            android:name="com.example.bibliotekamobilnapwr.BookingActivity"
+            android:label="@string/title_activity_rezerwacje" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TableLayout
+        android:id="@+id/table_booking"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="#4285f4"
+        android:shrinkColumns="*"
+        android:stretchColumns="*" >
+    </TableLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="379dp"
+        android:layout_weight="0.71"
+        android:scrollbars="vertical" >
+
+        <TableLayout
+            android:id="@+id/tableLayout_booking"
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:layout_weight="0.65"
+            android:background="#EFFFBC"
+            android:padding="10dp"
+            android:shrinkColumns="*"
+            android:stretchColumns="*" >
+        </TableLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnBackBooking"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#458b74"
+        android:text="@string/btnString" />
+
+</LinearLayout>
