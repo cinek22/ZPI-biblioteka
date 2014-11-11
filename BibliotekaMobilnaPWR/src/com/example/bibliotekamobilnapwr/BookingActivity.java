@@ -139,30 +139,29 @@ public class BookingActivity extends Activity {
 					book.setAttribute("book", String.valueOf(quantityBook));
 
 					// create: <zamowienie>
-					/*
-					 * org.w3c.dom.Element zamowienie =
-					 * doc.createElement("zamowienie");
-					 * book.appendChild(zamowienie); Elements a =
-					 * desc.select("a");
-					 * zamowienie.setTextContent(a.attr("href"));
-					 * Toast.makeText(BookingActivity.this, "Z "+zamowienie,
-					 * Toast.LENGTH_LONG).show();
-					 * zamowienie.setTextContent(desc.
-					 * select("td[valign=top] a").get(0) .text());
-					 */
+
+					org.w3c.dom.Element zamowienie = doc
+							.createElement("zamowienie");
+					book.appendChild(zamowienie);
+					Elements a = desc.select("a");
+					zamowienie.setTextContent(a.attr("href"));
+					Toast.makeText(BookingActivity.this, "Zamowienie " + a.attr("href"),
+							Toast.LENGTH_LONG).show();
 
 					// create: <status>
 					org.w3c.dom.Element status = doc.createElement("status");
 					book.appendChild(status);
 					status.setTextContent(desc.select("td.td1").get(2).text());
-					Toast.makeText(BookingActivity.this, "Status " + desc.select("td.td1").get(2).text(),
+					Toast.makeText(BookingActivity.this,
+							"Status " + desc.select("td.td1").get(2).text(),
 							Toast.LENGTH_LONG).show();
 
 					// create: <data>
 					org.w3c.dom.Element data = doc.createElement("data");
 					book.appendChild(data);
 					data.setTextContent(desc.select("td.td1").get(3).text());
-					Toast.makeText(BookingActivity.this, "Data " + desc.select("td.td1").get(3).text(),
+					Toast.makeText(BookingActivity.this,
+							"Data " + desc.select("td.td1").get(3).text(),
 							Toast.LENGTH_LONG).show();
 
 					// create: <biblioteka>
@@ -171,7 +170,9 @@ public class BookingActivity extends Activity {
 					book.appendChild(biblioteka);
 					biblioteka.setTextContent(desc.select("td.td1").get(4)
 							.text());
-					Toast.makeText(BookingActivity.this, "Biblioteka " + desc.select("td.td1").get(4).text(),
+					Toast.makeText(
+							BookingActivity.this,
+							"Biblioteka " + desc.select("td.td1").get(4).text(),
 							Toast.LENGTH_LONG).show();
 
 					// create: <sygnatura>
@@ -180,7 +181,8 @@ public class BookingActivity extends Activity {
 					book.appendChild(sygnatura);
 					sygnatura.setTextContent(desc.select("td.td1").get(6)
 							.text());
-					Toast.makeText(BookingActivity.this, "Sygnatura " + desc.select("td.td1").get(6).text(),
+					Toast.makeText(BookingActivity.this,
+							"Sygnatura " + desc.select("td.td1").get(6).text(),
 							Toast.LENGTH_LONG).show();
 
 				}
