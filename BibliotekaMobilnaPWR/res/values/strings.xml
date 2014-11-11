@@ -74,5 +74,7 @@
     <string name="button_back_pass">Anuluj</string>
     <string name="title_activity_change_pass">ChangePassActivity</string>
     <string name="title_activity_list_reserve">ListReserveActivity</string>
+    <string name="title_activity_history">HistoryActivity</string>
+    <string name="history_button">Historia wypożyczeń</string>
 
 </resources>

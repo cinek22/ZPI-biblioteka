@@ -78,5 +78,18 @@
 	        android:gravity="left"
 	        android:background="@color/green_transparent"
 	        android:text="@string/account_butt_pass"/>
+
+	    <Button
+	        android:id="@+id/history_button"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:layout_marginBottom="10dp"
+	        android:layout_marginLeft="25dp"
+	        android:layout_marginRight="25dp"
+	        android:background="@color/green_transparent"
+	        android:gravity="left"
+	        android:padding="10dp"
+	        android:text="@string/history_button" />
+
 	    </LinearLayout>
 </LinearLayout>
