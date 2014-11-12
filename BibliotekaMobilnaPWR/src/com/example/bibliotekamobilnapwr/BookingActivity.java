@@ -17,20 +17,23 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class BookingActivity extends Activity {
 
-	TableLayout table_layout;
-	TableLayout table;
-	TextView text;
+	TableLayout table_layout_booking;
+	TableLayout table_booking;
 	/* private Button btnBack; */
 	ProgressDialog mProgressDialog;
+	Booking booking = new Booking();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +45,6 @@ public class BookingActivity extends Activity {
 		Intent intent = getIntent();
 		String message = intent.getStringExtra("URL");
 
-		/*
-		 * Toast.makeText(BookingActivity.this, message,
-		 * Toast.LENGTH_SHORT).show();
-		 */
-
-		Booking booking = new Booking();
 		booking.execute(message);
 
 		/*
@@ -61,9 +58,8 @@ public class BookingActivity extends Activity {
 	}
 
 	private void setupView() {
-		table_layout = (TableLayout) findViewById(R.id.tableLayout_booking);
-		table = (TableLayout) findViewById(R.id.table_booking);
-		text = (TextView) findViewById(R.id.textView1);
+		table_layout_booking = (TableLayout) findViewById(R.id.tableLayout_booking);
+		table_booking = (TableLayout) findViewById(R.id.table_booking);
 		/* btnBack = (Button) findViewById(R.id.btnBack); */
 
 	}
@@ -97,11 +93,6 @@ public class BookingActivity extends Activity {
 						"http://aleph.bg.pwr.wroc.pl" + URL).get();
 				Elements description2 = document
 						.select("body table[cellspacing=2] tr");
-
-				// text.setText(description2.toString());
-
-				// Toast.makeText(BookingActivity.this, description2.html(),
-				// Toast.LENGTH_LONG).show();
 
 				createXML(description2);
 				mProgressDialog.dismiss();
@@ -145,24 +136,16 @@ public class BookingActivity extends Activity {
 					book.appendChild(zamowienie);
 					Elements a = desc.select("a");
 					zamowienie.setTextContent(a.attr("href"));
-					Toast.makeText(BookingActivity.this, "Zamowienie " + a.attr("href"),
-							Toast.LENGTH_LONG).show();
 
 					// create: <status>
 					org.w3c.dom.Element status = doc.createElement("status");
 					book.appendChild(status);
 					status.setTextContent(desc.select("td.td1").get(2).text());
-					Toast.makeText(BookingActivity.this,
-							"Status " + desc.select("td.td1").get(2).text(),
-							Toast.LENGTH_LONG).show();
 
 					// create: <data>
 					org.w3c.dom.Element data = doc.createElement("data");
 					book.appendChild(data);
 					data.setTextContent(desc.select("td.td1").get(3).text());
-					Toast.makeText(BookingActivity.this,
-							"Data " + desc.select("td.td1").get(3).text(),
-							Toast.LENGTH_LONG).show();
 
 					// create: <biblioteka>
 					org.w3c.dom.Element biblioteka = doc
@@ -170,10 +153,6 @@ public class BookingActivity extends Activity {
 					book.appendChild(biblioteka);
 					biblioteka.setTextContent(desc.select("td.td1").get(4)
 							.text());
-					Toast.makeText(
-							BookingActivity.this,
-							"Biblioteka " + desc.select("td.td1").get(4).text(),
-							Toast.LENGTH_LONG).show();
 
 					// create: <sygnatura>
 					org.w3c.dom.Element sygnatura = doc
@@ -181,10 +160,6 @@ public class BookingActivity extends Activity {
 					book.appendChild(sygnatura);
 					sygnatura.setTextContent(desc.select("td.td1").get(6)
 							.text());
-					Toast.makeText(BookingActivity.this,
-							"Sygnatura " + desc.select("td.td1").get(6).text(),
-							Toast.LENGTH_LONG).show();
-
 				}
 			}
 			// create Transformer object
@@ -193,87 +168,124 @@ public class BookingActivity extends Activity {
 			StringWriter writer = new StringWriter();
 			StreamResult result = new StreamResult(writer);
 			transformer.transform(new DOMSource(doc), result);
-			// createTable(quantityBook, doc);
+			createTable(quantityBook, doc);
 		}
 
-		/*
-		 * private void createTable(int quantityBook, org.w3c.dom.Document doc)
-		 * {
-		 * 
-		 * TableRow rowMenu = new TableRow(this); TextView menuAuthor = new
-		 * TextView(this); menuAuthor.setLayoutParams(new LayoutParams(60,
-		 * LayoutParams.WRAP_CONTENT)); menuAuthor.setText("Autor");
-		 * menuAuthor.setTextSize(18); rowMenu.addView(menuAuthor);
-		 * 
-		 * TextView menuTitle = new TextView(this);
-		 * menuTitle.setLayoutParams(new LayoutParams(60,
-		 * LayoutParams.WRAP_CONTENT)); menuTitle.setText("Tytu³");
-		 * menuTitle.setTextSize(18); rowMenu.addView(menuTitle);
-		 * 
-		 * TextView menuAvailibility = new TextView(this);
-		 * menuAvailibility.setLayoutParams(new LayoutParams(60,
-		 * LayoutParams.WRAP_CONTENT)); menuAvailibility.setText("Dostêpnoœæ");
-		 * menuAvailibility.setTextSize(18); rowMenu.addView(menuAvailibility);
-		 * 
-		 * table.addView(rowMenu);
-		 * 
-		 * for (int i = 0; i < quantityBook; i++) { String c; if (i == 0 || i %
-		 * 2 == 0) { c = GREEN_1; } else { c = GREEN_2; }
-		 * 
-		 * TableRow row = new TableRow(this);
-		 * 
-		 * row.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-		 * LayoutParams.WRAP_CONTENT));
-		 * 
-		 * 
-		 * // author TextView tvAuthor = new TextView(this);
-		 * tvAuthor.setLayoutParams(new LayoutParams(60,
-		 * LayoutParams.WRAP_CONTENT));
-		 * tvAuthor.setText(doc.getElementsByTagName("author").item(i)
-		 * .getTextContent()); tvAuthor.setTextColor(Color.parseColor(c));
-		 * row.addView(tvAuthor);
-		 * 
-		 * // title TextView tvTitle = new TextView(this);
-		 * tvTitle.setLayoutParams(new LayoutParams(60,
-		 * LayoutParams.WRAP_CONTENT));
-		 * tvTitle.setText(doc.getElementsByTagName("title").item(i)
-		 * .getTextContent()); tvTitle.setTextColor(Color.parseColor(c));
-		 * row.addView(tvTitle);
-		 * 
-		 * // availibility LinearLayout lAvailibility = new LinearLayout(this);
-		 * lAvailibility.setLayoutParams(new LayoutParams(60,
-		 * android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
-		 * lAvailibility.setOrientation(LinearLayout.VERTICAL);
-		 * 
-		 * 
-		 * TextView tvAvailibility = new TextView(this);
-		 * tvAvailibility.setLayoutParams(new LayoutParams(60,
-		 * LayoutParams.WRAP_CONTENT));
-		 * 
-		 * 
-		 * NodeList list = doc.getElementsByTagName("availibility").item(i)
-		 * .getChildNodes();
-		 * 
-		 * for (int j = 0; j < list.getLength(); j++) { Node aNode =
-		 * list.item(j); NamedNodeMap attributes = aNode.getAttributes(); for
-		 * (int a = 0; a < attributes.getLength(); a++) { Node theAttribute =
-		 * attributes.item(a); // Toast.makeText(ParseURLActivity.this, //
-		 * theAttribute.getLocalName() + "=" + // theAttribute.getNodeValue(),
-		 * Toast.LENGTH_SHORT).show(); //
-		 * System.out.println(theAttribute.getNodeName() + "=" + //
-		 * theAttribute.getNodeValue());
-		 * 
-		 * TextView tvAvailibility = new TextView(this);
-		 * tvAvailibility.setText(theAttribute.getNodeValue());
-		 * tvAvailibility.setTextColor(Color.parseColor(c));
-		 * lAvailibility.addView(tvAvailibility);
-		 * 
-		 * } row.addView(lAvailibility); }
-		 * 
-		 * table_layout.addView(row);
-		 * 
-		 * }
-		 */
+		private void createTable(int quantityBook, org.w3c.dom.Document doc) {
+
+			// screen size in pixeles
+		/*	DisplayMetrics metrics = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(metrics);
+			
+			int width = metrics.widthPixels;
+			int height = metrics.heightPixels;
+
+			int wRezerwacja = 30;
+			int wStatus = (width - wRezerwacja) / 4;
+			int wData = (width - wRezerwacja) / 5;
+			int wBiblioteka = (width - wRezerwacja) / 4;
+			int wSygnatura = (width - wRezerwacja) / 4;*/
+
+			TableRow rowMenuBooking = new TableRow(BookingActivity.this);
+			TextView menuStatus = new TextView(BookingActivity.this);
+			/*menuStatus.setLayoutParams(new LayoutParams(wStatus,
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+			menuStatus.setText("Status");
+			menuStatus.setTextSize(18);
+			rowMenuBooking.addView(menuStatus);
+
+			TextView menuData = new TextView(BookingActivity.this);
+			/*menuData.setLayoutParams(new LayoutParams(wData,
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+			menuData.setText("Data");
+			menuData.setTextSize(18);
+			rowMenuBooking.addView(menuData);
+
+			TextView menuBiblioteka = new TextView(BookingActivity.this);
+			/*menuBiblioteka.setLayoutParams(new LayoutParams(wBiblioteka,
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+			menuBiblioteka.setText("Biblioteka");
+			menuBiblioteka.setTextSize(18);
+			rowMenuBooking.addView(menuBiblioteka);
+
+			TextView menuSygnatura = new TextView(BookingActivity.this);
+		/*	menuSygnatura.setLayoutParams(new LayoutParams(wSygnatura,
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+			menuSygnatura.setText("Sygnatura");
+			menuSygnatura.setTextSize(18);
+			rowMenuBooking.addView(menuSygnatura);
+
+			TextView menuRezerwacja = new TextView(BookingActivity.this);
+			/*menuSygnatura.setLayoutParams(new LayoutParams(wRezerwacja,
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+			menuRezerwacja.setText("R");
+			menuRezerwacja.setTextSize(18);
+			rowMenuBooking.addView(menuRezerwacja);
+
+			table_booking.addView(rowMenuBooking);
+
+			for (int i = 0; i < quantityBook; i++) {
+
+				TableRow row = new TableRow(BookingActivity.this);
+
+				row.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+						LayoutParams.WRAP_CONTENT));
+
+				// Status
+				TextView tvStatus = new TextView(BookingActivity.this);
+				/*tvStatus.setLayoutParams(new LayoutParams(wStatus,
+						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+				tvStatus.setText(doc.getElementsByTagName("status").item(i)
+						.getTextContent());
+				row.addView(tvStatus);
+
+				// Data
+				TextView tvData = new TextView(BookingActivity.this);
+				/*tvData.setLayoutParams(new LayoutParams(wData,
+						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+				tvData.setText(doc.getElementsByTagName("data").item(i)
+						.getTextContent());
+				row.addView(tvData);
+
+				// Biblioteka
+				TextView tvBiblioteka = new TextView(BookingActivity.this);
+				/*tvBiblioteka.setLayoutParams(new LayoutParams(wBiblioteka,
+						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+				tvBiblioteka.setText(doc.getElementsByTagName("biblioteka")
+						.item(i).getTextContent());
+				row.addView(tvBiblioteka);
+
+				// Sygnatura
+				TextView tvSygnatura = new TextView(BookingActivity.this);
+				/*tvSygnatura.setLayoutParams(new LayoutParams(wSygnatura,
+						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+				tvSygnatura.setText(doc.getElementsByTagName("sygnatura")
+						.item(i).getTextContent());
+				row.addView(tvSygnatura);
+
+				final String href = doc.getElementsByTagName("zamowienie").item(i)
+						.getTextContent();
+
+			if (href.equals(null) == false) {
+					
+				ImageButton bZamowienie = (ImageButton) findViewById(R.drawable.green_plus);
+					/*bZamowienie.setLayoutParams(new LayoutParams(wRezerwacja,
+							LayoutParams.WRAP_CONTENT));*/
+					bZamowienie.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							Toast.makeText(BookingActivity.this, "L: "+ href , Toast.LENGTH_LONG).show();
+							
+						}
+					});
+					row.addView(bZamowienie);
+				}
+
+				table_layout_booking.addView(row);
+			}
+
+		}
+
 	}
 
 }

@@ -199,21 +199,21 @@ public class ParseURLActivity extends Activity {
 		
 		TextView menuAuthor = new TextView(this);
 		menuAuthor.setLayoutParams(new LayoutParams(60,
-				LayoutParams.WRAP_CONTENT));
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 		menuAuthor.setText("Autor");
 		menuAuthor.setTextSize(18);
 		rowMenu.addView(menuAuthor);
 
 		TextView menuTitle = new TextView(this);
 		menuTitle.setLayoutParams(new LayoutParams(60,
-				LayoutParams.WRAP_CONTENT));
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 		menuTitle.setText("Tytu³");
 		menuTitle.setTextSize(18);
 		rowMenu.addView(menuTitle);
 
 		TextView menuAvailibility = new TextView(this);
 		menuAvailibility.setLayoutParams(new LayoutParams(60,
-				LayoutParams.WRAP_CONTENT));
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 		menuAvailibility.setText("Dostêpnoœæ");
 		menuAvailibility.setTextSize(18);
 		rowMenu.addView(menuAvailibility);
@@ -233,7 +233,7 @@ public class ParseURLActivity extends Activity {
 			// author
 			TextView tvAuthor = new TextView(this);
 			tvAuthor.setLayoutParams(new LayoutParams(60,
-					LayoutParams.WRAP_CONTENT));
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 			tvAuthor.setText(doc.getElementsByTagName("author").item(i)
 					.getTextContent());
 			tvAuthor.setTextColor(Color.parseColor(c));
@@ -242,7 +242,7 @@ public class ParseURLActivity extends Activity {
 			// title
 			TextView tvTitle = new TextView(this);
 			tvTitle.setLayoutParams(new LayoutParams(60,
-					LayoutParams.WRAP_CONTENT));
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 			tvTitle.setText(doc.getElementsByTagName("title").item(i)
 					.getTextContent());
 			tvTitle.setTextColor(Color.parseColor(c));
@@ -291,21 +291,21 @@ public class ParseURLActivity extends Activity {
 		TableRow rowMenu = new TableRow(this);
 		TextView menuAuthor = new TextView(this);
 		menuAuthor.setLayoutParams(new LayoutParams(60,
-				LayoutParams.WRAP_CONTENT));
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 		menuAuthor.setText("Autor");
 		menuAuthor.setTextSize(18);
 		rowMenu.addView(menuAuthor);
 
 		TextView menuTitle = new TextView(this);
 		menuTitle.setLayoutParams(new LayoutParams(60,
-				LayoutParams.WRAP_CONTENT));
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 		menuTitle.setText("Tytu³");
 		menuTitle.setTextSize(18);
 		rowMenu.addView(menuTitle);
 
 		TextView menuAvailibility = new TextView(this);
 		menuAvailibility.setLayoutParams(new LayoutParams(60,
-				LayoutParams.WRAP_CONTENT));
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 		menuAvailibility.setText("Dostêpnoœæ");
 		menuAvailibility.setTextSize(18);
 		rowMenu.addView(menuAvailibility);
