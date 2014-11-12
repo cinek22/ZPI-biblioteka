@@ -57,7 +57,9 @@ public class AccountActivity extends Activity{
 			
 			@Override
 			public void onClick(View v) {
+				String URL= StringsAndLinks.RENT_HISTORY;
 				Intent intent = new Intent(AccountActivity.this, ChangePassActivity.class);
+				intent.putExtra("history_url", URL);
 				startActivityForResult(intent, 200);
 			}
 		});
