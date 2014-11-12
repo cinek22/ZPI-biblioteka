@@ -104,6 +104,7 @@ public class ChangePassActivity extends Activity{
 			getChangePassLink();
 			
 			httppost = SessionManager.buildLink(StringsAndLinks.CHANGE_PASSWORD);
+			httppost.addHeader("Refer",StringsAndLinks.MAIN_PAGE+StringsAndLinks.MY_ACCOUNT);
 			
 			try {
 		        // Add your data
