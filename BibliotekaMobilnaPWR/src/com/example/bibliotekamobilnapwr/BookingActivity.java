@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -174,50 +175,50 @@ public class BookingActivity extends Activity {
 		private void createTable(int quantityBook, org.w3c.dom.Document doc) {
 
 			// screen size in pixeles
-		/*	DisplayMetrics metrics = new DisplayMetrics();
+			DisplayMetrics metrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(metrics);
 			
 			int width = metrics.widthPixels;
-			int height = metrics.heightPixels;
+			int height = 45;
 
 			int wRezerwacja = 30;
 			int wStatus = (width - wRezerwacja) / 4;
-			int wData = (width - wRezerwacja) / 5;
-			int wBiblioteka = (width - wRezerwacja) / 4;
-			int wSygnatura = (width - wRezerwacja) / 4;*/
+			int wData = (width - wRezerwacja) / 6;
+			int wBiblioteka = (width - wRezerwacja) / 3;
+			int wSygnatura = (width - wRezerwacja) / 3;
 
 			TableRow rowMenuBooking = new TableRow(BookingActivity.this);
 			TextView menuStatus = new TextView(BookingActivity.this);
-			/*menuStatus.setLayoutParams(new LayoutParams(wStatus,
-					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+			menuStatus.setHeight(height);
+			menuStatus.setWidth(wStatus);
 			menuStatus.setText("Status");
 			menuStatus.setTextSize(18);
 			rowMenuBooking.addView(menuStatus);
 
 			TextView menuData = new TextView(BookingActivity.this);
-			/*menuData.setLayoutParams(new LayoutParams(wData,
-					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+			menuData.setHeight(height);
+			menuData.setWidth(wData);
 			menuData.setText("Data");
 			menuData.setTextSize(18);
 			rowMenuBooking.addView(menuData);
 
 			TextView menuBiblioteka = new TextView(BookingActivity.this);
-			/*menuBiblioteka.setLayoutParams(new LayoutParams(wBiblioteka,
-					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+			menuBiblioteka.setHeight(height);
+			menuBiblioteka.setWidth(wBiblioteka);
 			menuBiblioteka.setText("Biblioteka");
 			menuBiblioteka.setTextSize(18);
 			rowMenuBooking.addView(menuBiblioteka);
 
 			TextView menuSygnatura = new TextView(BookingActivity.this);
-		/*	menuSygnatura.setLayoutParams(new LayoutParams(wSygnatura,
-					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+			menuSygnatura.setHeight(height);
+			menuSygnatura.setWidth(wSygnatura);
 			menuSygnatura.setText("Sygnatura");
 			menuSygnatura.setTextSize(18);
 			rowMenuBooking.addView(menuSygnatura);
 
 			TextView menuRezerwacja = new TextView(BookingActivity.this);
-			/*menuSygnatura.setLayoutParams(new LayoutParams(wRezerwacja,
-					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+			menuRezerwacja.setHeight(height);
+			menuRezerwacja.setWidth(wRezerwacja);
 			menuRezerwacja.setText("R");
 			menuRezerwacja.setTextSize(18);
 			rowMenuBooking.addView(menuRezerwacja);
@@ -233,32 +234,28 @@ public class BookingActivity extends Activity {
 
 				// Status
 				TextView tvStatus = new TextView(BookingActivity.this);
-				/*tvStatus.setLayoutParams(new LayoutParams(wStatus,
-						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+				tvStatus.setWidth(wStatus);
 				tvStatus.setText(doc.getElementsByTagName("status").item(i)
 						.getTextContent());
 				row.addView(tvStatus);
 
 				// Data
 				TextView tvData = new TextView(BookingActivity.this);
-				/*tvData.setLayoutParams(new LayoutParams(wData,
-						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+				tvData.setWidth(wData);
 				tvData.setText(doc.getElementsByTagName("data").item(i)
 						.getTextContent());
 				row.addView(tvData);
 
 				// Biblioteka
 				TextView tvBiblioteka = new TextView(BookingActivity.this);
-				/*tvBiblioteka.setLayoutParams(new LayoutParams(wBiblioteka,
-						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+				tvBiblioteka.setWidth(wBiblioteka);
 				tvBiblioteka.setText(doc.getElementsByTagName("biblioteka")
 						.item(i).getTextContent());
 				row.addView(tvBiblioteka);
 
 				// Sygnatura
 				TextView tvSygnatura = new TextView(BookingActivity.this);
-				/*tvSygnatura.setLayoutParams(new LayoutParams(wSygnatura,
-						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+				tvSygnatura.setWidth(wSygnatura);
 				tvSygnatura.setText(doc.getElementsByTagName("sygnatura")
 						.item(i).getTextContent());
 				row.addView(tvSygnatura);
@@ -266,11 +263,11 @@ public class BookingActivity extends Activity {
 				final String href = doc.getElementsByTagName("zamowienie").item(i)
 						.getTextContent();
 
-			if (href.equals(null) == false) {
+			if (href.length()>0) {
 					
-				ImageButton bZamowienie = (ImageButton) findViewById(R.drawable.green_plus);
-					/*bZamowienie.setLayoutParams(new LayoutParams(wRezerwacja,
-							LayoutParams.WRAP_CONTENT));*/
+				ImageView bZamowienie = new ImageView(BookingActivity.this);
+				bZamowienie.setImageResource(R.drawable.green_plus);
+				bZamowienie.setMinimumWidth(wRezerwacja);
 					bZamowienie.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {

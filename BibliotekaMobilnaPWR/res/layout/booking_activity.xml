@@ -6,10 +6,10 @@
 
     <TableLayout
         android:id="@+id/table_booking"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="#4285f4"
-        android:padding="10dp"
+        android:padding="5dp"
         android:shrinkColumns="*"
         android:stretchColumns="*" >
     </TableLayout>
@@ -22,11 +22,10 @@
 
         <TableLayout
             android:id="@+id/tableLayout_booking"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="270dp"
-            android:layout_weight="0.65"
             android:background="#EFFFBC"
-            android:padding="10dp"
+            android:padding="5dp"
             android:shrinkColumns="*"
             android:stretchColumns="*" >
         </TableLayout>
