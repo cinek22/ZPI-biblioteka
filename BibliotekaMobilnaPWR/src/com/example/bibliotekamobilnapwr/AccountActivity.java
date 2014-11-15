@@ -2,6 +2,16 @@ package com.example.bibliotekamobilnapwr;
 
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -39,8 +49,9 @@ public class AccountActivity extends Activity{
 		
 		Intent intent = getIntent();
 		String message = intent.getStringExtra("URL_account");
-		accountURL.execute(message);
-		Log.d("TEST", "AccountActivity accountURL = "+accountURL.toString());
+		new GetAccountByRafal().execute();
+//		accountURL.execute(message);
+//		Log.d("TEST", "AccountActivity accountURL = "+accountURL.toString());
 		
 		
 	}
@@ -125,6 +136,52 @@ public class AccountActivity extends Activity{
 			mProgressDialog.dismiss();
 			return null;
 		}		
+		
+		
+	}
+	
+	
+	class GetAccountByRafal extends AsyncTask<String,Void,String>
+	{	
+		
+		@Override
+		protected String doInBackground(String... urls) {
+			try {
+				HttpClient httpclient = new DefaultHttpClient();
+				HttpPost httppost = SessionManager.buildLink(StringsAndLinks.MY_ACCOUNT);
+				
+				HttpResponse response = httpclient.execute(httppost);
+		        InputStream inputStream = response.getEntity().getContent();
+	
+	            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+	
+	            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+	
+	            StringBuilder stringBuilder = new StringBuilder();
+	
+	            String bufferedStrChunk = null;
+	
+	            while((bufferedStrChunk = bufferedReader.readLine()) != null){
+	                stringBuilder.append(bufferedStrChunk);
+	            }
+	            Log.d("TEST", "AccountActivity logowanie - odpowiedü serwera: "+stringBuilder.toString());
+	            return stringBuilder.toString();
+			} catch (ClientProtocolException e) {
+			     Log.e("TEST", "Error getting response: "+e);
+			} catch (IOException e) {
+				 Log.e("TEST", "Error getting response: "+e);
+			}
+			return null;
+		}		
+		
+		protected void onPostExecute(String resp) {
+			Log.d("TEST", "Zapytanie o konto rozmiar: "+resp.length());
+			Log.d("TEST", "Zapytanie o konto: "+resp);
+			
+			if(resp.contains("<title>Administracyjna")){
+				Log.d("TEST", "To dziala!");
+			}
+		}
 		
 		
 	}

@@ -32,6 +32,9 @@ public class Main extends Activity {
 		setupView();
 		setFieldsVisibility(isLoggedIn());
 		setupListeners();
+		if(isLoggedIn()){
+			SessionManager.relog(this);
+		}
 	}
 
 	@Override

@@ -33,24 +33,27 @@ public class SessionManager {
 	public static void setContext(Context sContext) {
 		SessionManager.sContext = sContext;
 		wasLogged = sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).getBoolean("WASLOGGED", false);
+//		if(wasLogged){
+//			StringsAndLinks.SESSION_ID 
+//		}
 	}
 
 	public static void prepareURL(){
-		mSessionUrl = StringsAndLinks.MAIN_PAGE + (!StringsAndLinks.SESSION_ID.equals("") ? StringsAndLinks.SESSION_ID : "") ;
+		mSessionUrl = StringsAndLinks.MAIN_PAGE + StringsAndLinks.SESSION_ID;
 		Log.d("TEST", "LoginActivity LoginURL = "+mSessionUrl);
 	}
 	
 	public static void login(Context context, String login, String password){
-		prepareURL();
 		sContext = context; mLogin = login; mPassword = password;
+		Log.d("TEST", "Login: "+login+" password: "+password);
 		new LoginTask().execute();
 	}
 	
-	public static void relog(){
-		prepareURL(); 
+	public static void relog(Context context){
+		sContext = context;
 		mLogin = sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).getString("LOGIN", ""); 
 		mPassword = sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).getString("PASSWORD", mLogin);
-		new LoginTask().execute();
+		login(context, mLogin, mPassword);
 	}
 	
 	
@@ -67,12 +70,19 @@ public class SessionManager {
 	       if(resp != null){
 	    	   Log.d("TEST", "OdpowiedŸ "+resp);
 	    	   if(!resp.contains("Identyfikator/Has")){
-	    		   Toast.makeText(sContext, "Zalogowano pomyœlnie", Toast.LENGTH_LONG).show();
+	    		   String temp = resp;
+	                temp = temp.split("ALEPH_SESSION_ID = ")[1];
+	                temp = temp.split(";")[0];
+	                Log.d("TEST", "LoginActivity getSessionId() "+temp);
+	                StringsAndLinks.SESSION_ID = temp;
 	    		   sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).edit().putString("LOGIN", mLogin).commit();
-	    		   sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).edit().putString("PASSWORD", mLogin).commit();
+	    		   sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).edit().putString("PASSWORD", mPassword).commit();
 	    		   sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).edit().putBoolean("WASLOGGED", true).commit();
 //	    		   sListener.onLoginSuccesfull();
-	    		   ((Activity)sContext).finish();
+	    		   if(sContext instanceof LoginActivity){
+	    			   Toast.makeText(sContext, "Zalogowano pomyœlnie", Toast.LENGTH_LONG).show();
+	    			   ((Activity)sContext).finish();
+	    		   }
 	    	   }else{
 	    		   Toast.makeText(sContext, "Nieprawid³owy login/haslo", Toast.LENGTH_LONG).show();
 	    	   }
@@ -85,14 +95,17 @@ public class SessionManager {
 		    // Create a new HttpClient and Post Header
 		    HttpClient httpclient = new DefaultHttpClient();
 		    
-		    getLoginLink();
+		    StringsAndLinks.SESSION_ID = getSessionId();
+		    
+		    prepareURL();
 		    
 		    //TUTAJ NIE TRZEBA CALEGO naglowka podawac, wystarczy ta koncowka
 //		    czyli jesli pelen adres do zapytania jest np:
 //		    http://aleph.bg.pwr.wroc.pl/F/4KNDAEJ8J5CUJF4KV4VGYSD1R2F7J5FSV8PDH2QIMSFXDBBJ5U-00171?func=file&file_name=login-session
 //		    to do metody buildLink podajemy tylko koncowke, czyli:?func=file&file_name=login-session
 //		    i to dziala do kazdego requestu, ktory wymaga utrzymania sesii
-		    HttpPost httppost = buildLink(StringsAndLinks.LOGIN_ADDRESS+"&login_source=&bor_id="+mLogin+"&bor_verification="+mPassword+"&bor_library=TUR50&x=43&y=10");
+//		    HttpPost httppost = buildLink(StringsAndLinks.LOGIN_ADDRESS+"&login_source=&bor_id="+mLogin+"&bor_verification="+mPassword+"&bor_library=TUR50&x=43&y=10"); //TODO: TESTOWO ZAKOMENTOWANE
+		    HttpPost httppost = buildLink(StringsAndLinks.LOGIN_ADDRESS);
 		    
 		    try {
 		        // to sa parametry posta do danego zapytania i to juz dodajemy normalnie
@@ -120,6 +133,7 @@ public class SessionManager {
                 while((bufferedStrChunk = bufferedReader.readLine()) != null){
                     stringBuilder.append(bufferedStrChunk);
                 }
+                
                 Log.d("TEST", "LoginActivity logowanie - odpowiedŸ serwera: "+stringBuilder.toString());
                 return stringBuilder.toString();
                 
@@ -131,7 +145,7 @@ public class SessionManager {
 		    return null;
 		} 
 	    
-	    private String getLoginLink(){
+	    private String getSessionId(){
 	    	
 	    	HttpClient httpclient = new DefaultHttpClient();
 		    HttpPost httppost = new HttpPost(StringsAndLinks.MAIN_PAGE);
@@ -158,8 +172,12 @@ public class SessionManager {
                 while((bufferedStrChunk = bufferedReader.readLine()) != null){
                     stringBuilder.append(bufferedStrChunk);
                 }
-                Log.d("TEST", "LoginActivity getLoginLink() "+stringBuilder.toString());
-                return stringBuilder.toString();
+                
+                String temp = stringBuilder.toString();
+                temp = temp.split("ALEPH_SESSION_ID = ")[1];
+                temp = temp.split(";")[0];
+                Log.d("TEST", "LoginActivity getSessionId() "+temp);
+                return temp;
                 
 		    } catch (ClientProtocolException e) {
 		        Log.e("TEST", "Error getting response: "+e);
@@ -177,6 +195,7 @@ public class SessionManager {
 //		wiêc jedyne co musisz do niego dodac to swoje parametry POST i wyslac to
 		
 	    HttpPost httppost = new HttpPost(mSessionUrl+suffix);
+	    StringsAndLinks.REFERER = mSessionUrl+suffix;
 	    
 	    Log.d("TEST", "Setting cookie: "+StringsAndLinks.COOKIE_STRING + StringsAndLinks.SESSION_ID);
 	    httppost.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
@@ -186,7 +205,27 @@ public class SessionManager {
 	    httppost.addHeader("Cookie", StringsAndLinks.COOKIE_STRING + StringsAndLinks.SESSION_ID);
 	    httppost.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0");
 	    httppost.addHeader("Host", "aleph.bg.pwr.wroc.pl");
+//	    httppost.addHeader("Referer", StringsAndLinks.REFERER);
+	    httppost.addHeader("Referer", mSessionUrl+"?func=BOR-INFO");
+	    
+	    Log.d("TEST", "buildLink() result: "+mSessionUrl+suffix);
 	    
 	    return httppost;
 	}
+	
+	public static String getLogin(){
+		return sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).getString("LOGIN", "");
+	}
+	
+	public static String getPasword(){
+		return sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).getString("PASSWORD", mLogin);
+	}
+	
+//	public static void TEST(String string){
+//		String pom = string.split("informacje o swoim koncie")[0];
+//		pom = "-"+pom.split("-")[1];
+//		pom = pom.split("\">")[0];
+//		Log.d("SESSIONS", "zmienna koñcówka to: "+pom);
+//		StringsAndLinks.MY_ACCOUNT = pom+StringsAndLinks.MY_ACCOUNT;
+//	}
 }
