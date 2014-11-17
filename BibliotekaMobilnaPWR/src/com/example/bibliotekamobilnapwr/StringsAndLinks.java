@@ -12,7 +12,7 @@ public class StringsAndLinks {
 	public static final String SEARCH_BASE_NOLOGGED = "&request_op=AND&find_code=TIT&request=&request_op=AND&find_code=WTI&request=&request_op=AND&find_code=WYR&request=&request_op=AND&find_code=WPU&request=&adjacent=N&local_base=";
 	public static final String SEARCH_END_NOLOGGED = "&x=0&y=0&filter_code_1=WLN&filter_request_1=&filter_code_2=WYR&filter_request_2=&filter_code_3=WYR&filter_request_3=&filter_code_4=WFT&filter_request_4=&filter_code_5=WSB&filter_request_5=";
 	public static final String CHANGE_PASSWORD = "?func=file&file_name=bor-update-password";
-	public static final String MY_ACCOUNT = "?func=bor-info&adm_library=TUR50";
+	public static final String MY_ACCOUNT = "?func=bor-info";
 	public static final String RENT ="?func=bor-loan&adm_library=TUR50";
 	public static final String RENT_HISTORY="?func=bor-history-loan&adm_library=TUR50";
 	public static final String ORDERS = "?func=bor-hold";

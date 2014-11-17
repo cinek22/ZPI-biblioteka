@@ -14,6 +14,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import android.app.Activity;
@@ -49,7 +50,7 @@ public class AccountActivity extends Activity{
 		
 		Intent intent = getIntent();
 		String message = intent.getStringExtra("URL_account");
-		new GetAccountByRafal().execute();
+		new GetAccountByRafal().onPreExecute();
 //		accountURL.execute(message);
 //		Log.d("TEST", "AccountActivity accountURL = "+accountURL.toString());
 		
@@ -144,6 +145,8 @@ public class AccountActivity extends Activity{
 	class GetAccountByRafal extends AsyncTask<String,Void,String>
 	{	
 		
+		
+		
 		@Override
 		protected String doInBackground(String... urls) {
 			try {
@@ -161,10 +164,12 @@ public class AccountActivity extends Activity{
 	
 	            String bufferedStrChunk = null;
 	
+	            
 	            while((bufferedStrChunk = bufferedReader.readLine()) != null){
 	                stringBuilder.append(bufferedStrChunk);
 	            }
 	            Log.d("TEST", "AccountActivity logowanie - odpowiedü serwera: "+stringBuilder.toString());
+	            onPostExecute(stringBuilder.toString());
 	            return stringBuilder.toString();
 			} catch (ClientProtocolException e) {
 			     Log.e("TEST", "Error getting response: "+e);
@@ -172,7 +177,14 @@ public class AccountActivity extends Activity{
 				 Log.e("TEST", "Error getting response: "+e);
 			}
 			return null;
-		}		
+		}
+		
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			doInBackground();
+		}
 		
 		protected void onPostExecute(String resp) {
 			Log.d("TEST", "Zapytanie o konto rozmiar: "+resp.length());
@@ -180,6 +192,34 @@ public class AccountActivity extends Activity{
 			
 			if(resp.contains("<title>Administracyjna")){
 				Log.d("TEST", "To dziala!");
+			}
+			
+			//document jsoup
+			Document document =  Jsoup.parse(resp);
+			Elements description = document.select("body table[cellpadding=0] tr.middlebar");
+			
+			String str = null;
+			for (Element desc : description) {
+				Element a = desc.select("a").get(3);
+				str = a.attr("href").toString();
+			}
+			
+			try{
+				
+			//document jsoup
+			Document documentAccount =  Jsoup.connect("http://aleph.bg.pwr.wroc.pl"+str).get();
+			Elements descriptionAccount = documentAccount.select("body div.title");
+			
+			String dane = descriptionAccount.text();	
+			String [] personID;
+			personID = dane.split(" ");
+			ownName.setText(personID[3]);
+			ownSurname.setText(personID[2]);
+			}catch(Exception e){
+				e.printStackTrace();
+				
+				Toast.makeText(AccountActivity.this, "Wystπpi≥ b≥πd po≥πczenia", Toast.LENGTH_LONG).show();
+				
 			}
 		}
 		
