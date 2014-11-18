@@ -4,6 +4,7 @@
     <string name="app_name">Biblioteka Mobilna PWR</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_notifications">Alarmy</string>
     <string name="title_main">Biblioteka PWR</string>
     <string name="main_title">Tytuł</string>
     <string name="main_author">Autor</string>
@@ -16,6 +17,8 @@
     <string name="login_title">Logowanie</string>
     <string name="login_login">Login</string>
     <string name="login_password">Hasło</string>
+    
+    <string name="comm_title">Komunikaty</string>
 
     <string-array name="where_search">
         <item>Katalog Główny PWr</item>

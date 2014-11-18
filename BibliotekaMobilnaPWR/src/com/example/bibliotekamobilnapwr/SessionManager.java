@@ -68,6 +68,7 @@ public class SessionManager {
 
 	    protected void onPostExecute(String resp) {
 	       if(resp != null){
+	    	   StringsAndLinks.parseLinks(resp);
 	    	   Log.d("TEST", "Odpowiedü "+resp);
 	    	   if(!resp.contains("Identyfikator/Has")){
 	    		   String temp = resp;

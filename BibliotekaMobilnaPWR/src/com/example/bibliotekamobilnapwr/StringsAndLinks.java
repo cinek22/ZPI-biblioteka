@@ -1,5 +1,12 @@
 package com.example.bibliotekamobilnapwr;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import android.util.Log;
+
 public class StringsAndLinks {
 //	public static String COOKIE_STRING = "__utma=84080792.895347480.1394980478.1401651913.1412192255.5; __utmz=84080792.1412192255.5.3.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); ALEPH_SESSION_ID=";
 	public static String COOKIE_STRING = "ALEPH_SESSION_ID=";
@@ -19,4 +26,19 @@ public class StringsAndLinks {
 	public static final String LAST_SEARCH  = "?func=history";
 	public static final String MESSAGES = "?func=bor-info#messages";
 	public static final String FINANCIAL_TRANS = "?func=bor-cash&adm_library=TUR50";
+	
+	public static String NEW_MY_ACCOUNT = "";
+	
+	public static void parseLinks(String resp){
+		Document document =  Jsoup.parse(resp);
+		Elements description = document.select("body table[cellpadding=0] tr.middlebar");
+		
+		String str = null;
+		for (Element desc : description) {
+			Element a = desc.select("a").get(3);
+			str = a.attr("href").toString();
+			NEW_MY_ACCOUNT = str;
+		}
+	}
+	
 }

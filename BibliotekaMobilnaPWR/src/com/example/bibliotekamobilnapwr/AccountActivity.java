@@ -50,7 +50,7 @@ public class AccountActivity extends Activity{
 		
 		Intent intent = getIntent();
 		String message = intent.getStringExtra("URL_account");
-		new GetAccountByRafal().onPreExecute();
+		new GetAccountByRafal().execute();
 //		accountURL.execute(message);
 //		Log.d("TEST", "AccountActivity accountURL = "+accountURL.toString());
 		
@@ -186,6 +186,7 @@ public class AccountActivity extends Activity{
 			doInBackground();
 		}
 		
+		@Override
 		protected void onPostExecute(String resp) {
 			Log.d("TEST", "Zapytanie o konto rozmiar: "+resp.length());
 			Log.d("TEST", "Zapytanie o konto: "+resp);

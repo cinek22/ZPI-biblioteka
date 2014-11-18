@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+    <LinearLayout 
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:orientation="vertical">
+        <TextView 
+            android:id="@+id/comm_title"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:text="Tytuł"
+            android:textSize="20dp"
+            android:layout_margin="3dp"/>
+        
+        <TextView 
+            android:id="@+id/comm_typ"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:text="Typ Alarmu"
+            android:textSize="18dp"
+            android:layout_margin="3dp"/>
+        
+        <TextView 
+            android:id="@+id/comm_opis"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:text="Opis"
+            android:textSize="14dp"
+            android:layout_margin="3dp"/>
+        
+        <TextView 
+            android:id="@+id/comm_data"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:text="Data Alarmu"
+            android:layout_gravity="right"
+            android:textSize="20dp"
+            android:layout_margin="3dp"/>
+        
+    </LinearLayout>
+    
+    
+    <LinearLayout 
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="right"
+        android:layout_gravity="center_vertical">
+        <Button 
+            android:id="@+id/comm_usun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="U"/>
+    </LinearLayout>
+
+</LinearLayout>
