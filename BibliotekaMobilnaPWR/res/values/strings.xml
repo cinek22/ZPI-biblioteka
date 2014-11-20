@@ -17,7 +17,6 @@
     <string name="login_title">Logowanie</string>
     <string name="login_login">Login</string>
     <string name="login_password">Hasło</string>
-    
     <string name="comm_title">Komunikaty</string>
 
     <string-array name="where_search">
@@ -68,7 +67,7 @@
     <string name="title_account">Moje konto</string>
     <string name="account_name">Imię</string>
     <string name="account_surname">Nazwisko</string>
-    <string name="account_butt_pass">Hasło</string>
+    <string name="account_butt_pass">Zmiana hasła</string>
     <string name="changePass_title">Zmiana hasła</string>
     <string name="current_pass">Podaj bieżące hasło</string>
     <string name="new_pass">Podaj nowe hasło</string>
@@ -79,5 +78,9 @@
     <string name="title_activity_list_reserve">ListReserveActivity</string>
     <string name="title_activity_history">HistoryActivity</string>
     <string name="history_button">Historia wypożyczeń</string>
+    <string name="rent_button">Wypożyczenia</string>
+    <string name="orders_button">Zamówienia</string>
+    <string name="title_activity_orders">OrdersActivity</string>
+    <string name="title_activity_rents">RentsActivity</string>
 
 </resources>

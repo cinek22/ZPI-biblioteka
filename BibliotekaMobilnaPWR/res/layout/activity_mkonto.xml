@@ -62,34 +62,61 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:gravity="right">
-	    
-	    <Button 
-	        android:id="@+id/account_button_pass"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginBottom="10dp"
-	        android:layout_marginRight="25dp"
-	        android:layout_marginLeft="25dp"
-	        android:padding="10dp"
-	        android:gravity="left"
-	        android:background="@color/green_transparent"
-	        android:text="@string/account_butt_pass"/>
 
-	    <Button
-	        android:id="@+id/history_button"
-	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent"
-	        android:layout_marginBottom="10dp"
-	        android:layout_marginLeft="25dp"
-	        android:layout_marginRight="25dp"
-	        android:background="@color/green_transparent"
-	        android:gravity="left"
-	        android:padding="10dp"
-	        android:text="@string/history_button" />
+        <Button
+            android:id="@+id/account_button_pass"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@color/green_transparent"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="@string/account_butt_pass" />
+		
+        <Button 
+            android:id="@+id/rent_button"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@color/green_transparent"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="@string/rent_button"
+            />
+
+        <Button
+            android:id="@+id/history_button"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@color/green_transparent"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="@string/history_button" />
+        
+      <Button 
+          android:id="@+id/orders_button"
+           android:layout_width="fill_parent"
+           android:layout_height="fill_parent"
+           android:layout_marginBottom="10dp"
+           android:layout_marginLeft="25dp"
+           android:layout_marginRight="25dp"
+           android:background="@color/green_transparent"
+           android:gravity="left"
+           android:padding="10dp"
+           android:text="@string/orders_button"
+          />
 
 	    </LinearLayout>
+
 </LinearLayout>

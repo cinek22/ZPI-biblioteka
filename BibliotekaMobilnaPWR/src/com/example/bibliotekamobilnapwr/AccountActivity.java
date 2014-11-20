@@ -35,6 +35,8 @@ public class AccountActivity extends Activity{
 	private TextView ownSurname;
 	private Button password;
 	private Button history;
+	private Button orders;
+	private Button rents;
 	SessionManager session;
 	
 	ProgressDialog mProgressDialog;
@@ -48,9 +50,9 @@ public class AccountActivity extends Activity{
 		setupView();
 		setupListeners();
 		
-		Intent intent = getIntent();
+		Intent intent = getIntent();		
 		String message = intent.getStringExtra("URL_account");
-		new GetAccountByRafal().execute();
+		new GetAccountByRafal().execute(); 
 //		accountURL.execute(message);
 //		Log.d("TEST", "AccountActivity accountURL = "+accountURL.toString());
 		
@@ -62,6 +64,8 @@ public class AccountActivity extends Activity{
 		ownSurname = (TextView)findViewById(R.id.account_surname_tv);
 		password = (Button)findViewById(R.id.account_button_pass);
 		history = (Button) findViewById(R.id.history_button);
+		orders = (Button) findViewById(R.id.orders_button);
+		rents = (Button) findViewById(R.id.rent_button);
 	}
 	
 	private void setupListeners(){
@@ -81,6 +85,26 @@ public class AccountActivity extends Activity{
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(AccountActivity.this,HistoryActivity.class);
+				startActivity(intent);
+				
+			}
+		});
+		
+		orders.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(AccountActivity.this,OrdersActivity.class);
+				startActivity(intent);
+				
+			}
+		});
+		
+		rents.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(AccountActivity.this,RentsActivity.class);
 				startActivity(intent);
 				
 			}
