@@ -52,7 +52,8 @@ public class AccountActivity extends Activity{
 		
 		Intent intent = getIntent();		
 		String message = intent.getStringExtra("URL_account");
-		new GetAccountByRafal().execute(); 
+		//new GetAccountByRafal().execute(); 
+		new GetAccountByRafal().onPreExecute();
 //		accountURL.execute(message);
 //		Log.d("TEST", "AccountActivity accountURL = "+accountURL.toString());
 		

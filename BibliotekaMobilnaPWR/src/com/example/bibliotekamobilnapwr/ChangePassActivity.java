@@ -18,6 +18,8 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,9 +41,8 @@ public class ChangePassActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState){
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_zmiana_hasla);
-		ChangePassUrl = StringsAndLinks.MAIN_PAGE + (!StringsAndLinks.SESSION_ID.equals("") ? StringsAndLinks.SESSION_ID : "")+StringsAndLinks.CHANGE_PASSWORD;
-		Log.d("TEST-l1", "ChangePassActivity ChangePassURL = "+ChangePassUrl);
+		setContentView(R.layout.activity_zmiana_hasla);		
+		
 		setupView();
 		setupListeners();
 	}
@@ -57,16 +58,21 @@ public class ChangePassActivity extends Activity{
 		save.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
-			public void onClick(View v) {
-				//Toast.makeText(ChangePassActivity.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
+			public void onClick(View v) {				
 				if(!currentPass.getText().toString().equals("")&&!newPass.getText().toString().equals("")
-						&&!newPassConfirm.getText().toString().equals("")&&newPass.getText().toString().equals(newPassConfirm.getText().toString())){
-					
+						&&!newPassConfirm.getText().toString().equals("")&&newPass.getText().toString().equals(newPassConfirm.getText().toString())){					
 					
 					new ChangePassTask().execute();
 				}else {
 					Toast.makeText(ChangePassActivity.this,"Wszystkie pola musz¹ byæ wype³nione/Podane has³a s¹ ró¿ne",Toast.LENGTH_LONG).show();
-				}
+					if(currentPass.getText().toString().equals(""))currentPass.setTextColor(Color.RED);
+					else if(newPass.getText().toString().equals("")||newPassConfirm.getText().toString().equals("")||!newPass.getText().toString().equals(newPassConfirm.getText().toString()))
+					{
+						currentPass.setTextColor(Color.BLACK);
+						newPass.setTextColor(Color.RED);
+						newPassConfirm.setTextColor(Color.RED);
+					}
+					}
 			}
 		});
 		
@@ -85,11 +91,13 @@ public class ChangePassActivity extends Activity{
 		protected void onPostExecute(String resp){
 			if(resp!=null){
 				Log.d("TEST", "OdpowiedŸ "+resp);
-				if(!resp.contains("Has/NowHas")){
+				if(!resp.contains("nie odpowiada identyfikatorowi")){
 					Toast.makeText(ChangePassActivity.this, "Has³o zosta³o zmienione", Toast.LENGTH_LONG).show();	    		   
 	    		   
 				}else{
 					Toast.makeText(ChangePassActivity.this, "Has³o nie zosta³o zmienione", Toast.LENGTH_LONG).show();
+					currentPass.setTextColor(Color.RED);
+					
 				}
 			}else{
 				Log.e("TEST", "Resp == NULL");
@@ -187,5 +195,7 @@ public class ChangePassActivity extends Activity{
 	    	return StringsAndLinks.MAIN_PAGE+StringsAndLinks.CHANGE_PASSWORD;
 		}
 	}
+	
+	
 
 }
