@@ -79,6 +79,10 @@
             android:name=".RentsActivity"
             android:label="@string/title_activity_rents" >
         </activity>
+        <activity
+            android:name=".ConfirmationActivity"
+            android:label="@string/title_activity_rezerwacje" >
+        </activity>
     </application>
 
 </manifest>

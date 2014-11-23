@@ -83,6 +83,7 @@ public class BookingActivity extends Activity {
 
 		public void execute(String string) {
 			URL = string;
+			/*StringsAndLinks.REFERER_CONFIRMATION = "http://aleph.bg.pwr.wroc.pl" + URL;*/
 			onPreExecute();
 		}
 
@@ -269,15 +270,25 @@ public class BookingActivity extends Activity {
 				bZamowienie.setImageResource(R.drawable.green_plus);
 				bZamowienie.setMinimumWidth(wRezerwacja);
 					bZamowienie.setOnClickListener(new View.OnClickListener() {
+						
+						String [] shref = href.split("\\?");
+						
+						String [] parthref = shref[0].split("\\-");
 						@Override
 						public void onClick(View v) {
-							Toast.makeText(BookingActivity.this, "L: "+ href , Toast.LENGTH_LONG).show();
-							
+							Intent intent = new Intent(BookingActivity.this, ConfirmationActivity.class);
+//							intent.putExtra("Confirmation", "-"+parthref[1]+"?"+shref[1]);
+							intent.putExtra("Confirmation", "?"+shref[1]);
+							intent.putExtra("ConfirmationButton", shref[0]);
+							startActivity(intent);
+							/*StringsAndLinks.REFERER_CONFIRMATION = shref[0];
+							StringsAndLinks.SESSION_ID = parthref[0].substring(2);*/
 						}
 					});
 					row.addView(bZamowienie);
-				}
-
+					
+			}
+			
 				table_layout_booking.addView(row);
 			}
 
