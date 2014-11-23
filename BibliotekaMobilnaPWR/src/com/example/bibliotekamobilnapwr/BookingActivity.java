@@ -13,7 +13,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -276,15 +278,51 @@ public class BookingActivity extends Activity {
 						String [] shref = href.split("\\?");
 						String [] parthref = shref[0].split("\\-");
 						
+						
 						@Override
 						public void onClick(View v) {
-							Intent intent = new Intent(BookingActivity.this, ConfirmationActivity.class);
-//							intent.putExtra("Confirmation", "-"+parthref[1]+"?"+shref[1]);
-							intent.putExtra("Confirmation", "?"+shref[1]);
-							intent.putExtra("ConfirmationButton", shref[0]);
-							startActivity(intent);
+							
+							StringsAndLinks.URL_CONFIRMATION = "?"+shref[1];
+							StringsAndLinks.BUTTON_CONFIRMATION = shref[0];
 							StringsAndLinks.SESSION_CONFIRMATION = parthref[0].substring(3);
-						}
+							
+							if(!getSharedPreferences("LIBRARY", MODE_PRIVATE).getString("LOGIN", "").equals("")){
+								
+							Intent intent = new Intent(BookingActivity.this, ConfirmationActivity.class);
+							startActivity(intent);
+							}else{
+															
+								AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+										BookingActivity.this);
+						 
+									// set dialog message
+									alertDialogBuilder
+										.setMessage("Zaloguj siê aby zarezerwowaæ ksi¹¿kê")
+										.setCancelable(false)
+										.setPositiveButton("Zaloguj",new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dialog,int id) {
+												dialog.cancel();
+												Intent intent = new Intent(BookingActivity.this, LoginActivity.class);
+												startActivity(intent);
+											}
+										  })
+										.setNegativeButton("Zabierz mnie",new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dialog,int id) {
+												dialog.cancel();
+												Intent intent = new Intent(BookingActivity.this, Main.class);
+												startActivity(intent);
+											}
+										});
+						 
+										// create alert dialog
+										AlertDialog alertDialog = alertDialogBuilder.create();
+						 
+										// show it
+										alertDialog.show();
+									}
+								
+							}
+						
 					});
 					row.addView(bZamowienie);
 					

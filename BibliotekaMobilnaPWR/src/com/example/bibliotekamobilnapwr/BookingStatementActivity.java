@@ -74,30 +74,42 @@ public class BookingStatementActivity extends Activity{
 	
 			Log.d("TEST", "Statement URL: " + URL);
 			
-			String[] sReferer = StringsAndLinks.REFERER_CONFIRMATION.split("&year");
+//			String[] sReferer = StringsAndLinks.REFERER_CONFIRMATION.split("&year");
 			
-			httppost.addHeader("Referer",sReferer[0]);
-			Log.d("TEST", "Statement Referer: " + "http://aleph.bg.pwr.wroc.pl" +sReferer[0]);
-			httppost.addHeader("Cookie",StringsAndLinks.COOKIE_STRING+StringsAndLinks.SESSION_CONFIRMATION);
-			Log.d("TEST", "Statement Referer: " + StringsAndLinks.COOKIE_STRING+StringsAndLinks.SESSION_CONFIRMATION);
-			
-			httppost.addHeader("Content-Type", "application/x-www-form-urlencoded");
+//			httppost.addHeader("Referer",StringsAndLinks.REFERER_CONFIRMATION);
+//			Log.d("TEST", "Statement Referer: " + "http://aleph.bg.pwr.wroc.pl" +StringsAndLinks.REFERER_CONFIRMATION);
+//			
+//			httppost.addHeader("Cookie",StringsAndLinks.COOKIE_STRING+StringsAndLinks.SESSION_CONFIRMATION);
+//			Log.d("TEST", "Statement Cookie: " + StringsAndLinks.COOKIE_STRING+StringsAndLinks.SESSION_CONFIRMATION);
+//			
+//			httppost.addHeader("Content-Type", "application/x-www-form-urlencoded");
 			
 			try {
 		        // Add your data
 		        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		        nameValuePairs.add(new BasicNameValuePair("bor_id", SessionManager.getLogin()));
 				nameValuePairs.add(new BasicNameValuePair("bor_verification", SessionManager.getPasword()));
-				nameValuePairs.add(new BasicNameValuePair("func", "item-hold-request"));
+				nameValuePairs.add(new BasicNameValuePair("func", "item-hold-request-b"));
 				//sprawdziæ poprawnoœæ tego
 				nameValuePairs.add(new BasicNameValuePair("doc_library", "TUR50"));
 				
 				String[] sDocNumber = StringsAndLinks.REFERER_CONFIRMATION.split("&adm_doc_number=");
 				nameValuePairs.add(new BasicNameValuePair("adm_doc_number", "adm_doc_number"+sDocNumber[1].substring(0, 8)));
-				Log.d("TEST", "adn_doc_number: " + "adm_doc_number="+sDocNumber[1].substring(0, 8));
+				Log.d("TEST", "adm_doc_number: " + "adm_doc_number="+sDocNumber[1].substring(0, 8));
 				
+				nameValuePairs.add(new BasicNameValuePair("item_squence", "000050"));
+				nameValuePairs.add(new BasicNameValuePair("bib_request", "N"));
+				nameValuePairs.add(new BasicNameValuePair("PICKUP", "BG-CG"));
+				nameValuePairs.add(new BasicNameValuePair("from", "20141123"));
+				nameValuePairs.add(new BasicNameValuePair("to", "20141128"));
+				nameValuePairs.add(new BasicNameValuePair("x", "28"));
+				nameValuePairs.add(new BasicNameValuePair("y", "10"));
+				
+//				nameValuePairs.add(new BasicNameValuePair("Content-Type", "application/x-www-form-urlencoded"));
 		        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
+		        
+		        
 		        // Execute HTTP Post Request
 		        HttpResponse response = httpclient.execute(httppost);
 		        InputStream inputStream = response.getEntity().getContent();

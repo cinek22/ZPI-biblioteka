@@ -18,6 +18,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -55,8 +56,6 @@ public class SessionManager {
 		mPassword = sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).getString("PASSWORD", mLogin);
 		login(context, mLogin, mPassword);
 	}
-	
-	
 	
 	static class LoginTask extends AsyncTask<String, Void, String> {
 

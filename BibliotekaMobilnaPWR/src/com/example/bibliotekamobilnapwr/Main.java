@@ -98,6 +98,7 @@ public class Main extends Activity {
 	private void logOut(){
 		getSharedPreferences("LIBRARY", MODE_PRIVATE).edit().putString("LOGIN", "").commit();
 		setFieldsVisibility(false);
+		StringsAndLinks.BUTTON_CONFIRMATION = "";
 	}
 	
 	@Override

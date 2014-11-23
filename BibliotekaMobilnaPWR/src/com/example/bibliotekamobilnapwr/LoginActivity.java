@@ -44,6 +44,7 @@ public class LoginActivity extends Activity {
 		Log.d("TEST", "LoginActivity LoginURL = "+mLoginUrl);
 		setupView();
 		setupListeners();
+		
 	}
 	
 	private void setupView(){

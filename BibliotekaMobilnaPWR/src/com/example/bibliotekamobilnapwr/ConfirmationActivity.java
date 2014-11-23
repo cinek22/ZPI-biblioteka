@@ -48,12 +48,13 @@ public class ConfirmationActivity extends Activity {
 		setContentView(R.layout.confirmation_booking_activity);
 		setView();
 
-		Intent intent = getIntent();
+/*		Intent intent = getIntent();
 		String message = intent.getStringExtra("Confirmation");
 		String messageToButton = intent.getStringExtra("ConfirmationButton");
 
 		confirmation.execute(message, messageToButton);
-
+*/
+		confirmation.execute();
 	}
 
 	private void setView() {
@@ -65,12 +66,12 @@ public class ConfirmationActivity extends Activity {
 
 	class Confirmation extends AsyncTask<String, Void, String> {
 
-		String URL;
-		String toButton;
+		/*String URL;
+		String toButton;*/
 		
-		public void execute(String message, String messageToButton) {
-			URL = message;
-			toButton = messageToButton;
+		public void execute() {
+			/*URL = message;
+			toButton = messageToButton;*/
 			doInBackground();
 		}
 
@@ -78,9 +79,9 @@ public class ConfirmationActivity extends Activity {
 		protected String doInBackground(String... urls) {
 			try {
 				HttpClient httpclient = new DefaultHttpClient();
-				HttpPost httppost = SessionManager.buildLink(URL);
+				HttpPost httppost = SessionManager.buildLink(StringsAndLinks.URL_CONFIRMATION);
 
-				Log.d("TEST", "Confirmation test URL: " + URL);
+				Log.d("TEST", "Confirmation test URL: " + StringsAndLinks.URL_CONFIRMATION);
 				
 				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 				nameValuePairs.add(new BasicNameValuePair("bor_id", SessionManager.getLogin()));
@@ -131,7 +132,7 @@ public class ConfirmationActivity extends Activity {
 			 @Override 
 			 public void onClick(View v) {
 				 Intent intent = new Intent(ConfirmationActivity.this, BookingStatementActivity.class);
-					intent.putExtra("StatamentURL", "http://aleph.bg.pwr.wroc.pl"+toButton);
+					intent.putExtra("StatamentURL", "http://aleph.bg.pwr.wroc.pl"+StringsAndLinks.BUTTON_CONFIRMATION);
 					startActivity(intent);
 				 
 //			Toast.makeText(ConfirmationActivity.this, "http://aleph.bg.pwr.wroc.pl"+toButton, Toast.LENGTH_LONG).show();
