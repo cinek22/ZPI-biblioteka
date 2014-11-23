@@ -86,6 +86,7 @@ public class ConfirmationActivity extends Activity {
 				nameValuePairs.add(new BasicNameValuePair("bor_id", SessionManager.getLogin()));
 				nameValuePairs.add(new BasicNameValuePair("bor_verification", SessionManager.getPasword()));
 				nameValuePairs.add(new BasicNameValuePair("func", "item-hold-request"));
+				//sprawdziæ jeszcze poprawnoœæ tego
 				nameValuePairs.add(new BasicNameValuePair("doc_library", "TUR50"));
 		        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				
@@ -129,7 +130,11 @@ public class ConfirmationActivity extends Activity {
 			 
 			 @Override 
 			 public void onClick(View v) {
-			Toast.makeText(ConfirmationActivity.this, "http://aleph.bg.pwr.wroc.pl"+toButton, Toast.LENGTH_LONG).show();
+				 Intent intent = new Intent(ConfirmationActivity.this, BookingStatementActivity.class);
+					intent.putExtra("StatamentURL", "http://aleph.bg.pwr.wroc.pl"+toButton);
+					startActivity(intent);
+				 
+//			Toast.makeText(ConfirmationActivity.this, "http://aleph.bg.pwr.wroc.pl"+toButton, Toast.LENGTH_LONG).show();
 			 } });
 			 
 

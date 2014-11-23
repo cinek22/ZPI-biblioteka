@@ -263,6 +263,8 @@ public class BookingActivity extends Activity {
 
 				final String href = doc.getElementsByTagName("zamowienie").item(i)
 						.getTextContent();
+				
+				StringsAndLinks.REFERER_CONFIRMATION=href;
 
 			if (href.length()>0) {
 					
@@ -272,8 +274,8 @@ public class BookingActivity extends Activity {
 					bZamowienie.setOnClickListener(new View.OnClickListener() {
 						
 						String [] shref = href.split("\\?");
-						
 						String [] parthref = shref[0].split("\\-");
+						
 						@Override
 						public void onClick(View v) {
 							Intent intent = new Intent(BookingActivity.this, ConfirmationActivity.class);
@@ -281,8 +283,7 @@ public class BookingActivity extends Activity {
 							intent.putExtra("Confirmation", "?"+shref[1]);
 							intent.putExtra("ConfirmationButton", shref[0]);
 							startActivity(intent);
-							/*StringsAndLinks.REFERER_CONFIRMATION = shref[0];
-							StringsAndLinks.SESSION_ID = parthref[0].substring(2);*/
+							StringsAndLinks.SESSION_CONFIRMATION = parthref[0].substring(3);
 						}
 					});
 					row.addView(bZamowienie);

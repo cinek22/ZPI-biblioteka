@@ -16,19 +16,19 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/confirmation_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Lp" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/confirmation_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Autor" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/confirmattion_body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tytuł" />
@@ -120,13 +120,13 @@
             android:layout_height="wrap_content" >
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btnstatement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Anuluj" />
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/confirmation_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rezerwuj" />

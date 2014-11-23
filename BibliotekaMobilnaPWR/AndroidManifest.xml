@@ -83,6 +83,10 @@
             android:name=".ConfirmationActivity"
             android:label="@string/title_activity_rezerwacje" >
         </activity>
+         <activity
+            android:name=".BookingStatementActivity"
+            android:label="@string/title_activity_rezerwacje" >
+        </activity>
     </application>
 
 </manifest>

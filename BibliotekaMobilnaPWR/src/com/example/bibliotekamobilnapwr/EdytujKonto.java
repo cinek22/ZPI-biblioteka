@@ -23,7 +23,7 @@ public class EdytujKonto extends Activity {
 	private void setupView()
 	{
 		mAnulujButton = (Button) findViewById(R.id.button1E);
-		mZapiszButton = (Button) findViewById(R.id.button2);
+		mZapiszButton = (Button) findViewById(R.id.btnstatement);
 	}
 	private void setupListeners()
 	{

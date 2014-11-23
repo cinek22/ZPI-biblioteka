@@ -9,7 +9,7 @@
     tools:context="com.example.bibliotekamobilnapwr.Konto$PlaceholderFragment" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/confirmation_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -20,21 +20,21 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/confirmation_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
+        android:layout_alignLeft="@+id/confirmation_info"
+        android:layout_below="@+id/confirmation_info"
         android:layout_marginTop="22dp"
         android:text="Imię"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/confirmattion_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_below="@+id/textView2"
+        android:layout_alignLeft="@+id/confirmation_title"
+        android:layout_below="@+id/confirmation_title"
         android:layout_marginTop="22dp"
         android:text="Nazwisko"
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -43,8 +43,8 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_below="@+id/textView3"
+        android:layout_alignLeft="@+id/confirmattion_body"
+        android:layout_below="@+id/confirmattion_body"
         android:layout_marginTop="18dp"
         android:text="E-mail"
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -53,7 +53,7 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView1"
+        android:layout_alignBottom="@+id/confirmation_info"
         android:layout_alignParentRight="true"
         android:layout_marginRight="33dp"
         android:text="pwr197854"
@@ -63,8 +63,8 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView3"
-        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignBaseline="@+id/confirmattion_body"
+        android:layout_alignBottom="@+id/confirmattion_body"
         android:layout_alignLeft="@+id/textView8"
         android:text="Kowalski"
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -82,8 +82,8 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView2"
-        android:layout_alignBottom="@+id/textView2"
+        android:layout_alignBaseline="@+id/confirmation_title"
+        android:layout_alignBottom="@+id/confirmation_title"
         android:layout_alignLeft="@+id/textView7"
         android:text="Adam"
         android:textAppearance="?android:attr/textAppearanceLarge" />

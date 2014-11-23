@@ -97,7 +97,6 @@ public class SessionManager {
 		    HttpClient httpclient = new DefaultHttpClient();
 		    
 		    StringsAndLinks.SESSION_ID = getSessionId();
-		    
 		    prepareURL();
 		    
 		    //TUTAJ NIE TRZEBA CALEGO naglowka podawac, wystarczy ta koncowka
