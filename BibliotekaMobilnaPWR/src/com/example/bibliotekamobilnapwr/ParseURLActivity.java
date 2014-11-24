@@ -17,7 +17,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -104,10 +106,7 @@ public class ParseURLActivity extends Activity {
 				if (description2.size() != 0) {
 					createXML(description2);
 				} else {
-					
-					String error="Nie odnaleziono rekordów odpowiadaj¹cych zapytaniu.";
-					errorMessage(error);
-							
+					errorMessage();	
 				}
 				mProgressDialog.dismiss();
 
@@ -287,40 +286,31 @@ public class ParseURLActivity extends Activity {
 		}
 	}
 	
-	private void errorMessage ( String error){
-		TableRow rowMenu = new TableRow(this);
-		TextView menuAuthor = new TextView(this);
-		menuAuthor.setLayoutParams(new LayoutParams(60,
-				android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
-		menuAuthor.setText("Autor");
-		menuAuthor.setTextSize(18);
-		rowMenu.addView(menuAuthor);
-
-		TextView menuTitle = new TextView(this);
-		menuTitle.setLayoutParams(new LayoutParams(60,
-				android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
-		menuTitle.setText("Tytu³");
-		menuTitle.setTextSize(18);
-		rowMenu.addView(menuTitle);
-
-		TextView menuAvailibility = new TextView(this);
-		menuAvailibility.setLayoutParams(new LayoutParams(60,
-				android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
-		menuAvailibility.setText("Dostêpnoœæ");
-		menuAvailibility.setTextSize(18);
-		rowMenu.addView(menuAvailibility);
-
-		table.addView(rowMenu);
+	private void errorMessage (){
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				ParseURLActivity.this);
+ 
+			// set dialog message
+			alertDialogBuilder
+				.setMessage("Nie odnaleziono rekordów odpowiadaj¹cych zapytaniu")
+				.setCancelable(false)
+				.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						dialog.cancel();
+						Intent intent = new Intent(ParseURLActivity.this, Main.class);
+						startActivity(intent);
+					}
+				  });
 		
-		TextView message = new TextView(this);
-		message.setText(error);
-		message.setTextColor(Color.RED);
-		message.setTextSize(24);
-		message.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-		table_layout.addView(message);
+ 
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+ 
+				table.setVisibility(View.INVISIBLE);
+				table_layout.setVisibility(View.INVISIBLE);
+				btnBack.setVisibility(View.INVISIBLE);
+				// show it
+				alertDialog.show();
+		}
 		
-	}
-
-	
-
 }

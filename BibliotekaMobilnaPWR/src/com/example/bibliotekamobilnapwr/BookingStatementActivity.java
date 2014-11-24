@@ -63,20 +63,23 @@ public class BookingStatementActivity extends Activity{
 		
 		public void execute(String message) {
 			URL = message;
-			Toast.makeText(BookingStatementActivity.this, "http://aleph.bg.pwr.wroc.pl"+URL, Toast.LENGTH_LONG).show();
+//			Toast.makeText(BookingStatementActivity.this, "http://aleph.bg.pwr.wroc.pl"+URL, Toast.LENGTH_LONG).show();
 			doInBackground();
 		}
 
 		@Override
 		protected String doInBackground(String... urls) {
 			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost(URL);
+//			HttpPost httppost = new HttpPost(URL);
+			HttpPost httppost = SessionManager.buildLink("?func=item-hold-request-b&doc_library=TUR50&adm_doc_number=000145275&item_squence=000210&bib_request=N&PICKUP=BG-MG&from=20141124&to=20141129");
 	
-			Log.d("TEST", "Statement URL: " + URL);
+			
+			
+			Log.d("TEST", "Statement URL: " + String.valueOf(httppost));
 			
 //			String[] sReferer = StringsAndLinks.REFERER_CONFIRMATION.split("&year");
 			
-//			httppost.addHeader("Referer",StringsAndLinks.REFERER_CONFIRMATION);
+			httppost.addHeader("Referer",StringsAndLinks.REFERER_CONFIRMATION);
 //			Log.d("TEST", "Statement Referer: " + "http://aleph.bg.pwr.wroc.pl" +StringsAndLinks.REFERER_CONFIRMATION);
 //			
 //			httppost.addHeader("Cookie",StringsAndLinks.COOKIE_STRING+StringsAndLinks.SESSION_CONFIRMATION);
@@ -87,21 +90,22 @@ public class BookingStatementActivity extends Activity{
 			try {
 		        // Add your data
 		        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-		        nameValuePairs.add(new BasicNameValuePair("bor_id", SessionManager.getLogin()));
-				nameValuePairs.add(new BasicNameValuePair("bor_verification", SessionManager.getPasword()));
+//		        nameValuePairs.add(new BasicNameValuePair("bor_id", SessionManager.getLogin()));
+//				nameValuePairs.add(new BasicNameValuePair("bor_verification", SessionManager.getPasword()));
 				nameValuePairs.add(new BasicNameValuePair("func", "item-hold-request-b"));
-				//sprawdziæ poprawnoœæ tego
+//				//sprawdziæ poprawnoœæ tego
 				nameValuePairs.add(new BasicNameValuePair("doc_library", "TUR50"));
-				
-				String[] sDocNumber = StringsAndLinks.REFERER_CONFIRMATION.split("&adm_doc_number=");
-				nameValuePairs.add(new BasicNameValuePair("adm_doc_number", "adm_doc_number"+sDocNumber[1].substring(0, 8)));
-				Log.d("TEST", "adm_doc_number: " + "adm_doc_number="+sDocNumber[1].substring(0, 8));
-				
-				nameValuePairs.add(new BasicNameValuePair("item_squence", "000050"));
+//				
+//				String[] sDocNumber = StringsAndLinks.REFERER_CONFIRMATION.split("&adm_doc_number=");
+//				nameValuePairs.add(new BasicNameValuePair("adm_doc_number", "adm_doc_number"+sDocNumber[1].substring(0, 8)));
+				nameValuePairs.add(new BasicNameValuePair("adm_doc_number", "000145275"));
+//				Log.d("TEST", "adm_doc_number: " + "adm_doc_number="+sDocNumber[1].substring(0, 8));
+//				
+				nameValuePairs.add(new BasicNameValuePair("item_squence", "000210"));
 				nameValuePairs.add(new BasicNameValuePair("bib_request", "N"));
-				nameValuePairs.add(new BasicNameValuePair("PICKUP", "BG-CG"));
-				nameValuePairs.add(new BasicNameValuePair("from", "20141123"));
-				nameValuePairs.add(new BasicNameValuePair("to", "20141128"));
+				nameValuePairs.add(new BasicNameValuePair("PICKUP", "BG-MG"));
+				nameValuePairs.add(new BasicNameValuePair("from", "20141124"));
+				nameValuePairs.add(new BasicNameValuePair("to", "20141129"));
 				nameValuePairs.add(new BasicNameValuePair("x", "28"));
 				nameValuePairs.add(new BasicNameValuePair("y", "10"));
 				
