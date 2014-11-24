@@ -1,6 +1,12 @@
 package com.example.bibliotekamobilnapwr;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -8,23 +14,26 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -53,9 +62,7 @@ public class HistoryActivity extends Activity {
 		setContentView(R.layout.activity_history);
 		setupView();
 		setupListeners();
-		Intent intent = getIntent();
-		String message = intent.getStringExtra("history_url");
-		history.execute(message);
+		history.execute();
 	}
 
 
@@ -78,7 +85,7 @@ public class HistoryActivity extends Activity {
 		
 	}
 	
-	public class History extends AsyncTask<Void, Void, Void>
+	public class History extends AsyncTask<String, Void, String>
 	{
 
 		String URL;
@@ -93,40 +100,29 @@ public class HistoryActivity extends Activity {
 			doInBackground();
 		}
 		
-		public void execute(String string) {
-			URL = string;
+		public void execute() {
 			onPreExecute();
 		}
-		@Override
-		protected Void doInBackground(Void... params) {
-			try{				
-				//aby dzia³a³o trzeba po rent_history dokleiæ link z logowania
-				String adres = (StringsAndLinks.MAIN_PAGE+StringsAndLinks.RENT_HISTORY);
+		
+
+		protected void onPostExecute(String resp) {
+		
+			try{						
+				Document document = Jsoup.parse(resp);
 				
-			
-				Document document = Jsoup.connect(adres).get();
+				Elements description2 = document.select("body table[cellspacing=2] tr");
+				Log.d("TEST","History request: "+ description2.text());
 				
-				Elements description2 = document.select("body table[cellspacing=2] tr ");
-				Toast.makeText(HistoryActivity.this, " odp   "+description2.text(), Toast.LENGTH_LONG).show();
-				
-				if(description2.size()!=0){
-					createXML(description2);
-				}else {
-					String error = "Brak historii";
-					errorMessage(error);
-				}
+				createXML(description2);
+					
 				mProgressDialog.dismiss();
 			}catch(Exception e){
 				e.printStackTrace();
+				Log.d("TEST", "History exception"+ e.toString());
 				Toast.makeText(HistoryActivity.this, "Jakiœ b³¹d", Toast.LENGTH_LONG).show();
 			}
-			return null;
 		}
-		
-		private void errorMessage(String error) {
-			
-			
-		}
+
 
 		private void createXML(Elements description) throws Exception {
 			
@@ -142,24 +138,28 @@ public class HistoryActivity extends Activity {
 			doc.appendChild(root);
 			
 			for(Element desc:description){
+				
+				if (desc.select("td.td1").hasText()) {
+				
 				//create:<book>
 				org.w3c.dom.Element book  = doc.createElement("book");
 				root.appendChild(book);
-				book.setTextContent(desc.select("td.td1").get(1).text());
+				book.setTextContent(desc.select("td.td1").get(0).text());
 				quantityRent++;
 				
 				// create: <author>
 				org.w3c.dom.Element author = doc.createElement("author");
 				book.appendChild(author);
-				author.setTextContent(desc.select("td.td1").get(2)
+				author.setTextContent(desc.select("td.td1").get(1)
 						.text());
 				
 				// create: <title>
 				org.w3c.dom.Element title = doc.createElement("title");
 				root.appendChild(title);
-				title.setTextContent(desc.select("td.td1").get(3)
+				title.setTextContent(desc.select("td.td1").get(2)
 						.text()
-						+ desc.select("td.td1").get(4).text());
+						+ " \n" +desc.select("td.td1").get(3).text());
+				}
 			}
 			// create Transformer object
 						Transformer transformer = TransformerFactory.newInstance()
@@ -173,6 +173,34 @@ public class HistoryActivity extends Activity {
 
 		private void createTable(int quantityRent, org.w3c.dom.Document doc) {
 			
+			if(doc.getElementsByTagName("author").item(0) == null){
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+					HistoryActivity.this);
+	 
+				// set dialog message
+				alertDialogBuilder
+					.setMessage("Historia jest pusta")
+					.setCancelable(false)
+					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							dialog.cancel();
+							Intent intent = new Intent(HistoryActivity.this, AccountActivity.class);
+							startActivity(intent);
+						}
+					  });
+			
+	 
+					// create alert dialog
+					AlertDialog alertDialog = alertDialogBuilder.create();
+	 
+					history_table.setVisibility(View.INVISIBLE);
+					history_table_2.setVisibility(View.INVISIBLE);
+					backBtn.setVisibility(View.INVISIBLE);
+					// show it
+					alertDialog.show();
+			}
+			
+			
 			TableRow rowMenu = new TableRow(HistoryActivity.this);
 			
 			TextView menuAuthor = new TextView(HistoryActivity.this);
@@ -181,7 +209,7 @@ public class HistoryActivity extends Activity {
 			menuAuthor.setText("Autor");
 			menuAuthor.setTextSize(18);
 			rowMenu.addView(menuAuthor);
-
+			
 			TextView menuTitle = new TextView(HistoryActivity.this);
 			menuTitle.setLayoutParams(new LayoutParams(60,
 					LayoutParams.WRAP_CONTENT));
@@ -233,6 +261,48 @@ public class HistoryActivity extends Activity {
 			
 			
 			
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			try {
+				HttpClient httpclient = new DefaultHttpClient();
+				HttpPost httppost = SessionManager.buildLink(StringsAndLinks.RENT_HISTORY);
+
+				Log.d("TEST", "History test URL: " + StringsAndLinks.RENT_HISTORY);
+				
+				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+				nameValuePairs.add(new BasicNameValuePair("bor_id", SessionManager.getLogin()));
+				nameValuePairs.add(new BasicNameValuePair("bor_verification", SessionManager.getPasword()));
+				nameValuePairs.add(new BasicNameValuePair("func", "bor-history-loan"));
+				//sprawdziæ jeszcze poprawnoœæ tego
+				nameValuePairs.add(new BasicNameValuePair("doc_library", "TUR50"));
+		        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+				
+				HttpResponse response = httpclient.execute(httppost);
+				InputStream inputStream = response.getEntity().getContent();
+
+				InputStreamReader inputStreamReader = new InputStreamReader(
+						inputStream);
+
+				BufferedReader bufferedReader = new BufferedReader(
+						inputStreamReader);
+
+				StringBuilder stringBuilder = new StringBuilder();
+
+				String bufferedStrChunk = null;
+
+				while ((bufferedStrChunk = bufferedReader.readLine()) != null) {
+					stringBuilder.append(bufferedStrChunk);
+				}
+				onPostExecute(stringBuilder.toString());
+				return stringBuilder.toString();
+			} catch (ClientProtocolException e) {
+				Log.e("TEST", "Error getting response: " + e);
+			} catch (IOException e) {
+				Log.e("TEST", "Error getting response: " + e);
+			}
+			return null;
 		}
 
 	
