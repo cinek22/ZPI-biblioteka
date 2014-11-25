@@ -26,11 +26,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -217,6 +219,12 @@ public class HistoryActivity extends Activity {
 			menuTitle.setTextSize(18);
 			rowMenu.addView(menuTitle);
 			
+			TextView recomendTitle = new TextView(HistoryActivity.this);
+			recomendTitle.setLayoutParams(new LayoutParams(60, LayoutParams.WRAP_CONTENT));
+			recomendTitle.setText("Poleæ");
+			recomendTitle.setTextSize(18);
+			rowMenu.addView(recomendTitle);
+			
 			history_table.addView(rowMenu);
 			
 			
@@ -226,7 +234,7 @@ public class HistoryActivity extends Activity {
 				
 				TableRow row = new TableRow(HistoryActivity.this);
 				// author
-				TextView tvAuthor = new TextView(HistoryActivity.this);
+				final TextView tvAuthor = new TextView(HistoryActivity.this);
 				tvAuthor.setLayoutParams(new LayoutParams(60,
 						LayoutParams.WRAP_CONTENT));
 				tvAuthor.setText(doc.getElementsByTagName("author").item(i)
@@ -235,13 +243,33 @@ public class HistoryActivity extends Activity {
 				row.addView(tvAuthor);
 
 				// title
-				TextView tvTitle = new TextView(HistoryActivity.this);
+				final TextView tvTitle = new TextView(HistoryActivity.this);
 				tvTitle.setLayoutParams(new LayoutParams(60,
 						LayoutParams.WRAP_CONTENT));
 				tvTitle.setText(doc.getElementsByTagName("title").item(i)
 						.getTextContent());
 				
 				row.addView(tvTitle);
+				//polecanie
+				Button btnRecommend = new Button(HistoryActivity .this);
+				btnRecommend.setLayoutParams(new LayoutParams(60,
+						LayoutParams.WRAP_CONTENT));
+				btnRecommend.setText("Poleæ");
+				
+				row.addView(btnRecommend);
+				 
+				btnRecommend.setOnClickListener(new View.OnClickListener(){
+
+					@Override
+					public void onClick(View v) {						
+						Intent intent = new Intent(HistoryActivity.this, RecommendActivity.class);
+						intent.putExtra("tytul",tvTitle.getText() );
+						intent.putExtra("autor",tvAuthor.getText());
+						startActivity(intent);
+					}
+				}
+				);
+				
 				
 				/*NodeList list = doc.getElementsByTagName("");
 				
@@ -262,7 +290,8 @@ public class HistoryActivity extends Activity {
 			
 			
 		}
-
+		
+		
 		@Override
 		protected String doInBackground(String... params) {
 			try {

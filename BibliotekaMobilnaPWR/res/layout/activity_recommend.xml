@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <Button
+        android:id="@+id/rec_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="27dp"
+        android:layout_marginLeft="26dp"
+        android:text="Back" />
+
+    <TextView
+        android:id="@+id/textViewRecom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="18dp"
+        android:layout_toRightOf="@+id/rec_back_btn"
+        android:text="Polecanie książki"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/sms_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/email_btn"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="52dp"
+        android:text="sms" />
+
+    <Button
+        android:id="@+id/email_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_below="@+id/sms_btn"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="21dp"
+        android:text="email" />
+
+    <Button
+        android:id="@+id/twitter_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/email_btn"
+        android:layout_below="@+id/email_btn"
+        android:layout_marginTop="15dp"
+        android:text="twitter" />
+
+</RelativeLayout>

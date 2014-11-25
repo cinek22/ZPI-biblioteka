@@ -83,5 +83,6 @@
     <string name="title_activity_orders">OrdersActivity</string>
     <string name="title_activity_rents">RentsActivity</string>
     <string name="confirmation_button">Potwierdzam</string>
+    <string name="title_activity_recommend">RecommendActivity</string>
 
 </resources>
