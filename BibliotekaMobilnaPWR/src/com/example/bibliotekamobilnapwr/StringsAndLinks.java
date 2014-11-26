@@ -5,8 +5,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import android.util.Log;
-
 public class StringsAndLinks {
 //	public static String COOKIE_STRING = "__utma=84080792.895347480.1394980478.1401651913.1412192255.5; __utmz=84080792.1412192255.5.3.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); ALEPH_SESSION_ID=";
 	public static String COOKIE_STRING = "ALEPH_SESSION_ID=";
