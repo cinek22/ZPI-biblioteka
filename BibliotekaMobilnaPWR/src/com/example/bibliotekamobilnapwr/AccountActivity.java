@@ -52,7 +52,7 @@ public class AccountActivity extends Activity{
 		
 		Intent intent = getIntent();		
 		String message = intent.getStringExtra("URL_account");
-		//new GetAccountByRafal().execute(); 
+//		new GetAccountByRafal().execute(); 
 		new GetAccountByRafal().onPreExecute();
 //		accountURL.execute(message);
 //		Log.d("TEST", "AccountActivity accountURL = "+accountURL.toString());
@@ -105,7 +105,7 @@ public class AccountActivity extends Activity{
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(AccountActivity.this,RentsActivity.class);
+				Intent intent = new Intent(AccountActivity.this,WypozyczeniaActivity.class);
 				startActivity(intent);
 				
 			}
@@ -129,10 +129,10 @@ public class AccountActivity extends Activity{
 			doInBackground();
 		}
 		
-		public void execute(String string) {
-			URL = string;
-			onPreExecute();
-		}
+//		public void execute(String string) {
+//			URL = string;
+//			onPreExecute();
+//		}
 		
 		
 		@Override
@@ -193,7 +193,7 @@ public class AccountActivity extends Activity{
 	            while((bufferedStrChunk = bufferedReader.readLine()) != null){
 	                stringBuilder.append(bufferedStrChunk);
 	            }
-	            Log.d("TEST", "AccountActivity logowanie - odpowiedü serwera: "+stringBuilder.toString());
+//	            Log.d("TEST", "AccountActivity logowanie - odpowiedü serwera: "+stringBuilder.toString());
 	            onPostExecute(stringBuilder.toString());
 	            return stringBuilder.toString();
 			} catch (ClientProtocolException e) {
@@ -244,7 +244,7 @@ public class AccountActivity extends Activity{
 			}catch(Exception e){
 				e.printStackTrace();
 				
-				Toast.makeText(AccountActivity.this, "Wystπpi≥ b≥πd po≥πczenia", Toast.LENGTH_LONG).show();
+//				Toast.makeText(AccountActivity.this, "Wystπpi≥ b≥πd po≥πczenia", Toast.LENGTH_LONG).show();
 				
 			}
 		}

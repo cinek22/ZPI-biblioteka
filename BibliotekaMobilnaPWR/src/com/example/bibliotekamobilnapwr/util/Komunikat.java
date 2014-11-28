@@ -1,13 +1,14 @@
 package com.example.bibliotekamobilnapwr.util;
 
 public class Komunikat {
-	private long date;
+	private String date;
+	private String time;
 	private String book;
 	private String type;
 	private String description;
 	
-	public Komunikat(long date, String book, String type, String description){
-		this.date = date; this.book = book; this.type = type; this.description = description;
+	public Komunikat(String date, String time, String book, String type, String description){
+		this.date = date; this.time = time; this.book = book; this.type = type; this.description = description;
 	}
 	
 	public String getDescription() {
@@ -16,10 +17,10 @@ public class Komunikat {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public long getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(long date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 	public String getBook() {
@@ -34,6 +35,11 @@ public class Komunikat {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String date) {
+		this.time = date;
+	}
 	
 }

@@ -35,6 +35,8 @@ public class Main extends Activity {
 		if(isLoggedIn()){
 			SessionManager.relog(this);
 		}
+		KomunikatManager.initialize(this);
+		KomunikatManager.loadEntries();
 	}
 
 	@Override
@@ -164,8 +166,8 @@ public class Main extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(Main.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
-				//startActivity(new Intent(Main.this,KsiazkiActivity.class));
+//				startActivity(new Intent(Main.this,WypozyczeniaActivity.class));
+				startActivity(new Intent(Main.this,DodajKomunikatActivity.class));
 			}
 		});
 		

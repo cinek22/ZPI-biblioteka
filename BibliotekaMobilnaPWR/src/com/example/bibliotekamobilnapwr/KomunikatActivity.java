@@ -29,13 +29,18 @@ public class KomunikatActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.komunikat);
-		mKomunikaty.add(new Komunikat(1232323, "Przeminê³o z wiatrem", "Termin zwrotu", "Ostrze¿: 1 dni przed"));
-		mKomunikaty.add(new Komunikat(0, "WiedŸmin", "Dostêpnoœæ", ""));
+		mKomunikaty = KomunikatManager.getEntries();
 		mAdapter =  new KomunikatListAdapter();
 		mList = (ListView) findViewById(R.id.comm_list);
 		mList.setAdapter(mAdapter);
 	}
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mKomunikaty = KomunikatManager.getEntries();
+		mAdapter.notifyDataSetChanged();
+	}
 	
 	
 	private class KomunikatListAdapter extends BaseAdapter {
@@ -89,12 +94,14 @@ public class KomunikatActivity extends Activity {
 	            holder.book.setText(komunikat.getBook());
 	            holder.type.setText(komunikat.getType());
 	            holder.desc.setText(komunikat.getDescription());
-	            holder.date.setText(komunikat.getDate()+"");
+	            holder.date.setText(komunikat.getTime()+" "+komunikat.getDate());
             	holder.delete.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					mKomunikaty.remove(position);
+					KomunikatManager.remove(mKomunikaty.get(position).getBook());
+					mKomunikaty = KomunikatManager.getEntries();
+					mList.setAdapter(mAdapter= new KomunikatListAdapter());
 				}
 			});
 			return convertView;
