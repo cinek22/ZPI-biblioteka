@@ -43,6 +43,7 @@ public class AccountActivity extends Activity{
 	
 	Account accountURL=new Account();
 	
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);

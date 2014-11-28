@@ -1,12 +1,9 @@
 package com.example.bibliotekamobilnapwr;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import com.example.bibliotekamobilnapwr.util.Komunikat;
 
 import android.app.Activity;
-import android.app.Notification.Action;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

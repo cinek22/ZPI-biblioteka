@@ -23,7 +23,6 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -300,6 +299,7 @@ public class BookingActivity extends Activity {
 										.setMessage("Zaloguj siê aby zarezerwowaæ ksi¹¿kê")
 										.setCancelable(false)
 										.setPositiveButton("Zaloguj",new DialogInterface.OnClickListener() {
+											@Override
 											public void onClick(DialogInterface dialog,int id) {
 												dialog.cancel();
 												Intent intent = new Intent(BookingActivity.this, LoginActivity.class);
@@ -307,6 +307,7 @@ public class BookingActivity extends Activity {
 											}
 										  })
 										.setNegativeButton("Zabierz mnie",new DialogInterface.OnClickListener() {
+											@Override
 											public void onClick(DialogInterface dialog,int id) {
 												dialog.cancel();
 												Intent intent = new Intent(BookingActivity.this, Main.class);

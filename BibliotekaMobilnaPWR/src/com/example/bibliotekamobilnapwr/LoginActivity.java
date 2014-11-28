@@ -17,7 +17,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -74,11 +73,13 @@ public class LoginActivity extends Activity {
 
 	    private Exception exception;
 
-	    protected String doInBackground(String... urls) {
+	    @Override
+		protected String doInBackground(String... urls) {
 	       return postData();
 	    }
 
-	    protected void onPostExecute(String resp) {
+	    @Override
+		protected void onPostExecute(String resp) {
 	       if(resp != null){
 	    	   Log.d("TEST", "Odpowiedü "+resp);
 	    	   if(!resp.contains("Identyfikator/Has")){

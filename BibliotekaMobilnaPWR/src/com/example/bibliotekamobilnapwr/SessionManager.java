@@ -18,7 +18,6 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -33,7 +32,7 @@ public class SessionManager {
 	
 	public static void setContext(Context sContext) {
 		SessionManager.sContext = sContext;
-		wasLogged = sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).getBoolean("WASLOGGED", false);
+		wasLogged = sContext.getSharedPreferences("LIBRARY", Context.MODE_PRIVATE).getBoolean("WASLOGGED", false);
 //		if(wasLogged){
 //			StringsAndLinks.SESSION_ID 
 //		}
@@ -52,8 +51,8 @@ public class SessionManager {
 	
 	public static void relog(Context context){
 		sContext = context;
-		mLogin = sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).getString("LOGIN", ""); 
-		mPassword = sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).getString("PASSWORD", mLogin);
+		mLogin = sContext.getSharedPreferences("LIBRARY", Context.MODE_PRIVATE).getString("LOGIN", ""); 
+		mPassword = sContext.getSharedPreferences("LIBRARY", Context.MODE_PRIVATE).getString("PASSWORD", mLogin);
 		login(context, mLogin, mPassword);
 	}
 	
@@ -61,11 +60,13 @@ public class SessionManager {
 
 	    private Exception exception;
 
-	    protected String doInBackground(String... urls) {
+	    @Override
+		protected String doInBackground(String... urls) {
 	       return postData();
 	    }
 
-	    protected void onPostExecute(String resp) {
+	    @Override
+		protected void onPostExecute(String resp) {
 	       if(resp != null){
 	    	   StringsAndLinks.parseLinks(resp);
 	    	   Log.d("TEST", "Odpowiedü "+resp);
@@ -75,9 +76,9 @@ public class SessionManager {
 	                temp = temp.split(";")[0];
 	                Log.d("TEST", "LoginActivity getSessionId() "+temp);
 	                StringsAndLinks.SESSION_ID = temp;
-	    		   sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).edit().putString("LOGIN", mLogin).commit();
-	    		   sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).edit().putString("PASSWORD", mPassword).commit();
-	    		   sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).edit().putBoolean("WASLOGGED", true).commit();
+	    		   sContext.getSharedPreferences("LIBRARY", Context.MODE_PRIVATE).edit().putString("LOGIN", mLogin).commit();
+	    		   sContext.getSharedPreferences("LIBRARY", Context.MODE_PRIVATE).edit().putString("PASSWORD", mPassword).commit();
+	    		   sContext.getSharedPreferences("LIBRARY", Context.MODE_PRIVATE).edit().putBoolean("WASLOGGED", true).commit();
 //	    		   sListener.onLoginSuccesfull();
 	    		   if(sContext instanceof LoginActivity){
 	    			   Toast.makeText(sContext, "Zalogowano pomyúlnie", Toast.LENGTH_LONG).show();
@@ -213,11 +214,11 @@ public class SessionManager {
 	}
 	
 	public static String getLogin(){
-		return sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).getString("LOGIN", "");
+		return sContext.getSharedPreferences("LIBRARY", Context.MODE_PRIVATE).getString("LOGIN", "");
 	}
 	
 	public static String getPasword(){
-		return sContext.getSharedPreferences("LIBRARY", sContext.MODE_PRIVATE).getString("PASSWORD", mLogin);
+		return sContext.getSharedPreferences("LIBRARY", Context.MODE_PRIVATE).getString("PASSWORD", mLogin);
 	}
 	
 //	public static void TEST(String string){

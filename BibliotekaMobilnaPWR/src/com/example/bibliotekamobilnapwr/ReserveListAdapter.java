@@ -21,13 +21,14 @@ public class ReserveListAdapter extends ArrayAdapter<Book> {
 	}
 
 	
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         BookReserveHolder holder = null;
  
         if(row == null)
         {
-            LayoutInflater inflater = ((Activity)context).getLayoutInflater();
+            LayoutInflater inflater = context.getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
  
             holder = new BookReserveHolder();

@@ -17,8 +17,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,7 +25,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class ChangePassActivity extends Activity{
@@ -38,6 +35,7 @@ public class ChangePassActivity extends Activity{
 	private Button save;
 	private String ChangePassUrl;
 	
+	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
@@ -88,6 +86,7 @@ public class ChangePassActivity extends Activity{
 			return postData();
 		}
 		
+		@Override
 		protected void onPostExecute(String resp){
 			if(resp!=null){
 				Log.d("TEST", "Odpowiedü "+resp);

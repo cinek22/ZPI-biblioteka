@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -295,6 +294,7 @@ public class ParseURLActivity extends Activity {
 				.setMessage("Nie odnaleziono rekordów odpowiadaj¹cych zapytaniu")
 				.setCancelable(false)
 				.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+					@Override
 					public void onClick(DialogInterface dialog,int id) {
 						dialog.cancel();
 						Intent intent = new Intent(ParseURLActivity.this, Main.class);
