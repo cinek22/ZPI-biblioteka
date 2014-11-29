@@ -12,6 +12,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -46,8 +47,16 @@ public class BookingActivity extends Activity {
 		setContentView(R.layout.booking_activity);
 		setupView();
 
+<<<<<<< HEAD
 		booking.doInBackground("");
 
+=======
+		Intent intent = getIntent();
+		String message = intent.getStringExtra("URL");
+
+		booking.execute(message);
+		SessionManager.relog(BookingActivity.this);
+>>>>>>> b493e6b135c1cf4078ba30235fcb72a4fdfd9d8e
 		/*
 		 * btnBack.setOnClickListener(new View.OnClickListener() {
 		 * 

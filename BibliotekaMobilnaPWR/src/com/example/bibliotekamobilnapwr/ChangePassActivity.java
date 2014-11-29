@@ -17,6 +17,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class ChangePassActivity extends Activity{
 	private EditText newPassConfirm;
 	private Button save;
 	private String ChangePassUrl;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -61,6 +63,10 @@ public class ChangePassActivity extends Activity{
 						&&!newPassConfirm.getText().toString().equals("")&&newPass.getText().toString().equals(newPassConfirm.getText().toString())){					
 					
 					new ChangePassTask().execute();
+					SessionManager.login(ChangePassActivity.this,SessionManager.getLogin(),newPass.getText().toString());
+					Log.d("TEST-H", "Zmienione haslo - context "+ getBaseContext());
+					Log.d("TEST-H", "Zmienione haslo - login "+ SessionManager.getLogin());
+					Log.d("TEST-H", "Zmienione haslo - haslo "+ newPass.getText());
 				}else {
 					Toast.makeText(ChangePassActivity.this,"Wszystkie pola musz¹ byæ wype³nione/Podane has³a s¹ ró¿ne",Toast.LENGTH_LONG).show();
 					if(currentPass.getText().toString().equals(""))currentPass.setTextColor(Color.RED);
@@ -142,6 +148,7 @@ public class ChangePassActivity extends Activity{
                 while((bufferedStrChunk = bufferedReader.readLine()) != null){
                     stringBuilder.append(bufferedStrChunk);
                 }
+               
                 Log.d("TEST-odp", "ChangePassActivity zmianaHas - odpowiedŸ serwera: "+stringBuilder.toString());
                 return stringBuilder.toString();
                 

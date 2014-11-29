@@ -17,7 +17,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+<<<<<<< HEAD
 import org.jsoup.select.Elements;
+=======
+>>>>>>> b493e6b135c1cf4078ba30235fcb72a4fdfd9d8e
 
 import android.app.Activity;
 import android.content.Intent;
@@ -52,7 +55,12 @@ public class ConfirmationActivity extends Activity {
 
 		confirmation.execute(message, messageToButton);
 */
+<<<<<<< HEAD
 		confirmation.doInBackground("");
+=======
+		confirmation.execute();
+		SessionManager.relog(ConfirmationActivity.this);
+>>>>>>> b493e6b135c1cf4078ba30235fcb72a4fdfd9d8e
 	}
 
 	private void setView() {
