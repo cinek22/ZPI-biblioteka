@@ -12,6 +12,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -48,7 +49,7 @@ public class BookingActivity extends Activity {
 		String message = intent.getStringExtra("URL");
 
 		booking.execute(message);
-
+		SessionManager.relog(BookingActivity.this);
 		/*
 		 * btnBack.setOnClickListener(new View.OnClickListener() {
 		 * 

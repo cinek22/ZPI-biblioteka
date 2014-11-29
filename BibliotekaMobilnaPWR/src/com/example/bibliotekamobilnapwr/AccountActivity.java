@@ -57,7 +57,7 @@ public class AccountActivity extends Activity{
 		new GetAccountByRafal().onPreExecute();
 //		accountURL.execute(message);
 //		Log.d("TEST", "AccountActivity accountURL = "+accountURL.toString());
-		
+		SessionManager.relog(AccountActivity.this);
 		
 	}
 	

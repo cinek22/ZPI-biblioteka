@@ -50,6 +50,7 @@ public class BookingStatementActivity extends Activity{
 
 		try {
 			statement.execute(message);
+			SessionManager.relog(BookingStatementActivity.this);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

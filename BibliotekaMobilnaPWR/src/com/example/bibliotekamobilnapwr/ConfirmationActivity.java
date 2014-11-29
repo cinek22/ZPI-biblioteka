@@ -17,6 +17,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -50,6 +51,7 @@ public class ConfirmationActivity extends Activity {
 		confirmation.execute(message, messageToButton);
 */
 		confirmation.execute();
+		SessionManager.relog(ConfirmationActivity.this);
 	}
 
 	private void setView() {
