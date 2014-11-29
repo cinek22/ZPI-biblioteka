@@ -19,6 +19,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -31,10 +32,11 @@ import android.widget.Toast;
 
 public class BookingActivity extends Activity {
 
+	private Handler handler = new Handler();
+	
 	TableLayout table_layout_booking;
 	TableLayout table_booking;
 	/* private Button btnBack; */
-	ProgressDialog mProgressDialog;
 	Booking booking = new Booking();
 
 	@Override
@@ -44,10 +46,7 @@ public class BookingActivity extends Activity {
 		setContentView(R.layout.booking_activity);
 		setupView();
 
-		Intent intent = getIntent();
-		String message = intent.getStringExtra("URL");
-
-		booking.execute(message);
+		booking.doInBackground("");
 
 		/*
 		 * btnBack.setOnClickListener(new View.OnClickListener() {
@@ -66,39 +65,20 @@ public class BookingActivity extends Activity {
 
 	}
 
-	public class Booking extends AsyncTask<Void, Void, Void> {
+	public class Booking extends AsyncTask<String, Void, String> {
 
 		StringBuilder resultTextFmt = new StringBuilder();
-		String URL;
 
 		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			mProgressDialog = new ProgressDialog(BookingActivity.this);
-			mProgressDialog.setTitle("Search Book");
-			mProgressDialog.setMessage("Loading...");
-			mProgressDialog.setIndeterminate(false);
-			mProgressDialog.show();
-			doInBackground();
-		}
-
-		public void execute(String string) {
-			URL = string;
-			/*StringsAndLinks.REFERER_CONFIRMATION = "http://aleph.bg.pwr.wroc.pl" + URL;*/
-			onPreExecute();
-		}
-
-		@Override
-		protected Void doInBackground(Void... params) {
+		protected String doInBackground(String... params) {
 			try {
 				// Document jsoupe
 				Document document = Jsoup.connect(
-						"http://aleph.bg.pwr.wroc.pl" + URL).get();
+						"http://aleph.bg.pwr.wroc.pl" + StringsAndLinks.BOOKING_URL).get();
 				Elements description2 = document
 						.select("body table[cellspacing=2] tr");
 
 				createXML(description2);
-				mProgressDialog.dismiss();
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -172,6 +152,16 @@ public class BookingActivity extends Activity {
 			StreamResult result = new StreamResult(writer);
 			transformer.transform(new DOMSource(doc), result);
 			createTable(quantityBook, doc);
+			handler.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					table_booking.invalidate();
+					table_booking.requestLayout();
+					table_layout_booking.invalidate();
+					table_layout_booking.requestLayout();
+				}
+			});
 		}
 
 		private void createTable(int quantityBook, org.w3c.dom.Document doc) {

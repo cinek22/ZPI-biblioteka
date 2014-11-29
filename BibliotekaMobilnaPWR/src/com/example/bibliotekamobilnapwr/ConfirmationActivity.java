@@ -17,6 +17,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -26,6 +28,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ConfirmationActivity extends Activity {
 
@@ -49,7 +52,7 @@ public class ConfirmationActivity extends Activity {
 
 		confirmation.execute(message, messageToButton);
 */
-		confirmation.execute();
+		confirmation.doInBackground("");
 	}
 
 	private void setView() {
@@ -60,22 +63,20 @@ public class ConfirmationActivity extends Activity {
 	}
 
 	class Confirmation extends AsyncTask<String, Void, String> {
-
-		/*String URL;
-		String toButton;*/
 		
-		public void execute() {
-			/*URL = message;
-			toButton = messageToButton;*/
-			doInBackground();
-		}
-
 		@Override
 		protected String doInBackground(String... urls) {
 			try {
 				HttpClient httpclient = new DefaultHttpClient();
 				HttpPost httppost = SessionManager.buildLink(StringsAndLinks.URL_CONFIRMATION);
 
+				
+				String sAdm [] = StringsAndLinks.URL_CONFIRMATION.split("adm_doc_number=");
+				String sAdm_Doc_number [] = sAdm[1].split("&item_sequence=");
+				StringsAndLinks.PARAM_ADM_DOC_NUMBER = sAdm_Doc_number[0];
+				String sItem_Sequence [] = sAdm_Doc_number[1].split("&year");
+				StringsAndLinks.PARAM_ITEM_SEQUENCE = sItem_Sequence[0];
+				
 				Log.d("TEST", "Confirmation test URL: " + StringsAndLinks.URL_CONFIRMATION);
 				
 				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
@@ -118,6 +119,31 @@ public class ConfirmationActivity extends Activity {
 			Log.e("TEST", "Confirmation: " + resp);
 
 			Document document = Jsoup.parse(resp);
+			StringsAndLinks.PARAM_FUNC = document.select("body input").get(0).attr("value");
+//			Toast.makeText(ConfirmationActivity.this, "func " + StringsAndLinks.PARAM_FUNC, Toast.LENGTH_LONG).show();
+			
+			StringsAndLinks.PARAM_DOC_LIBRARY = document.select("body input").get(1).attr("value");
+//			Toast.makeText(ConfirmationActivity.this, "doc_library " + StringsAndLinks.PARAM_DOC_LIBRARY, Toast.LENGTH_LONG).show();
+			
+//			StringsAndLinks.PARAM_ADM_DOC_NUMBER = document.select("body input").get(2).attr("value");
+//			Toast.makeText(ConfirmationActivity.this, "adm_doc_number " + StringsAndLinks.PARAM_ADM_DOC_NUMBER, Toast.LENGTH_LONG).show();
+			
+//			StringsAndLinks.PARAM_ITEM_SEQUENCE = document.select("body input").get(3).attr("value");
+//			Toast.makeText(ConfirmationActivity.this, "item_sequence " + StringsAndLinks.PARAM_ITEM_SEQUENCE, Toast.LENGTH_LONG).show();
+			
+			StringsAndLinks.PARAM_BIB_REQUEST = document.select("body input").get(4).attr("value");
+//			Toast.makeText(ConfirmationActivity.this, "bib_request " + StringsAndLinks.PARAM_BIB_REQUEST, Toast.LENGTH_LONG).show();
+			
+			StringsAndLinks.PARAM_FROM = document.select("body input").get(5).attr("value");
+//			Toast.makeText(ConfirmationActivity.this, "from " + StringsAndLinks.PARAM_FROM, Toast.LENGTH_LONG).show();
+			
+			StringsAndLinks.PARAM_TO = document.select("body input").get(6).attr("value");
+//			Toast.makeText(ConfirmationActivity.this, "to " + StringsAndLinks.PARAM_TO, Toast.LENGTH_LONG).show();
+			
+			StringsAndLinks.PARAM_PICKUP = document.select("body table[cellspacing=2] td.td2 option").attr("value");
+//			Toast.makeText(ConfirmationActivity.this, "PICKUP " + StringsAndLinks.PARAM_PICKUP, Toast.LENGTH_LONG).show();
+			
+			//ustawienia widoku
 			tvTitle.setText(document.select("body div.title").text());
 			tvBody.setText(document.select("body p[align=left]").text());
 			tvInfo.setText(document.select("body table[cellspacing=2] td.td2").get(4).text()+"\n"+document.select("body table[cellspacing=2] td.td2").get(5).text());

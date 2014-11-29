@@ -128,11 +128,10 @@ public class Main extends Activity {
 				
 				String selectedBase = whichIsSelected(spinner.getFirstVisiblePosition());
 				
-				String siteUrl = (StringsAndLinks.SEARCH_TITLE_NOLOGGED+mTitle.getText().toString()+StringsAndLinks.SEARCH_AUTHOR_NOLOGGED+mAuthor.getText().toString()+StringsAndLinks.SEARCH_BASE_NOLOGGED+selectedBase+StringsAndLinks.SEARCH_END_NOLOGGED);
+				StringsAndLinks.SEARCH_URL = (StringsAndLinks.SEARCH_TITLE_NOLOGGED+mTitle.getText().toString()+StringsAndLinks.SEARCH_AUTHOR_NOLOGGED+mAuthor.getText().toString()+StringsAndLinks.SEARCH_BASE_NOLOGGED+selectedBase+StringsAndLinks.SEARCH_END_NOLOGGED);
 				
 				
 				Intent intent = new Intent(Main.this, ParseURLActivity.class);
-				intent.putExtra("URL", siteUrl);
 				startActivity(intent);
 			}else{
 					Toast.makeText(Main.this, "Obydwa pola musz¹ byæ wype³nione", Toast.LENGTH_LONG).show();

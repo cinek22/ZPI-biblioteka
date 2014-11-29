@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -36,6 +37,8 @@ import android.widget.Toast;
 
 public class ParseURLActivity extends Activity {
 
+	private Handler handler = new Handler();
+	
 	public static final String GREEN_1 = "#7FA016";
 	public static final String GREEN_2 = "#3F5300";
 	TableLayout table_layout;
@@ -43,7 +46,6 @@ public class ParseURLActivity extends Activity {
 	private Button btnBack;
 	ParseURL parseURL = new ParseURL();
 
-	ProgressDialog mProgressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +54,8 @@ public class ParseURLActivity extends Activity {
 		setContentView(R.layout.result_book);
 		setupView();
 
-		Intent intent = getIntent();
-		String message = intent.getStringExtra("URL");
-		parseURL.execute(message);
-
+		parseURL.doInBackground("");
+		
 		btnBack.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -73,32 +73,15 @@ public class ParseURLActivity extends Activity {
 
 	}
 
-	public class ParseURL extends AsyncTask<Void, Void, Void> {
+	public class ParseURL extends AsyncTask<String, Void, String> {
 
 		StringBuilder resultTextFmt = new StringBuilder();
-		String URL;
 
 		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			mProgressDialog = new ProgressDialog(ParseURLActivity.this);
-			mProgressDialog.setTitle("Search Book");
-			mProgressDialog.setMessage("Loading...");
-			mProgressDialog.setIndeterminate(false);
-			mProgressDialog.show();
-			doInBackground();
-		}
-
-		public void execute(String string) {
-			URL = string;
-			onPreExecute();
-		}
-
-		@Override
-		protected Void doInBackground(Void... params) {
+		protected String doInBackground(String... params) {
 			try {
 				// Document jsoupe
-				Document document = Jsoup.connect(URL).get();	
+				Document document = Jsoup.connect(StringsAndLinks.SEARCH_URL).get();	
 
 				Elements description2 = document
 						.select("body table#short_table tr[valign=baseline]");
@@ -107,7 +90,6 @@ public class ParseURLActivity extends Activity {
 				} else {
 					errorMessage();	
 				}
-				mProgressDialog.dismiss();
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -187,6 +169,16 @@ public class ParseURLActivity extends Activity {
 			StreamResult result = new StreamResult(writer);
 			transformer.transform(new DOMSource(doc), result);
 			createTable(quantityBook, doc);
+			handler.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					table.invalidate();
+					table.requestLayout();
+					table_layout.invalidate();
+					table_layout.requestLayout();
+				}
+			});
 		}
 
 	}
@@ -260,6 +252,8 @@ public class ParseURLActivity extends Activity {
 				Node aNode = list.item(j);
 				NamedNodeMap attributes = aNode.getAttributes();
 				
+				
+				//przeanalizowaæ czy czasami nie nadpisujemy ksi¹¿ek
 				final String URL = list.item(j).getTextContent();
 
 					TextView tvAvailibility = new TextView(this);
@@ -271,7 +265,7 @@ public class ParseURLActivity extends Activity {
 						@Override
 						public void onClick(View v) {
 							Intent intent = new Intent(ParseURLActivity.this, BookingActivity.class);
-							intent.putExtra("URL", URL);
+							StringsAndLinks.BOOKING_URL = URL;
 							startActivity(intent);
 						}
 					});

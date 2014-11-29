@@ -1,5 +1,6 @@
 package com.example.bibliotekamobilnapwr;
 
+import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -26,6 +27,26 @@ public class StringsAndLinks {
 	public static final String FINANCIAL_TRANS = "?func=bor-cash&adm_library=TUR50";
 	
 	
+	/*
+	 * 
+	 * Params
+	 * 
+	 * */
+	
+	public static String PARAM_FUNC = "";
+	public static String PARAM_DOC_LIBRARY = "";
+	public static String PARAM_ADM_DOC_NUMBER = "";
+	public static String PARAM_LOGIN_SOURCE = "";
+	public static String PARAM_BIB_LIBRARY = "";		
+	public static String PARAM_ITEM_SEQUENCE = "";
+	public static String PARAM_BIB_REQUEST = "";
+	public static String PARAM_PICKUP = "";
+	public static String PARAM_FROM = "";
+	public static String PARAM_TO = "";
+	
+	
+	public static String SEARCH_URL = "";
+	public static String BOOKING_URL = "";
 	/*
 	 * 
 	 * ConfirmationActivity

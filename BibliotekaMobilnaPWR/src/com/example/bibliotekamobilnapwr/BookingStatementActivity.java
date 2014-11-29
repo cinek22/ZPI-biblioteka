@@ -44,16 +44,8 @@ public class BookingStatementActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.booking_statement_activity);
 		setView();
-
-		Intent intent = getIntent();
-		String message = intent.getStringExtra("StatamentURL");
-
-		try {
-			statement.execute(message);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		statement.doInBackground("");
 
 	}
 
@@ -63,68 +55,19 @@ public class BookingStatementActivity extends Activity{
 	}
 
 	class Statement extends AsyncTask<String, Void, String> {
-
-		String URL;
-		
-		public void execute(String message) throws IOException {
-			URL = message;
-//			Toast.makeText(BookingStatementActivity.this, "http://aleph.bg.pwr.wroc.pl"+URL, Toast.LENGTH_LONG).show();
-			doInBackground();
-//			connect();
-		}
-
-		protected void connect (String... urls) throws IOException{
-			URLConnection connection = new java.net.URL("http://aleph.bg.pwr.wroc.pl"+URL).openConnection();
-			// Http Method becomes POST
-			connection.setDoOutput(true);
-
-			// Encode according to application/x-www-form-urlencoded specification
-			String content =
-			    "adm_doc_number=" + URLEncoder.encode ("000145275") +
-			    "&item_squence=" + URLEncoder.encode ("000210") +
-			    "&bib_request=" + URLEncoder.encode ("N") +
-			    "&PICKUP=" + URLEncoder.encode ("BG-MG") +
-			    "&from=" + URLEncoder.encode ("20141126")+
-			"&to=" + URLEncoder.encode ("20141201")+
-			"&doc_library=" + URLEncoder.encode ("TUR50")+
-			"&func=" + URLEncoder.encode ("item-hold-request-b")+
-			"&bor_id=" + URLEncoder.encode (SessionManager.getLogin())+
-			"&bor_verification=" + URLEncoder.encode (SessionManager.getPasword());
-			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
-
-			// Try this should be the length of you content.
-			// it is not neccessary equal to 48. 
-			// content.getBytes().length is not neccessarily equal to content.length() if the String contains non ASCII characters.
-			connection.setRequestProperty("Content-Length", String.valueOf(content.getBytes().length)); 
-
-			// Write body
-			OutputStream output = connection.getOutputStream(); 
-			output.write(content.getBytes());
-			Log.d("TEST", "Connect: " + String.valueOf(content));
-			tvStatement.setText(String.valueOf(content));
-			output.close();
-			
-			
-		}
 		
 		@Override
 		protected String doInBackground(String... urls) {
 			HttpClient httpclient = new DefaultHttpClient();
 //			HttpPost httppost = new HttpPost(URL);
-			HttpPost httppost = SessionManager.buildLink("?func=item-hold-request-b&doc_library=TUR50&adm_doc_number=000145275&item_squence=000210&bib_request=N&PICKUP=BG-MG&from=20141124&to=20141129");
+			HttpPost httppost = SessionManager.buildLink("?func="+StringsAndLinks.PARAM_FUNC+"&doc_library="+StringsAndLinks.PARAM_DOC_LIBRARY+"&adm_doc_number="+StringsAndLinks.PARAM_ADM_DOC_NUMBER+"&item_squence="+StringsAndLinks.PARAM_ITEM_SEQUENCE+"&bib_request="+StringsAndLinks.PARAM_BIB_REQUEST+"&PICKUP="+StringsAndLinks.PARAM_PICKUP+"&from="+StringsAndLinks.PARAM_FROM+"&to="+StringsAndLinks.PARAM_TO);
 	
 			
 			
 			Log.d("TEST", "Statement URL: " + String.valueOf(httppost));
 			
-//			String[] sReferer = StringsAndLinks.REFERER_CONFIRMATION.split("&year");
-			
 			httppost.addHeader("Referer",StringsAndLinks.REFERER_CONFIRMATION);
-//			Log.d("TEST", "Statement Referer: " + "http://aleph.bg.pwr.wroc.pl" +StringsAndLinks.REFERER_CONFIRMATION);
-//			
-//			httppost.addHeader("Cookie",StringsAndLinks.COOKIE_STRING+StringsAndLinks.SESSION_CONFIRMATION);
-//			Log.d("TEST", "Statement Cookie: " + StringsAndLinks.COOKIE_STRING+StringsAndLinks.SESSION_CONFIRMATION);
-//			
+			
 			httppost.addHeader("Content-Type", "application/x-www-form-urlencoded");
 			
 			try {
@@ -132,29 +75,19 @@ public class BookingStatementActivity extends Activity{
 		        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		        nameValuePairs.add(new BasicNameValuePair("bor_id", SessionManager.getLogin()));
 				nameValuePairs.add(new BasicNameValuePair("bor_verification", SessionManager.getPasword()));
-				nameValuePairs.add(new BasicNameValuePair("func", "item-hold-request-b"));
-//				//sprawdziæ poprawnoœæ tego
-				nameValuePairs.add(new BasicNameValuePair("doc_library", "TUR50"));
-//				
-//				String[] sDocNumber = StringsAndLinks.REFERER_CONFIRMATION.split("&adm_doc_number=");
-//				nameValuePairs.add(new BasicNameValuePair("adm_doc_number", "adm_doc_number"+sDocNumber[1].substring(0, 8)));
-				nameValuePairs.add(new BasicNameValuePair("adm_doc_number", "000145275"));
-				nameValuePairs.add(new BasicNameValuePair("login_source", "HOLD"));
-				nameValuePairs.add(new BasicNameValuePair("bib_library", "TUR01"));
-				
-//				
-//				Log.d("TEST", "adm_doc_number: " + "adm_doc_number="+sDocNumber[1].substring(0, 8));
-//				
-				nameValuePairs.add(new BasicNameValuePair("item_squence", "000210"));
-				nameValuePairs.add(new BasicNameValuePair("bib_request", "N"));
-				nameValuePairs.add(new BasicNameValuePair("PICKUP", "BG-MG"));
-				nameValuePairs.add(new BasicNameValuePair("from", "20141124"));
-				nameValuePairs.add(new BasicNameValuePair("to", "20141129"));
+				nameValuePairs.add(new BasicNameValuePair("func", StringsAndLinks.PARAM_FUNC));
+				nameValuePairs.add(new BasicNameValuePair("doc_library", StringsAndLinks.PARAM_DOC_LIBRARY));
+				nameValuePairs.add(new BasicNameValuePair("adm_doc_number", StringsAndLinks.PARAM_ADM_DOC_NUMBER));
+//				nameValuePairs.add(new BasicNameValuePair("login_source", "HOLD"));
+//				nameValuePairs.add(new BasicNameValuePair("bib_library", "TUR01"));		
+				nameValuePairs.add(new BasicNameValuePair("item_squence", StringsAndLinks.PARAM_ITEM_SEQUENCE));
+				nameValuePairs.add(new BasicNameValuePair("bib_request", StringsAndLinks.PARAM_BIB_REQUEST));
+				nameValuePairs.add(new BasicNameValuePair("PICKUP", StringsAndLinks.PARAM_PICKUP));
+				nameValuePairs.add(new BasicNameValuePair("from", StringsAndLinks.PARAM_FROM));
+				nameValuePairs.add(new BasicNameValuePair("to", StringsAndLinks.PARAM_TO));
 				nameValuePairs.add(new BasicNameValuePair("x", "28"));
 				nameValuePairs.add(new BasicNameValuePair("y", "10"));
 				nameValuePairs.add(new BasicNameValuePair("Content-Type", "application/x-www-form-urlencoded"));
-				
-//				nameValuePairs.add(new BasicNameValuePair("Content-Type", "application/x-www-form-urlencoded"));
 		        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 		        
@@ -195,7 +128,7 @@ public class BookingStatementActivity extends Activity{
 			
 			Document document = Jsoup.parse(resp);
 			tvStatement.setText(document.text());
-			//			tvStatement.setText(document.select("body table[cellspacing=2] td.style5").get(0).text()+"\n"+document.select("body table[cellspacing=2] td.style2").get(0).text()+
+//			tvStatement.setText(document.select("body table[cellspacing=2] td.style5").get(0).text()+"\n"+document.select("body table[cellspacing=2] td.style2").get(0).text()+
 //					"\n"+document.select("body table[cellspacing=2] td.style5").get(1).text()+"\n"+document.select("body table[cellspacing=2] td.style2").get(1).text());
 
 			
