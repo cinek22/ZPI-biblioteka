@@ -44,22 +44,17 @@ public class BookingStatementActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.booking_statement_activity);
 		setView();
-<<<<<<< HEAD
+
 		
 		statement.doInBackground("");
-=======
+
 
 		Intent intent = getIntent();
 		String message = intent.getStringExtra("StatamentURL");
 
-		try {
-			statement.execute(message);
-			SessionManager.relog(BookingStatementActivity.this);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
->>>>>>> b493e6b135c1cf4078ba30235fcb72a4fdfd9d8e
+		statement.execute(message);
+		SessionManager.relog(BookingStatementActivity.this);
+
 
 	}
 
