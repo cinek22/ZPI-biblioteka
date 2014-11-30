@@ -47,16 +47,8 @@ public class ConfirmationActivity extends Activity {
 		setContentView(R.layout.confirmation_booking_activity);
 		setView();
 
-/*		Intent intent = getIntent();
-		String message = intent.getStringExtra("Confirmation");
-		String messageToButton = intent.getStringExtra("ConfirmationButton");
-
-		confirmation.execute(message, messageToButton);
-*/
-
 		confirmation.doInBackground("");
 
-		confirmation.execute();
 		SessionManager.relog(ConfirmationActivity.this);
 
 	}
@@ -159,7 +151,7 @@ public class ConfirmationActivity extends Activity {
 			 @Override 
 			 public void onClick(View v) {
 				 Intent intent = new Intent(ConfirmationActivity.this, BookingStatementActivity.class);
-					intent.putExtra("StatamentURL", "http://aleph.bg.pwr.wroc.pl"+StringsAndLinks.BUTTON_CONFIRMATION);
+					
 					startActivity(intent);
 				 
 //			Toast.makeText(ConfirmationActivity.this, "http://aleph.bg.pwr.wroc.pl"+toButton, Toast.LENGTH_LONG).show();

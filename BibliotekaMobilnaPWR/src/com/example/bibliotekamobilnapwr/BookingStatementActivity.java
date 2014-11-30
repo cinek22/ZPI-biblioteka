@@ -22,17 +22,23 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class BookingStatementActivity extends Activity{
 
+	private Handler handler = new Handler();
+	
 	TextView tvStatement;
 	Button btnOK;
 
@@ -49,10 +55,6 @@ public class BookingStatementActivity extends Activity{
 		statement.doInBackground("");
 
 
-		Intent intent = getIntent();
-		String message = intent.getStringExtra("StatamentURL");
-
-		statement.execute(message);
 		SessionManager.relog(BookingStatementActivity.this);
 
 
@@ -132,13 +134,60 @@ public class BookingStatementActivity extends Activity{
 		@Override
 		protected void onPostExecute(String resp) {
 
+			handler.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					tvStatement.invalidate();
+					tvStatement.requestLayout();
+				}
+			});
+			
 			Log.e("TEST", "Statement: " + resp);
 
-			
 			Document document = Jsoup.parse(resp);
-			tvStatement.setText(document.text());
-//			tvStatement.setText(document.select("body table[cellspacing=2] td.style5").get(0).text()+"\n"+document.select("body table[cellspacing=2] td.style2").get(0).text()+
-//					"\n"+document.select("body table[cellspacing=2] td.style5").get(1).text()+"\n"+document.select("body table[cellspacing=2] td.style2").get(1).text());
+			
+			String message = document.select("body table[cellspacing=0] tr td.feedbackbar").text();
+			
+			if(message.length()>0){
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+					BookingStatementActivity.this);
+	 
+			btnOK.setVisibility(View.INVISIBLE);
+			
+				// set dialog message
+				alertDialogBuilder
+					.setTitle("Proces zamawiania nie zosta³ jeszcze zakoñczony.")
+					.setMessage(message.substring(1)+"\nPonowiæ próbê rezerwacji?\nJeœli problem bêdzie siê powtarza³ skontaktuj siê z administratorem.")
+					.setCancelable(false)
+					.setPositiveButton("Ponów",new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,int id) {
+							dialog.cancel();
+							doInBackground("");
+						}
+					  })
+					.setNegativeButton("Przerwij",new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,int id) {
+							dialog.cancel();
+							Intent intent = new Intent(BookingStatementActivity.this, Main.class);
+							startActivity(intent);
+						}
+					});
+	 
+					// create alert dialog
+					AlertDialog alertDialog = alertDialogBuilder.create();
+	 
+					// show it
+					alertDialog.show();
+			}else{
+	
+			
+			
+//			tvStatement.setText(document.text());
+			tvStatement.setText(document.select("body table[cellspacing=2] td.style5").get(0).text()+"\n"+document.select("body table[cellspacing=2] td.style2").get(0).text()+
+					"\n"+document.select("body table[cellspacing=2] td.style5").get(1).text()+"\n"+document.select("body table[cellspacing=2] td.style2").get(1).text());
 
 			
 			 btnOK.setOnClickListener(new View.OnClickListener() {
@@ -152,5 +201,5 @@ public class BookingStatementActivity extends Activity{
 
 		}
 	}
-	
+	}
 }

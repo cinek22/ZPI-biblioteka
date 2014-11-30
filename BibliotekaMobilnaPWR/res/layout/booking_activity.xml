@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/background" >
 
     <TableLayout
         android:id="@+id/table_booking"
@@ -24,7 +25,7 @@
             android:id="@+id/tableLayout_booking"
             android:layout_width="fill_parent"
             android:layout_height="270dp"
-            android:background="#EFFFBC"
+           android:background="#70FFFFFF"
             android:padding="5dp"
             android:shrinkColumns="*"
             android:stretchColumns="*" >

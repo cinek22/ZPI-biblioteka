@@ -25,6 +25,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -37,7 +38,7 @@ public class BookingActivity extends Activity {
 	
 	TableLayout table_layout_booking;
 	TableLayout table_booking;
-	/* private Button btnBack; */
+    private Button btnBack;
 	Booking booking = new Booking();
 
 	@Override
@@ -50,26 +51,26 @@ public class BookingActivity extends Activity {
 
 		booking.doInBackground("");
 
-		Intent intent = getIntent();
-		String message = intent.getStringExtra("URL");
+		/*SessionManager.relog(BookingActivity.this);*/
 
-		booking.execute(message);
-		SessionManager.relog(BookingActivity.this);
+		
+		btnBack.setOnClickListener(new View.OnClickListener() {
 
-		/*
-		 * btnBack.setOnClickListener(new View.OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) { Intent intent = new
-		 * Intent(BookingActivity.this, ParseURLActivity.class);
-		 * startActivity(intent); } });
-		 */
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(BookingActivity.this,
+						ParseURLActivity.class);
+				startActivity(intent);
+			}
+		});
+		 
 
 	}
 
 	private void setupView() {
 		table_layout_booking = (TableLayout) findViewById(R.id.tableLayout_booking);
 		table_booking = (TableLayout) findViewById(R.id.table_booking);
-		/* btnBack = (Button) findViewById(R.id.btnBack); */
+		btnBack = (Button) findViewById(R.id.btnBackBooking);
 
 	}
 
@@ -145,12 +146,12 @@ public class BookingActivity extends Activity {
 					biblioteka.setTextContent(desc.select("td.td1").get(4)
 							.text());
 
-					// create: <sygnatura>
+					/*// create: <sygnatura>
 					org.w3c.dom.Element sygnatura = doc
 							.createElement("sygnatura");
 					book.appendChild(sygnatura);
 					sygnatura.setTextContent(desc.select("td.td1").get(6)
-							.text());
+							.text());*/
 				}
 			}
 			// create Transformer object
@@ -180,12 +181,12 @@ public class BookingActivity extends Activity {
 			
 			int width = metrics.widthPixels;
 			int height = 45;
-
-			int wRezerwacja = 30;
+			
+			int wRezerwacja = 45;
 			int wStatus = (width - wRezerwacja) / 4;
-			int wData = (width - wRezerwacja) / 6;
-			int wBiblioteka = (width - wRezerwacja) / 3;
-			int wSygnatura = (width - wRezerwacja) / 3;
+			int wData = (width - wRezerwacja) / 4;
+			int wBiblioteka = (((width - wRezerwacja) - wStatus) - wData) - 1 ;
+			/*int wSygnatura = (width - wRezerwacja) / 3;*/
 
 			TableRow rowMenuBooking = new TableRow(BookingActivity.this);
 			TextView menuStatus = new TextView(BookingActivity.this);
@@ -209,12 +210,12 @@ public class BookingActivity extends Activity {
 			menuBiblioteka.setTextSize(18);
 			rowMenuBooking.addView(menuBiblioteka);
 
-			TextView menuSygnatura = new TextView(BookingActivity.this);
+			/*TextView menuSygnatura = new TextView(BookingActivity.this);
 			menuSygnatura.setHeight(height);
 			menuSygnatura.setWidth(wSygnatura);
 			menuSygnatura.setText("Sygnatura");
 			menuSygnatura.setTextSize(18);
-			rowMenuBooking.addView(menuSygnatura);
+			rowMenuBooking.addView(menuSygnatura);*/
 
 			TextView menuRezerwacja = new TextView(BookingActivity.this);
 			menuRezerwacja.setHeight(height);
@@ -237,6 +238,7 @@ public class BookingActivity extends Activity {
 				tvStatus.setWidth(wStatus);
 				tvStatus.setText(doc.getElementsByTagName("status").item(i)
 						.getTextContent());
+				tvStatus.setPadding(0, 0, 5, 5);
 				row.addView(tvStatus);
 
 				// Data
@@ -244,6 +246,7 @@ public class BookingActivity extends Activity {
 				tvData.setWidth(wData);
 				tvData.setText(doc.getElementsByTagName("data").item(i)
 						.getTextContent());
+				tvData.setPadding(0, 0, 5, 5);
 				row.addView(tvData);
 
 				// Biblioteka
@@ -251,27 +254,29 @@ public class BookingActivity extends Activity {
 				tvBiblioteka.setWidth(wBiblioteka);
 				tvBiblioteka.setText(doc.getElementsByTagName("biblioteka")
 						.item(i).getTextContent());
+				tvBiblioteka.setPadding(3, 3, 5, 5);
 				row.addView(tvBiblioteka);
 
-				// Sygnatura
+				/*// Sygnatura
 				TextView tvSygnatura = new TextView(BookingActivity.this);
 				tvSygnatura.setWidth(wSygnatura);
 				tvSygnatura.setText(doc.getElementsByTagName("sygnatura")
 						.item(i).getTextContent());
-				row.addView(tvSygnatura);
+				row.addView(tvSygnatura);*/
 
 				final String href = doc.getElementsByTagName("zamowienie").item(i)
 						.getTextContent();
 				
 				StringsAndLinks.REFERER_CONFIRMATION=href;
-
-			if (href.length()>0) {
-					
 				ImageView bZamowienie = new ImageView(BookingActivity.this);
-				bZamowienie.setImageResource(R.drawable.green_plus);
+				bZamowienie.setImageResource(R.drawable.plus);
 				bZamowienie.setMinimumWidth(wRezerwacja);
-					bZamowienie.setOnClickListener(new View.OnClickListener() {
-						
+				bZamowienie.setVisibility(View.INVISIBLE);
+			
+				if (href.length()>0) {
+					
+					bZamowienie.setVisibility(View.VISIBLE);
+					bZamowienie.setOnClickListener(new View.OnClickListener() {	
 						String [] shref = href.split("\\?");
 						String [] parthref = shref[0].split("\\-");
 						
@@ -323,9 +328,10 @@ public class BookingActivity extends Activity {
 							}
 						
 					});
-					row.addView(bZamowienie);
 					
 			}
+				bZamowienie.setPadding(0, 0, 5, 5);
+				row.addView(bZamowienie);
 			
 				table_layout_booking.addView(row);
 			}
