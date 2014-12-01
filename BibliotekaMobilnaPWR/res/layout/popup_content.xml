@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:src="@drawable/popup" >
-
+    android:background="@drawable/popup">
+    
     <ImageView
         android:id="@+id/popupsms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="30dp"
         android:layout_marginLeft="5dp"
         android:src="@drawable/sms" />
 
@@ -17,8 +17,7 @@
         android:id="@+id/popupemail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
+         android:layout_marginTop="30dp"
         android:layout_toRightOf="@+id/popupsms"
         android:src="@drawable/email" />
 
@@ -26,9 +25,7 @@
         android:id="@+id/popuptwitter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
+        android:layout_marginTop="30dp"
         android:layout_toRightOf="@+id/popupemail"
         android:src="@drawable/twitter" />
-
 </RelativeLayout>
