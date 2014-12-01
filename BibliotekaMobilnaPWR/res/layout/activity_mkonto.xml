@@ -116,7 +116,19 @@
            android:padding="10dp"
            android:text="@string/orders_button"
           />
-
+      
+		<Button 
+	        android:id="@+id/back_account"
+	         android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@color/green_transparent"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="@string/btnString"/>
 	    </LinearLayout>
+	    "
 
 </LinearLayout>

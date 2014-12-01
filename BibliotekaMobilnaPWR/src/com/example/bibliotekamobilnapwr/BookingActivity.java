@@ -58,9 +58,7 @@ public class BookingActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(BookingActivity.this,
-						ParseURLActivity.class);
-				startActivity(intent);
+				finish();
 			}
 		});
 		 

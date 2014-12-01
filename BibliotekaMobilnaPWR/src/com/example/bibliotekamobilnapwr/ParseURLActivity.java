@@ -60,8 +60,7 @@ public class ParseURLActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(ParseURLActivity.this, Main.class);
-				startActivity(intent);
+				finish();
 			}
 		});
 	}

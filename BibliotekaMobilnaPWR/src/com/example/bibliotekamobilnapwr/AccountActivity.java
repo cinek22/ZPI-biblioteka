@@ -37,6 +37,7 @@ public class AccountActivity extends Activity{
 	private Button history;
 	private Button orders;
 	private Button rents;
+	private Button back;
 	SessionManager session;
 	
 	ProgressDialog mProgressDialog;
@@ -68,6 +69,7 @@ public class AccountActivity extends Activity{
 		history = (Button) findViewById(R.id.history_button);
 		orders = (Button) findViewById(R.id.orders_button);
 		rents = (Button) findViewById(R.id.rent_button);
+		back = (Button)findViewById(R.id.back_account);
 	}
 	
 	private void setupListeners(){
@@ -108,6 +110,14 @@ public class AccountActivity extends Activity{
 			public void onClick(View v) {
 				Intent intent = new Intent(AccountActivity.this,WypozyczeniaActivity.class);
 				startActivity(intent);
+				
+			}
+		});
+		back.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
 				
 			}
 		});

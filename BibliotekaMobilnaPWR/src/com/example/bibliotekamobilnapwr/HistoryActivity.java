@@ -36,6 +36,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,6 +54,8 @@ import android.widget.TableRow.LayoutParams;
 
 public class HistoryActivity extends Activity {
 
+	
+	private Handler handler = new Handler();
 	TableLayout history_table;// history_table
 	TableLayout history_table_2;// history_table_2
 
@@ -68,17 +72,15 @@ public class HistoryActivity extends Activity {
 		setContentView(R.layout.activity_history);
 		setupView();
 		setupListeners();
-		history.execute();
+		history.doInBackground("");
 	}
 
 	private void setupListeners() {
 
 		backBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(HistoryActivity.this,
-						AccountActivity.class);
-				startActivity(intent);
+			public void onClick(View v) {				
+				finish();
 
 			}
 		});
@@ -92,21 +94,7 @@ public class HistoryActivity extends Activity {
 
 	public class History extends AsyncTask<String, Void, String> {
 
-		String URL;
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			mProgressDialog = new ProgressDialog(HistoryActivity.this);
-			mProgressDialog.setTitle("Rent history");
-			mProgressDialog.setMessage("Loading...");
-			mProgressDialog.setIndeterminate(false);
-			mProgressDialog.show();
-			doInBackground();
-		}
-
-		public void execute() {
-			onPreExecute();
-		}
+				
 
 		@Override
 		protected void onPostExecute(String resp) {
@@ -118,13 +106,13 @@ public class HistoryActivity extends Activity {
 						.select("body table[cellspacing=2] tr");
 				Log.d("TEST", "History request: " + description2.text());
 
-				createXML(description2);
-
-				mProgressDialog.dismiss();
+				createXML(description2);					
+			
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				Log.d("TEST", "History exception" + e.toString());
-				Toast.makeText(HistoryActivity.this, "Jakiœ b³¹d",
+				Toast.makeText(HistoryActivity.this, "B³¹d po³¹czenia",
 						Toast.LENGTH_LONG).show();
 			}
 		}
@@ -171,16 +159,37 @@ public class HistoryActivity extends Activity {
 			StreamResult result = new StreamResult(writer);
 			transformer.transform(new DOMSource(doc), result);
 			createTable(quantityRent, doc);
+			
+			handler.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					history_table.invalidate();
+					history_table.requestLayout();
+					history_table_2.invalidate();
+					history_table_2.requestLayout();
+				}
+			});
 
 		}
 
 		private void createTable(int quantityRent, org.w3c.dom.Document doc) {
-
+			
+			DisplayMetrics metrics = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(metrics);
+			
+			int width = metrics.widthPixels;
+			int height = 45;
+			
+			int wPolec = 50;
+			int wAutor = (width - wPolec) / 3;			
+			int wTytul= (((width - wPolec) - wAutor)) - 1 ;
+			
 			if (doc.getElementsByTagName("author").item(0) == null) {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 						HistoryActivity.this);
 
-				// set dialog message
+				/*// set dialog message
 				alertDialogBuilder
 						.setMessage("Historia jest pusta")
 						.setCancelable(false)
@@ -199,33 +208,47 @@ public class HistoryActivity extends Activity {
 
 				// create alert dialog
 				AlertDialog alertDialog = alertDialogBuilder.create();
-
-				history_table.setVisibility(View.INVISIBLE);
-				history_table_2.setVisibility(View.INVISIBLE);
-				backBtn.setVisibility(View.INVISIBLE);
+*/
+				handler.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						history_table.setVisibility(View.INVISIBLE);
+						history_table_2.setVisibility(View.INVISIBLE);
+						Toast.makeText(HistoryActivity.this, "Brak aktualnych wypo¿yczeñ", Toast.LENGTH_LONG).show();
+					}
+				});
+			
 				// show it
-				alertDialog.show();
+				//alertDialog.show();
 			}
+			
 
 			TableRow rowMenu = new TableRow(HistoryActivity.this);
 
 			TextView menuAuthor = new TextView(HistoryActivity.this);
-			menuAuthor.setLayoutParams(new LayoutParams(60,
-					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+			/*menuAuthor.setLayoutParams(new LayoutParams(60,
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+			menuAuthor.setHeight(height);
+			menuAuthor.setWidth(wAutor);
 			menuAuthor.setText("Autor");
 			menuAuthor.setTextSize(18);
 			rowMenu.addView(menuAuthor);
 
 			TextView menuTitle = new TextView(HistoryActivity.this);
-			menuTitle.setLayoutParams(new LayoutParams(60,
-					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+			/*menuTitle.setLayoutParams(new LayoutParams(60,
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+			menuTitle.setHeight(height);
+			menuTitle.setWidth(wTytul);
 			menuTitle.setText("Tytu³");
 			menuTitle.setTextSize(18);
 			rowMenu.addView(menuTitle);
 
 			TextView recomendTitle = new TextView(HistoryActivity.this);
-			recomendTitle.setLayoutParams(new LayoutParams(60,
-					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+//			recomendTitle.setLayoutParams(new LayoutParams(60,
+//					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+			recomendTitle.setHeight(height);
+			recomendTitle.setWidth(wPolec);
 			recomendTitle.setText("Poleæ");
 			recomendTitle.setTextSize(18);
 			rowMenu.addView(recomendTitle);
@@ -237,32 +260,37 @@ public class HistoryActivity extends Activity {
 				TableRow row = new TableRow(HistoryActivity.this);
 				// author
 				final TextView tvAuthor = new TextView(HistoryActivity.this);
-				tvAuthor.setLayoutParams(new LayoutParams(60,
-						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+//				tvAuthor.setLayoutParams(new LayoutParams(60,
+//						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 				tvAuthor.setText(doc.getElementsByTagName("author").item(i)
 						.getTextContent());
-
+				tvAuthor.setWidth(wAutor);
+				tvAuthor.setPadding(0, 0, 5, 5);
 				row.addView(tvAuthor);
 
 				// title
 				final TextView tvTitle = new TextView(HistoryActivity.this);
-				tvTitle.setLayoutParams(new LayoutParams(60,
-						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+//				tvTitle.setLayoutParams(new LayoutParams(60,
+//						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+				tvTitle.setWidth(wTytul);
 				tvTitle.setText(doc.getElementsByTagName("title").item(i)
 						.getTextContent());
-
+				tvTitle.setPadding(0, 0, 5, 5);
 				row.addView(tvTitle);
 				// polecanie
 				//Button btnRecommend = new Button(HistoryActivity.this);
 /*				btnRecommend.setLayoutParams(new LayoutParams(60,
 						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
 //				btnRecommend.setText("Poleæ");
+				
 				ImageView btnRecommend = new ImageView(HistoryActivity.this);
-				btnRecommend.setLayoutParams(new LayoutParams(48,55));
+				btnRecommend.setMinimumWidth(wPolec);
+//				btnRecommend.setLayoutParams(new LayoutParams(20,20));
 				btnRecommend.setBackgroundResource(R.drawable.share);
 
 				row.addView(btnRecommend);
-
+				
+				btnRecommend.setPadding(15, 0, 15, 0);
 				btnRecommend.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -275,6 +303,7 @@ public class HistoryActivity extends Activity {
 						 */
 						displayPopupWindow(v);
 					}
+					
 
 					private void displayPopupWindow(View popupView) {
 						PopupWindow popup = new PopupWindow(
@@ -290,7 +319,7 @@ public class HistoryActivity extends Activity {
 						popup.setOutsideTouchable(true);
 						popup.setFocusable(true);
 						// Show view to button
-						popup.setBackgroundDrawable(new BitmapDrawable());
+						//popup.setBackgroundDrawable(new BitmapDrawable());
 						popup.showAsDropDown(popupView);
 
 						ImageView popupsms;
@@ -337,20 +366,6 @@ public class HistoryActivity extends Activity {
 					};
 				});
 
-				/*
-				 * NodeList list = doc.getElementsByTagName("");
-				 * 
-				 * for(int j=0;j<list.getLength();j++) { Node aNode =
-				 * list.item(j); NamedNodeMap attributes =
-				 * aNode.getAttributes();
-				 * 
-				 * 
-				 * TextView tv = new TextView(HistoryActivity.this);
-				 * tv.setText(attributes.item(0).getNodeValue());
-				 * 
-				 * }
-				 */
-				// row.addView();
 				history_table_2.addView(row);
 			}
 
@@ -443,8 +458,7 @@ public class HistoryActivity extends Activity {
 			emailIntent.putExtra(Intent.EXTRA_TEXT, "Polecam ci ksi¹¿ke "+tit+" autorstwa "+aut);
 
 			try {
-					startActivity(emailIntent);
-			       //startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+					startActivity(emailIntent);			       
 			       finish();
 			       Log.i("Finished sending email...", "");
 		    } catch (android.content.ActivityNotFoundException ex) {
