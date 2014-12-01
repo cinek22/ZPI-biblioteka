@@ -132,6 +132,4 @@ public class RecommendActivity extends Activity {
 	 
 		
 	}
-
-	
 }

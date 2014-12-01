@@ -32,12 +32,18 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -45,17 +51,16 @@ import android.widget.Toast;
 import android.widget.TableRow.LayoutParams;
 
 public class HistoryActivity extends Activity {
-	
-	
-	TableLayout history_table;//history_table
-	TableLayout history_table_2;//history_table_2
-	
+
+	TableLayout history_table;// history_table
+	TableLayout history_table_2;// history_table_2
+
 	private Button backBtn;
 	ProgressDialog mProgressDialog;
 	
-	
-	History history=new History();
-	
+
+	History history = new History();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,28 +71,26 @@ public class HistoryActivity extends Activity {
 		history.execute();
 	}
 
-
 	private void setupListeners() {
-		
-			backBtn.setOnClickListener(new View.OnClickListener() {			
+
+		backBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(HistoryActivity.this, AccountActivity.class);
+				Intent intent = new Intent(HistoryActivity.this,
+						AccountActivity.class);
 				startActivity(intent);
-				
+
 			}
-		});		
+		});
 	}
-	
+
 	private void setupView() {
 		history_table = (TableLayout) findViewById(R.id.history_table);
-		history_table_2=(TableLayout) findViewById(R.id.history_table_2);
+		history_table_2 = (TableLayout) findViewById(R.id.history_table_2);
 		backBtn = (Button) findViewById(R.id.btnBack_hisory);
-		
 	}
-	
-	public class History extends AsyncTask<String, Void, String>
-	{
+
+	public class History extends AsyncTask<String, Void, String> {
 
 		String URL;
 		@Override
@@ -100,139 +103,137 @@ public class HistoryActivity extends Activity {
 			mProgressDialog.show();
 			doInBackground();
 		}
-		
+
 		public void execute() {
 			onPreExecute();
 		}
-		
 
 		@Override
 		protected void onPostExecute(String resp) {
-		
-			try{						
+
+			try {
 				Document document = Jsoup.parse(resp);
-				
-				Elements description2 = document.select("body table[cellspacing=2] tr");
-				Log.d("TEST","History request: "+ description2.text());
-				
+
+				Elements description2 = document
+						.select("body table[cellspacing=2] tr");
+				Log.d("TEST", "History request: " + description2.text());
+
 				createXML(description2);
-					
+
 				mProgressDialog.dismiss();
-			}catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
-				Log.d("TEST", "History exception"+ e.toString());
-				Toast.makeText(HistoryActivity.this, "Jakiœ b³¹d", Toast.LENGTH_LONG).show();
+				Log.d("TEST", "History exception" + e.toString());
+				Toast.makeText(HistoryActivity.this, "Jakiœ b³¹d",
+						Toast.LENGTH_LONG).show();
 			}
 		}
 
-
 		private void createXML(Elements description) throws Exception {
-			
-			//count quantity rent
-			int quantityRent=0;
-			
-			//XML
+
+			// count quantity rent
+			int quantityRent = 0;
+
+			// XML
 			org.w3c.dom.Document doc = DocumentBuilderFactory.newInstance()
 					.newDocumentBuilder().newDocument();
-			
-			//create root rent
+
+			// create root rent
 			org.w3c.dom.Element root = doc.createElement("rent");
 			doc.appendChild(root);
-			
-			for(Element desc:description){
-				
+
+			for (Element desc : description) {
+
 				if (desc.select("td.td1").hasText()) {
-				
-				//create:<book>
-				org.w3c.dom.Element book  = doc.createElement("book");
-				root.appendChild(book);
-				book.setTextContent(desc.select("td.td1").get(0).text());
-				quantityRent++;
-				
-				// create: <author>
-				org.w3c.dom.Element author = doc.createElement("author");
-				book.appendChild(author);
-				author.setTextContent(desc.select("td.td1").get(1)
-						.text());
-				
-				// create: <title>
-				org.w3c.dom.Element title = doc.createElement("title");
-				root.appendChild(title);
-				title.setTextContent(desc.select("td.td1").get(2)
-						.text()
-						+ " \n" +desc.select("td.td1").get(3).text());
+
+					// create:<book>
+					org.w3c.dom.Element book = doc.createElement("book");
+					root.appendChild(book);
+					book.setTextContent(desc.select("td.td1").get(0).text());
+					quantityRent++;
+
+					// create: <author>
+					org.w3c.dom.Element author = doc.createElement("author");
+					book.appendChild(author);
+					author.setTextContent(desc.select("td.td1").get(1).text());
+
+					// create: <title>
+					org.w3c.dom.Element title = doc.createElement("title");
+					root.appendChild(title);
+					title.setTextContent(desc.select("td.td1").get(2).text()
+							+ " \n" + desc.select("td.td1").get(3).text());
 				}
 			}
 			// create Transformer object
-						Transformer transformer = TransformerFactory.newInstance()
-								.newTransformer();
-						StringWriter writer = new StringWriter();
-						StreamResult result = new StreamResult(writer);
-						transformer.transform(new DOMSource(doc), result);
-						createTable(quantityRent, doc);
-			
+			Transformer transformer = TransformerFactory.newInstance()
+					.newTransformer();
+			StringWriter writer = new StringWriter();
+			StreamResult result = new StreamResult(writer);
+			transformer.transform(new DOMSource(doc), result);
+			createTable(quantityRent, doc);
+
 		}
 
 		private void createTable(int quantityRent, org.w3c.dom.Document doc) {
-			
-			if(doc.getElementsByTagName("author").item(0) == null){
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-					HistoryActivity.this);
-	 
+
+			if (doc.getElementsByTagName("author").item(0) == null) {
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+						HistoryActivity.this);
+
 				// set dialog message
 				alertDialogBuilder
-					.setMessage("Historia jest pusta")
-					.setCancelable(false)
-					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog,int id) {
-							dialog.cancel();
-							Intent intent = new Intent(HistoryActivity.this, AccountActivity.class);
-							startActivity(intent);
-						}
-					  });
-			
-	 
-					// create alert dialog
-					AlertDialog alertDialog = alertDialogBuilder.create();
-	 
-					history_table.setVisibility(View.INVISIBLE);
-					history_table_2.setVisibility(View.INVISIBLE);
-					backBtn.setVisibility(View.INVISIBLE);
-					// show it
-					alertDialog.show();
+						.setMessage("Historia jest pusta")
+						.setCancelable(false)
+						.setPositiveButton("OK",
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int id) {
+										dialog.cancel();
+										Intent intent = new Intent(
+												HistoryActivity.this,
+												AccountActivity.class);
+										startActivity(intent);
+									}
+								});
+
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+
+				history_table.setVisibility(View.INVISIBLE);
+				history_table_2.setVisibility(View.INVISIBLE);
+				backBtn.setVisibility(View.INVISIBLE);
+				// show it
+				alertDialog.show();
 			}
-			
-			
+
 			TableRow rowMenu = new TableRow(HistoryActivity.this);
-			
+
 			TextView menuAuthor = new TextView(HistoryActivity.this);
 			menuAuthor.setLayoutParams(new LayoutParams(60,
 					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 			menuAuthor.setText("Autor");
 			menuAuthor.setTextSize(18);
 			rowMenu.addView(menuAuthor);
-			
+
 			TextView menuTitle = new TextView(HistoryActivity.this);
 			menuTitle.setLayoutParams(new LayoutParams(60,
 					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 			menuTitle.setText("Tytu³");
 			menuTitle.setTextSize(18);
 			rowMenu.addView(menuTitle);
-			
+
 			TextView recomendTitle = new TextView(HistoryActivity.this);
-			recomendTitle.setLayoutParams(new LayoutParams(60, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+			recomendTitle.setLayoutParams(new LayoutParams(60,
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 			recomendTitle.setText("Poleæ");
 			recomendTitle.setTextSize(18);
 			rowMenu.addView(recomendTitle);
-			
+
 			history_table.addView(rowMenu);
-			
-			
-			
-			for(int i=0;i<quantityRent;i++)
-			{
-				
+
+			for (int i = 0; i < quantityRent; i++) {
+
 				TableRow row = new TableRow(HistoryActivity.this);
 				// author
 				final TextView tvAuthor = new TextView(HistoryActivity.this);
@@ -240,7 +241,7 @@ public class HistoryActivity extends Activity {
 						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 				tvAuthor.setText(doc.getElementsByTagName("author").item(i)
 						.getTextContent());
-				
+
 				row.addView(tvAuthor);
 
 				// title
@@ -249,66 +250,135 @@ public class HistoryActivity extends Activity {
 						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 				tvTitle.setText(doc.getElementsByTagName("title").item(i)
 						.getTextContent());
-				
+
 				row.addView(tvTitle);
-				//polecanie
-				Button btnRecommend = new Button(HistoryActivity .this);
-				btnRecommend.setLayoutParams(new LayoutParams(60,
-						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
-				btnRecommend.setText("Poleæ");
-				
+				// polecanie
+				//Button btnRecommend = new Button(HistoryActivity.this);
+/*				btnRecommend.setLayoutParams(new LayoutParams(60,
+						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
+//				btnRecommend.setText("Poleæ");
+				ImageView btnRecommend = new ImageView(HistoryActivity.this);
+				btnRecommend.setLayoutParams(new LayoutParams(48,55));
+				btnRecommend.setBackgroundResource(R.drawable.share);
+
 				row.addView(btnRecommend);
-				 
-				btnRecommend.setOnClickListener(new View.OnClickListener(){
 
+				btnRecommend.setOnClickListener(new View.OnClickListener() {
 					@Override
-					public void onClick(View v) {						
-						Intent intent = new Intent(HistoryActivity.this, RecommendActivity.class);
-						intent.putExtra("tytul",tvTitle.getText() );
-						intent.putExtra("autor",tvAuthor.getText());
-						startActivity(intent);
+					public void onClick(View v) {
+						/*
+						 * Intent intent = new Intent(HistoryActivity.this,
+						 * RecommendActivity.class);
+						 * intent.putExtra("tytul",tvTitle.getText() );
+						 * intent.putExtra("autor",tvAuthor.getText());
+						 * startActivity(intent);
+						 */
+						displayPopupWindow(v);
 					}
-				}
-				);
-				
-				
-				/*NodeList list = doc.getElementsByTagName("");
-				
-				for(int j=0;j<list.getLength();j++)
-				{
-					Node aNode = list.item(j);
-					NamedNodeMap attributes = aNode.getAttributes();					
-					
 
-						TextView tv = new TextView(HistoryActivity.this);
-						tv.setText(attributes.item(0).getNodeValue());
-						
-				}*/
-				//row.addView();
+					private void displayPopupWindow(View popupView) {
+						PopupWindow popup = new PopupWindow(
+								HistoryActivity.this);
+						View layout = getLayoutInflater().inflate(
+								R.layout.popup_content, null);
+						popup.setContentView(layout);
+						// Set content width and height
+						popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+						popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+						// Closes the popup window when touch outside of it -
+						// when looses focus
+						popup.setOutsideTouchable(true);
+						popup.setFocusable(true);
+						// Show view to button
+						popup.setBackgroundDrawable(new BitmapDrawable());
+						popup.showAsDropDown(popupView);
+
+						ImageView popupsms;
+						ImageView popupemail;
+						ImageView popuptwitter;
+						try {
+							popupsms = (ImageView) layout
+									.findViewById(R.id.popupsms);
+							popupsms.setOnClickListener(popupsms_listener);
+
+							popupemail = (ImageView) layout
+									.findViewById(R.id.popupemail);
+							popupemail.setOnClickListener(popupemail_listener);
+
+							popuptwitter = (ImageView) layout
+									.findViewById(R.id.popuptwitter);
+							popuptwitter
+									.setOnClickListener(popuptwitter_listener);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+
+					private OnClickListener popupsms_listener = new OnClickListener() {
+						public void onClick(View v) {
+							
+							sendSMS(String.valueOf(tvTitle.getText()), String.valueOf(tvAuthor.getText()));
+
+						}
+					};
+
+					private OnClickListener popupemail_listener = new OnClickListener() {
+						public void onClick(View v) {
+							sendEmail(String.valueOf(tvTitle.getText()), String.valueOf(tvAuthor.getText()));
+
+						}
+					};
+
+					private OnClickListener popuptwitter_listener = new OnClickListener() {
+						public void onClick(View v) {
+							postOnTwitter(String.valueOf(tvTitle.getText()), String.valueOf(tvAuthor.getText()));
+
+						}
+					};
+				});
+
+				/*
+				 * NodeList list = doc.getElementsByTagName("");
+				 * 
+				 * for(int j=0;j<list.getLength();j++) { Node aNode =
+				 * list.item(j); NamedNodeMap attributes =
+				 * aNode.getAttributes();
+				 * 
+				 * 
+				 * TextView tv = new TextView(HistoryActivity.this);
+				 * tv.setText(attributes.item(0).getNodeValue());
+				 * 
+				 * }
+				 */
+				// row.addView();
 				history_table_2.addView(row);
 			}
-			
-			
-			
+
 		}
-		
-		
+
 		@Override
 		protected String doInBackground(String... params) {
 			try {
 				HttpClient httpclient = new DefaultHttpClient();
-				HttpPost httppost = SessionManager.buildLink(StringsAndLinks.RENT_HISTORY);
+				HttpPost httppost = SessionManager
+						.buildLink(StringsAndLinks.RENT_HISTORY);
 
-				Log.d("TEST", "History test URL: " + StringsAndLinks.RENT_HISTORY);
-				
-				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-				nameValuePairs.add(new BasicNameValuePair("bor_id", SessionManager.getLogin()));
-				nameValuePairs.add(new BasicNameValuePair("bor_verification", SessionManager.getPasword()));
-				nameValuePairs.add(new BasicNameValuePair("func", "bor-history-loan"));
-				//sprawdziæ jeszcze poprawnoœæ tego
-				nameValuePairs.add(new BasicNameValuePair("doc_library", "TUR50"));
-		        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-				
+				Log.d("TEST", "History test URL: "
+						+ StringsAndLinks.RENT_HISTORY);
+
+				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
+						2);
+				nameValuePairs.add(new BasicNameValuePair("bor_id",
+						SessionManager.getLogin()));
+				nameValuePairs.add(new BasicNameValuePair("bor_verification",
+						SessionManager.getPasword()));
+				nameValuePairs.add(new BasicNameValuePair("func",
+						"bor-history-loan"));
+				// sprawdziæ jeszcze poprawnoœæ tego
+				nameValuePairs.add(new BasicNameValuePair("doc_library",
+						"TUR50"));
+				httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
 				HttpResponse response = httpclient.execute(httppost);
 				InputStream inputStream = response.getEntity().getContent();
 
@@ -335,7 +405,55 @@ public class HistoryActivity extends Activity {
 			return null;
 		}
 
-	
+		
+		protected void sendSMS(String tit, String aut) {
+			Intent sendSms = new Intent(Intent.ACTION_SENDTO, Uri.parse("sms:"));
+			sendSms.putExtra("sms_body", "Polecam ksi¹¿kê pod tytu³em "+ tit
+					+" autorstwa "+aut);
+			try{
+			startActivity(sendSms);
+			}catch(android.content.ActivityNotFoundException ex){
+				Toast.makeText(HistoryActivity.this, 
+					       "Brak zainstalowanego programu do wysy³ania sms-ów", Toast.LENGTH_SHORT).show();
+			}
+		}
+		protected void postOnTwitter(String tit, String aut) {
+			Intent twitterIntent = new Intent(Intent.ACTION_SEND);
+			twitterIntent.setType("text/plain");
+			twitterIntent.putExtra(Intent.EXTRA_TEXT, "Polecam ci ksi¹¿kê pod tytu³em "+ tit+ " autorstwa "+aut);
+			try{
+				 startActivity(Intent.createChooser(twitterIntent, "podzieliæ siê przez"));
+			}catch(android.content.ActivityNotFoundException ex){
+				Toast.makeText(HistoryActivity.this, 
+					       "Brak zainstalowanego programu do twittera", Toast.LENGTH_SHORT).show();
+			}
+		   
+			
+		}
+		protected void sendEmail(String tit, String aut) 
+		{
+		
+			String TO = "example@gmail.com";    
+			Intent emailIntent = new Intent(Intent.ACTION_SEND);
+			emailIntent.setData(Uri.parse("mailto:"));
+			emailIntent.setType("text/plain");
+
+			emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);    
+			emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Polecenie ksiazki");
+			emailIntent.putExtra(Intent.EXTRA_TEXT, "Polecam ci ksi¹¿ke "+tit+" autorstwa "+aut);
+
+			try {
+					startActivity(emailIntent);
+			       //startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+			       finish();
+			       Log.i("Finished sending email...", "");
+		    } catch (android.content.ActivityNotFoundException ex) {
+			       Toast.makeText(HistoryActivity.this, 
+			       "Brak zainstalowanego klienta poczty", Toast.LENGTH_SHORT).show();
+		    }
+		 
+			
+		}
 		
 	}
 }
