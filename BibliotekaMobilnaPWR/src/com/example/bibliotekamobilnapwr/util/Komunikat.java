@@ -6,9 +6,18 @@ public class Komunikat {
 	private String book;
 	private String type;
 	private String description;
+	private String id;
 	
-	public Komunikat(String date, String time, String book, String type, String description){
-		this.date = date; this.time = time; this.book = book; this.type = type; this.description = description;
+	public Komunikat(String id, String date, String time, String book, String type, String description){
+		this.id = id+""; this.date = date; this.time = time; this.book = book; this.type = type; this.description = description;
+	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	public String getDescription() {

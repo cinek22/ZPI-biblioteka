@@ -1,5 +1,7 @@
 package com.example.bibliotekamobilnapwr;
 
+import java.util.Random;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +21,9 @@ public class DodajKomunikatActivity extends Activity {
 	 private DatePicker data;
 	 private TimePicker godzina;
 	 private Button zapisz;
+	 
+	 private String ID = "";
+	 private boolean EDIT_MODE = false;
 	
 	
 	@Override
@@ -27,7 +32,18 @@ public class DodajKomunikatActivity extends Activity {
 		Intent intent = getIntent();
 		String title = intent.getStringExtra("TYTUL");
 		String type = intent.getStringExtra("TYPE");
+		String desc, date, hour, id = null;
 		Log.d("LINKS", title+" "+type);
+		
+		desc = intent.getStringExtra("OPIS");
+		date = intent.getStringExtra("DATA");
+		hour = intent.getStringExtra("GODZINA");
+		id = intent.getStringExtra("ID");
+		if(EDIT_MODE = intent.getBooleanExtra("EDIT", false)){
+			ID = new String(id);
+		}
+		
+		
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dodaj_komunikat);
@@ -45,12 +61,33 @@ public class DodajKomunikatActivity extends Activity {
 			typ.setText(type);
 		} 
 		
+		if(EDIT_MODE){
+			if(desc != null){
+				opis.setText(desc);
+			}
+			
+			if(date != null){
+				String[] temp  = date.split("\\.");
+				data.updateDate(Integer.parseInt(temp[2]), Integer.parseInt(temp[1]), Integer.parseInt(temp[0]));
+			}
+			
+			if(hour != null){
+				String[] temp  = hour.split(":");
+				godzina.setCurrentHour(Integer.parseInt(temp[0]));
+				godzina.setCurrentMinute(Integer.parseInt(temp[1]));
+			}
+		}
+		
 		zapisz.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				Random rand = new Random();
 				Log.d("LINKS", tytul.getText()+" "+typ.getText()+" "+opis.getText()+" "+data.getDayOfMonth()+"."+data.getMonth()+"."+data.getYear()+" "+godzina.getCurrentMinute()+":"+godzina.getCurrentHour());
-				KomunikatManager.add(tytul.getText().toString(), typ.getText().toString(), opis.getText().toString(), godzina.getCurrentHour()+":"+godzina.getCurrentMinute(), data.getDayOfMonth()+"."+data.getMonth()+"."+data.getYear());
+				if(EDIT_MODE){
+					KomunikatManager.remove(ID);
+				}
+				KomunikatManager.add(rand.nextInt(100000), tytul.getText().toString(), typ.getText().toString(), opis.getText().toString(), godzina.getCurrentHour()+":"+godzina.getCurrentMinute(), data.getDayOfMonth()+"."+data.getMonth()+"."+data.getYear());
 				Toast.makeText(DodajKomunikatActivity.this, "Dodano nowy Alert", Toast.LENGTH_LONG).show();
 				finish();
 			}

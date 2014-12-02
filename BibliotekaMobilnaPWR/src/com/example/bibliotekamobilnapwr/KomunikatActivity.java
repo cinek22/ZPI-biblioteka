@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import com.example.bibliotekamobilnapwr.util.Komunikat;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,14 @@ public class KomunikatActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
+		if(!KomunikatManager.isInitialized()){
+			KomunikatManager.initialize(this);
+		}
+		if(getIntent().getBooleanExtra("NOTIFICATION", false)){
+			NotificationManager mNotifyMgr = 
+			        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			mNotifyMgr.cancel(AlertReceiver.NOTIFICATION_ID);
+		}
 		setContentView(R.layout.komunikat);
 		mKomunikaty = KomunikatManager.getEntries();
 		mAdapter =  new KomunikatListAdapter();
@@ -66,6 +76,7 @@ public class KomunikatActivity extends Activity {
 			  TextView desc;
 			  TextView date;
 			  Button delete;
+			  Button edit;
 			}
 
 		@Override
@@ -83,6 +94,7 @@ public class KomunikatActivity extends Activity {
 	                holder.desc = ((TextView)convertView.findViewById(R.id.comm_opis));
 	                holder.date = ((TextView)convertView.findViewById(R.id.comm_data));
 	                holder.delete = ((Button)convertView.findViewById(R.id.comm_usun));
+	                holder.edit = ((Button)convertView.findViewById(R.id.comm_edytuj));
 	                convertView.setTag(holder);
 	            } else {
 	                holder = (ViewHolder)convertView.getTag();
@@ -96,11 +108,27 @@ public class KomunikatActivity extends Activity {
 				
 				@Override
 				public void onClick(View v) {
-					KomunikatManager.remove(mKomunikaty.get(position).getBook());
+					KomunikatManager.remove(mKomunikaty.get(position).getId());
 					mKomunikaty = KomunikatManager.getEntries();
 					mList.setAdapter(mAdapter= new KomunikatListAdapter());
 				}
-			});
+            	});
+            	holder.edit.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						Komunikat kom = mKomunikaty.get(position);
+						Intent intent = new Intent(KomunikatActivity.this, DodajKomunikatActivity.class);
+						intent.putExtra("EDIT", true);
+						intent.putExtra("TYTUL", kom.getBook());
+						intent.putExtra("TYPE", kom.getType());
+						intent.putExtra("OPIS", kom.getDescription());
+						intent.putExtra("DATA", kom.getDate());
+						intent.putExtra("GODZINA", kom.getTime());
+						intent.putExtra("ID", kom.getId());
+						startActivity(intent);
+					}
+				});
 			return convertView;
 		}
 

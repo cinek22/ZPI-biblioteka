@@ -27,7 +27,7 @@ public class KomunikatManager {
 			   /* Create a Table in the Database. */
 			   myDB.execSQL("CREATE TABLE IF NOT EXISTS "
 			     + TableName
-			     + " (tytul VARCHAR, typ VARCHAR, opis VARCHAR,  godzina VARCHAR,  data VARCHAR);");
+			     + " (id VARCHAR, tytul VARCHAR, typ VARCHAR, opis VARCHAR,  godzina VARCHAR,  data VARCHAR);");
 			   
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -36,18 +36,40 @@ public class KomunikatManager {
 		loadEntries();
 	}
 	
-	public static void add(String tytul, String typ, String opis, String godzina , String data){
+	
+	public static void initializeWypozyczenia(Context context){
+		sContext = context;
+		try {
+			   myDB = context.openOrCreateDatabase("BIBLIOTEKA", context.MODE_PRIVATE, null);
+
+			   /* Create a Table in the Database. */
+			   myDB.execSQL("CREATE TABLE IF NOT EXISTS "
+			     + "WYPOZYCZENIA"
+			     + " (id VARCHAR, tytul VARCHAR, data VARCHAR);");
+			   
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		loadEntries();
+	}
+	
+	public static boolean isInitialized(){
+		return sContext == null ? false : true;
+	}
+	
+	public static void add(int id, String tytul, String typ, String opis, String godzina , String data){
 		/* Insert data to a Table*/
 		   myDB.execSQL("INSERT INTO "
 				     + TableName
-				     + " (tytul, typ, opis, godzina , data)"
-				     + " VALUES ('"+tytul+"', '"+typ+"', '"+opis+"', '"+godzina+"', '"+data+"');");
+				     + " (id, tytul, typ, opis, godzina , data)"
+				     + " VALUES ('"+id+"','"+tytul+"', '"+typ+"', '"+opis+"', '"+godzina+"', '"+data+"');");
 		   loadEntries();
-		   registerCommunicate(data, godzina, tytul);
+		   registerCommunicate(data, godzina, tytul, id);
 	}
 	
 
-	private static void registerCommunicate(String d, String g, String title){
+	private static void registerCommunicate(String d, String g, String title, int id){
 		String[] data = d.split("\\.");
 		String[] godz = g.split(":");
 		   Calendar cal=Calendar.getInstance();
@@ -60,6 +82,7 @@ public class KomunikatManager {
 
 		    Intent intent = new Intent(sContext, AlertReceiver.class);
 		    intent.putExtra("TITLE", title);
+		    intent.putExtra("ID", id+"");
 		    PendingIntent pendingIntent = PendingIntent.getBroadcast(sContext.getApplicationContext(), 234324243, intent, PendingIntent.FLAG_UPDATE_CURRENT|  Intent.FILL_IN_DATA);
 //		    PendingIntent pendingIntent = PendingIntent.getService(sContext, 0, intent, 0);
 		    
@@ -68,13 +91,13 @@ public class KomunikatManager {
 		    alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),pendingIntent);
 	}
 	
-	public static boolean contains(Context context, String title){
+	public static boolean contains(Context context, String id){
 		if(sContext == null){
 			initialize(context);
 		}
 		if(myDB != null){
-		    String Query = "Select * from " + TableName + " where tytul='"
-		            + title+"'";
+		    String Query = "Select * from " + TableName + " where id='"
+		            + id+"'";
 		    Cursor cursor = myDB.rawQuery(Query, null);
 		            if(cursor.getCount()<=0){
 		    return false;
@@ -90,6 +113,7 @@ public class KomunikatManager {
 		/*retrieve data from database */
 		   Cursor c = myDB.rawQuery("SELECT * FROM " + TableName , null);
 
+		   int Column0 = c.getColumnIndex("id");
 		   int Column1 = c.getColumnIndex("tytul");
 		   int Column2 = c.getColumnIndex("typ");
 		   int Column3 = c.getColumnIndex("opis");
@@ -101,20 +125,21 @@ public class KomunikatManager {
 		   if (c != null && !c.isBeforeFirst()) {
 		    // Loop through all Results
 		    do {
+		     String id = c.getString(Column0);
 		     String tytul = c.getString(Column1);
 		     String typ = c.getString(Column2);
 		     String opis = c.getString(Column3);
 		     String godzina = c.getString(Column4);
 		     String data = c.getString(Column5);
-		     mKomunikaty.add(new Komunikat(data, godzina, tytul, typ, opis));
+		     mKomunikaty.add(new Komunikat(id, data, godzina, tytul, typ, opis));
 		    }while(c.moveToNext());
 		   }
 	}
 	
 	
-	public static void remove(String title){
-		myDB.delete(TableName, "tytul = ?",
-		          new String[] { title});
+	public static void remove(String id){
+		myDB.delete(TableName, "id = ?",
+		          new String[] { id});
 //		myDB.execSQL( "delete from " + TableName + " where tytul = " + title );
 		loadEntries();
 	}
