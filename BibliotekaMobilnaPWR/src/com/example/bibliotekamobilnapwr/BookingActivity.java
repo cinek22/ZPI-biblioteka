@@ -8,6 +8,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -34,7 +35,7 @@ import android.widget.Toast;
 
 public class BookingActivity extends Activity {
 
-	private Handler handler = new Handler();
+	private Handler mHandler = new Handler();
 	
 	TableLayout table_layout_booking;
 	TableLayout table_booking;
@@ -80,8 +81,9 @@ public class BookingActivity extends Activity {
 		protected String doInBackground(String... params) {
 			try {
 				// Document jsoupe
-				Document document = Jsoup.connect(
-						"http://aleph.bg.pwr.wroc.pl" + StringsAndLinks.BOOKING_URL).get();
+				Connection connection = Jsoup.connect("http://aleph.bg.pwr.wroc.pl" + StringsAndLinks.BOOKING_URL);
+				connection.timeout(20000);
+				Document document =  connection.get();
 				Elements description2 = document
 						.select("body table[cellspacing=2] tr");
 
@@ -89,8 +91,14 @@ public class BookingActivity extends Activity {
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				Toast.makeText(BookingActivity.this, "B³¹d po³¹czenia",
-						Toast.LENGTH_LONG).show();
+				mHandler.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						Toast.makeText(BookingActivity.this, "Wyst¹pi³ b³¹d po³¹czenia", Toast.LENGTH_LONG).show();
+					}
+				});
+				finish();
 			}
 
 			return null;
@@ -159,7 +167,7 @@ public class BookingActivity extends Activity {
 			StreamResult result = new StreamResult(writer);
 			transformer.transform(new DOMSource(doc), result);
 			createTable(quantityBook, doc);
-			handler.post(new Runnable() {
+			mHandler.post(new Runnable() {
 				
 				@Override
 				public void run() {

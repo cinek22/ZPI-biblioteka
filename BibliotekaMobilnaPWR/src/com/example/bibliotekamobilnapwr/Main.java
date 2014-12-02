@@ -32,11 +32,16 @@ public class Main extends Activity {
 		setupView();
 		setFieldsVisibility(isLoggedIn());
 		setupListeners();
+		KomunikatManager.initialize(this);
+		KomunikatManager.loadEntries();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
 		if(isLoggedIn()){
 			SessionManager.relog(this);
 		}
-		KomunikatManager.initialize(this);
-		KomunikatManager.loadEntries();
 	}
 
 	@Override
@@ -166,7 +171,7 @@ public class Main extends Activity {
 			@Override
 			public void onClick(View v) {
 //				startActivity(new Intent(Main.this,WypozyczeniaActivity.class));
-				startActivity(new Intent(Main.this,DodajKomunikatActivity.class));
+				startActivity(new Intent(Main.this,KomunikatActivity.class));
 			}
 		});
 		

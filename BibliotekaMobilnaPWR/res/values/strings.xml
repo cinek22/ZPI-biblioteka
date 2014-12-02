@@ -10,14 +10,14 @@
     <string name="main_author">Autor</string>
     <string name="main_search">Szukaj</string>
     <string name="main_reservations">Rezerwacje</string>
-    <string name="main_books">Moje książki</string>
+    <string name="main_books">Alerty</string>
     <string name="main_account">Konto</string>
     <string name="main_logout">Wyloguj</string>
     <string name="main_login">Zaloguj</string>
     <string name="login_title">Logowanie</string>
     <string name="login_login">Login</string>
     <string name="login_password">Hasło</string>
-    <string name="comm_title">Komunikaty</string>
+    <string name="comm_title">Alerty</string>
 
     <string-array name="where_search">
         <item>Katalog Główny PWr</item>

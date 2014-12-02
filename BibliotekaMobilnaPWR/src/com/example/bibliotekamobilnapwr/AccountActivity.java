@@ -12,6 +12,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,6 +23,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -42,7 +44,7 @@ public class AccountActivity extends Activity{
 	
 	ProgressDialog mProgressDialog;
 	
-	Account accountURL=new Account();
+	private Handler mHandler = new Handler();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +56,8 @@ public class AccountActivity extends Activity{
 		
 		Intent intent = getIntent();		
 		String message = intent.getStringExtra("URL_account");
-//		new GetAccountByRafal().execute(); 
-		new GetAccountByRafal().onPreExecute();
+		new GetAccountByRafal().execute(); 
+//		new GetAccountByRafal().onPreExecute();
 //		accountURL.execute(message);
 //		Log.d("TEST", "AccountActivity accountURL = "+accountURL.toString());
 		SessionManager.relog(AccountActivity.this);
@@ -123,73 +125,29 @@ public class AccountActivity extends Activity{
 		});
 	}
 	
-	class Account extends AsyncTask<Void,Void,Void>
-	{
-
-		String URL;
-		//HttpPost httppost; 
-		
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			mProgressDialog = new ProgressDialog(AccountActivity.this);
-			mProgressDialog.setTitle("Loadaing page");
-			mProgressDialog.setMessage("Loading...");
-			mProgressDialog.setIndeterminate(false);
-			mProgressDialog.show();
-			doInBackground();
-		}
-		
-//		public void execute(String string) {
-//			URL = string;
-//			onPreExecute();
-//		}
-		
-		
-		@Override
-		protected Void doInBackground(Void... params) {
-			try{				
-				
-				//document jsoup
-				Document document =  Jsoup.connect(URL).get();
-				Elements description = document.select("body div.title");
-				
-				//Toast.makeText(AccountActivity.this, "otrzymano "+description.text(), Toast.LENGTH_LONG).show();
-								
-				String dane = description.text();
-				String [] personID;
-				personID = dane.split(" ");
-				ownName.setText(personID[3]);
-				ownSurname.setText(personID[2]);				
-				
-				//ownName.setText(description.text());
-				
-			}catch(Exception e){
-				e.printStackTrace();
-				
-				Toast.makeText(AccountActivity.this, "Wystπpi≥ b≥πd po≥πczenia", Toast.LENGTH_LONG).show();
-				
-			}
-			mProgressDialog.dismiss();
-			return null;
-		}		
-		
-		
-	}
-	
 	
 	class GetAccountByRafal extends AsyncTask<String,Void,String>
 	{	
 		
-		
-		
 		@Override
 		protected String doInBackground(String... urls) {
+			mHandler.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					mProgressDialog = new ProgressDialog(AccountActivity.this);
+					mProgressDialog.setTitle("Loadaing page");
+					mProgressDialog.setMessage("Loading...");
+					mProgressDialog.setIndeterminate(false); 
+					mProgressDialog.show();
+				}
+			});
+			
 			try {
 				HttpClient httpclient = new DefaultHttpClient();
 				HttpPost httppost = SessionManager.buildLink(StringsAndLinks.MY_ACCOUNT);
 				
-				HttpResponse response = httpclient.execute(httppost);
+				HttpResponse response = httpclient.execute(httppost); 
 		        InputStream inputStream = response.getEntity().getContent();
 	
 	            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -205,8 +163,57 @@ public class AccountActivity extends Activity{
 	                stringBuilder.append(bufferedStrChunk);
 	            }
 //	            Log.d("TEST", "AccountActivity logowanie - odpowiedü serwera: "+stringBuilder.toString());
-	            onPostExecute(stringBuilder.toString());
-	            return stringBuilder.toString();
+	            String resp = stringBuilder.toString();
+	            Log.d("TEST", "Zapytanie o konto rozmiar: "+resp.length());
+				Log.d("TEST", "Zapytanie o konto: "+resp);
+				
+				if(resp.contains("<title>Administracyjna")){
+					Log.d("TEST", "To dziala!");
+				}
+				
+				//document jsoup
+				Document document =  Jsoup.parse(resp);
+				Elements description = document.select("body table[cellpadding=0] tr.middlebar");
+				
+				String str = null;
+				for (Element desc : description) {
+					Element a = desc.select("a").get(3);
+					str = a.attr("href").toString();
+				}
+				
+				try{ 
+					
+				//document jsoup
+				Connection connection = Jsoup.connect("http://aleph.bg.pwr.wroc.pl"+str);
+				connection.timeout(20000);
+				Document documentAccount =  connection.get();
+				Elements descriptionAccount = documentAccount.select("body div.title");
+				
+				String dane = descriptionAccount.text();	
+				final String [] personID;
+				personID = dane.split(" ");
+				mHandler.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						ownName.setText(personID[3]);
+						ownSurname.setText(personID[2]);
+						
+					}
+				});
+				
+				}catch(Exception e){
+					e.printStackTrace();
+					mHandler.post(new Runnable() {
+						
+						@Override
+						public void run() {
+							Toast.makeText(AccountActivity.this, "Wystπpi≥ b≥πd po≥πczenia", Toast.LENGTH_LONG).show();
+						}
+					});
+					finish();
+				}
+				
 			} catch (ClientProtocolException e) {
 			     Log.e("TEST", "Error getting response: "+e);
 			} catch (IOException e) {
@@ -219,48 +226,25 @@ public class AccountActivity extends Activity{
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			doInBackground();
+//			doInBackground();
 		}
 		
 		@Override
 		protected void onPostExecute(String resp) {
-			Log.d("TEST", "Zapytanie o konto rozmiar: "+resp.length());
-			Log.d("TEST", "Zapytanie o konto: "+resp);
-			
-			if(resp.contains("<title>Administracyjna")){
-				Log.d("TEST", "To dziala!");
-			}
-			
-			//document jsoup
-			Document document =  Jsoup.parse(resp);
-			Elements description = document.select("body table[cellpadding=0] tr.middlebar");
-			
-			String str = null;
-			for (Element desc : description) {
-				Element a = desc.select("a").get(3);
-				str = a.attr("href").toString();
-			}
-			
-			try{
-				
-			//document jsoup
-			Document documentAccount =  Jsoup.connect("http://aleph.bg.pwr.wroc.pl"+str).get();
-			Elements descriptionAccount = documentAccount.select("body div.title");
-			
-			String dane = descriptionAccount.text();	
-			String [] personID;
-			personID = dane.split(" ");
-			ownName.setText(personID[3]);
-			ownSurname.setText(personID[2]);
-			}catch(Exception e){
-				e.printStackTrace();
-				
-//				Toast.makeText(AccountActivity.this, "Wystπpi≥ b≥πd po≥πczenia", Toast.LENGTH_LONG).show();
-				
+			if(mProgressDialog != null){
+				mProgressDialog.dismiss();
 			}
 		}
 		
 		
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if(mProgressDialog != null){
+			mProgressDialog.dismiss();
+		}
 	}
 
 }

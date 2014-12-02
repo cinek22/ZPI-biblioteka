@@ -21,7 +21,8 @@
         <receiver android:name=".AlertReceiver"/>
         <activity
             android:name=".Main"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,77 +31,96 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ParseURLActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Rezerwacje"
-            android:label="@string/title_activity_rezerwacje" >
+            android:label="@string/title_activity_rezerwacje"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".KomunikatActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".Konto"
-            android:label="@string/title_activity_konto" >
+            android:label="@string/title_activity_konto"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".KsiazkiActivity"
-            android:label="@string/title_activity_ksiazki" >
+            android:label="@string/title_activity_ksiazki"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".EdytujKonto"
-            android:label="@string/title_activity_edytuj_konto" >
+            android:label="@string/title_activity_edytuj_konto"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".AccountActivity"
-            android:label="@string/title_activity_account" >
+            android:label="@string/title_activity_account"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ChangePassActivity"
-            android:label="@string/title_activity_change_pass" >
+            android:label="@string/title_activity_change_pass"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ListReserveActivity"
-            android:label="@string/title_activity_list_reserve" >
+            android:label="@string/title_activity_list_reserve"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".BookingActivity"
-            android:label="@string/title_activity_rezerwacje" >
+            android:label="@string/title_activity_rezerwacje"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".HistoryActivity"
-            android:label="@string/title_activity_history" >
+            android:label="@string/title_activity_history"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".WypozyczeniaActivity"
-            android:label="@string/title_activity_history" >
+            android:label="@string/title_activity_history"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".DodajKomunikatActivity"
-            android:label="@string/title_activity_history" >
+            android:label="@string/title_activity_history"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".OrdersActivity"
-            android:label="@string/title_activity_orders" >
+            android:label="@string/title_activity_orders"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".RentsActivity"
-            android:label="@string/title_activity_rents" >
+            android:label="@string/title_activity_rents"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ConfirmationActivity"
-            android:label="@string/title_activity_rezerwacje" >
+            android:label="@string/title_activity_rezerwacje"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".BookingStatementActivity"
-            android:label="@string/title_activity_rezerwacje" >
+            android:label="@string/title_activity_rezerwacje"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".RecommendActivity"
-            android:label="@string/title_activity_recommend" >
+            android:label="@string/title_activity_recommend"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
