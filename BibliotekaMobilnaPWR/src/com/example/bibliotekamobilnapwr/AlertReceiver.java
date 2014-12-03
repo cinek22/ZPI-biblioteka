@@ -11,12 +11,14 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 public class AlertReceiver extends BroadcastReceiver{
+	
+	public static final int NOTIFICATION_ID = 900920;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.d("LINKS", "Notyfikacja dzia³a!");
 		Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-		if(KomunikatManager.contains(context, intent.getStringExtra("TITLE"))){
+		if(KomunikatManager.contains(context, intent.getStringExtra("ID"))){
 			 v.vibrate(500);
 			 triggerNotification(context, intent.getStringExtra("TITLE"));
 		}
@@ -29,7 +31,8 @@ public class AlertReceiver extends BroadcastReceiver{
 			    .setContentTitle("BibliotekaPWR")
 			    .setContentText(s);
 		
-		Intent resultIntent = new Intent(context, Main.class);
+		Intent resultIntent = new Intent(context, KomunikatActivity.class);
+		resultIntent.putExtra("NOTIFICATION", true);
 		PendingIntent resultPendingIntent =
 		    PendingIntent.getActivity(
 		    context,
@@ -42,9 +45,8 @@ public class AlertReceiver extends BroadcastReceiver{
 		NotificationManager mNotifyMgr = 
 		        (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
 		// Builds the notification and issues it.
-		int mNotificationId = 001;
 
-		mNotifyMgr.notify(mNotificationId, mBuilder.build());
+		mNotifyMgr.notify(NOTIFICATION_ID, mBuilder.build());
 	}
 
 }

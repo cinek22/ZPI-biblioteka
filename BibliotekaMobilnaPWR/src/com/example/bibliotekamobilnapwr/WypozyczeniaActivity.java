@@ -55,7 +55,7 @@ public class WypozyczeniaActivity extends Activity {
 	TableLayout history_table_2;//history_table_2
 	
 	private Button backBtn;
-//	ProgressDialog mProgressDialog;
+	ProgressDialog mProgressDialog;
 	
 	
 	History history = new History();
@@ -67,8 +67,16 @@ public class WypozyczeniaActivity extends Activity {
 		setContentView(R.layout.activity_wypozyczenia);
 		setupView();
 		setupListeners();
-//		history.execute();
-		history.doInBackground("");
+		history.execute();
+//		history.doInBackground("");
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if(mProgressDialog != null){
+			mProgressDialog.dismiss();
+		}
 	}
 
 
@@ -124,6 +132,9 @@ public class WypozyczeniaActivity extends Activity {
 				e.printStackTrace();
 				Log.d("TEST", "History exception"+ e.toString());
 //				Toast.makeText(WypozyczeniaActivity.this, "Jakiœ b³¹d", Toast.LENGTH_LONG).show();
+			}
+			if(mProgressDialog != null){
+				mProgressDialog.dismiss();
 			}
 		}
 
@@ -310,6 +321,18 @@ public class WypozyczeniaActivity extends Activity {
 		
 		@Override
 		protected String doInBackground(String... params) {
+			handler.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					mProgressDialog = new ProgressDialog(WypozyczeniaActivity.this);
+					mProgressDialog.setTitle("Rent history");
+					mProgressDialog.setMessage("Loading...");
+					mProgressDialog.setIndeterminate(false);
+					mProgressDialog.show();
+				}
+			});
+			
 			try {
 				HttpClient httpclient = new DefaultHttpClient();
 				HttpPost httppost = SessionManager.buildLink(StringsAndLinks.RENT);
@@ -340,7 +363,7 @@ public class WypozyczeniaActivity extends Activity {
 				while ((bufferedStrChunk = bufferedReader.readLine()) != null) {
 					stringBuilder.append(bufferedStrChunk);
 				}
-				onPostExecute(stringBuilder.toString());
+//				onPostExecute(stringBuilder.toString());
 				return stringBuilder.toString();
 			} catch (ClientProtocolException e) {
 				Log.e("TEST", "Error getting response: " + e);

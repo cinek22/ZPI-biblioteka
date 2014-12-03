@@ -1,12 +1,54 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="${relativePackage}.${activityClass}" >
-
-    <TextView
+    android:orientation="vertical" >
+     <TextView 
+        android:id="@+id/tvO"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Aktywność do zamówień" />
-
-</RelativeLayout>
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:text="Zamówienia"
+        android:layout_gravity="center_horizontal"/>
+    
+    <TableLayout 
+        android:id="@+id/orders_table"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="#4285f4"
+        android:shrinkColumns="*"
+        android:stretchColumns="*">        
+    </TableLayout>
+    
+    <ScrollView 
+        android:layout_width="fill_parent"
+        android:layout_height="379dp"
+        android:layout_weight="0.71"
+        android:scrollbars="vertical">
+        
+        <TableLayout 
+          	android:id="@+id/orders_table_2"
+          	android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:layout_weight="0.65"
+            android:background="#EFFFBC"
+            android:padding="10dp"
+            android:shrinkColumns="*"
+            android:stretchColumns="*" >            
+        </TableLayout>        
+        
+    </ScrollView>
+    
+    <Button 
+        android:id="@+id/btnBack_orders"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#458b74"
+        android:text="@string/btnString"
+        />
+ </LinearLayout>

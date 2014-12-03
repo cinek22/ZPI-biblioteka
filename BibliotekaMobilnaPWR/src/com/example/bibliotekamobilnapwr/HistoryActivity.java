@@ -73,7 +73,8 @@ public class HistoryActivity extends Activity {
 		setContentView(R.layout.activity_history);
 		setupView();
 		setupListeners();
-		history.doInBackground("");
+//		history.doInBackground("");
+		history.execute();
 	}
 
 	private void setupListeners() {
@@ -105,7 +106,7 @@ public class HistoryActivity extends Activity {
 
 				Elements description2 = document
 						.select("body table[cellspacing=2] tr");
-				Log.d("TEST", "History request: " + description2.text());
+				Log.d("TEST", "History request: " + description2.text()); 
 
 				createXML(description2);					
 			
@@ -115,6 +116,9 @@ public class HistoryActivity extends Activity {
 				Log.d("TEST", "History exception" + e.toString());
 				Toast.makeText(HistoryActivity.this, "B³¹d po³¹czenia",
 						Toast.LENGTH_LONG).show();
+			}
+			if(mProgressDialog != null){
+				mProgressDialog.dismiss();
 			}
 		}
 
@@ -377,6 +381,17 @@ public class HistoryActivity extends Activity {
 
 		@Override
 		protected String doInBackground(String... params) {
+			handler.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					mProgressDialog = new ProgressDialog(HistoryActivity.this);
+					mProgressDialog.setTitle("Rent history");
+					mProgressDialog.setMessage("Loading...");
+					mProgressDialog.setIndeterminate(false);
+					mProgressDialog.show();
+				}
+			});
 			try {
 				HttpClient httpclient = new DefaultHttpClient();
 				HttpPost httppost = SessionManager
@@ -414,7 +429,7 @@ public class HistoryActivity extends Activity {
 				while ((bufferedStrChunk = bufferedReader.readLine()) != null) {
 					stringBuilder.append(bufferedStrChunk);
 				}
-				onPostExecute(stringBuilder.toString());
+//				onPostExecute(stringBuilder.toString());
 				return stringBuilder.toString();
 			} catch (ClientProtocolException e) {
 				Log.e("TEST", "Error getting response: " + e);
@@ -473,5 +488,13 @@ public class HistoryActivity extends Activity {
 			
 		}
 		
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if(mProgressDialog != null){
+			mProgressDialog.dismiss();
+		}
 	}
 }
