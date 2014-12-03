@@ -39,6 +39,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -283,12 +284,14 @@ public class HistoryActivity extends Activity {
 						android.view.ViewGroup.LayoutParams.WRAP_CONTENT));*/
 //				btnRecommend.setText("Poleæ");
 				
-				ImageView btnRecommend = new ImageView(HistoryActivity.this);
+				final ImageView btnRecommend = new ImageView(HistoryActivity.this);
 				btnRecommend.setMinimumWidth(wPolec);
 //				btnRecommend.setLayoutParams(new LayoutParams(20,20));
 				btnRecommend.setBackgroundResource(R.drawable.share);
 
 				row.addView(btnRecommend);
+				
+				
 				
 				btnRecommend.setPadding(15, 0, 15, 0);
 				btnRecommend.setOnClickListener(new View.OnClickListener() {
@@ -304,7 +307,7 @@ public class HistoryActivity extends Activity {
 						displayPopupWindow(v);
 					}
 					
-
+					
 					private void displayPopupWindow(View popupView) {
 						PopupWindow popup = new PopupWindow(
 								HistoryActivity.this);
@@ -319,8 +322,9 @@ public class HistoryActivity extends Activity {
 						popup.setOutsideTouchable(true);
 						popup.setFocusable(true);
 						// Show view to button
-						//popup.setBackgroundDrawable(new BitmapDrawable());
-						popup.showAsDropDown(popupView);
+						popup.setBackgroundDrawable(new BitmapDrawable());
+						popup.showAsDropDown(btnRecommend);
+//						popup.showAsDropDown(popupView);
 
 						ImageView popupsms;
 						ImageView popupemail;
