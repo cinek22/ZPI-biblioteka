@@ -4,32 +4,77 @@
     android:layout_height="match_parent"
     android:orientation="vertical" 
     android:background="@drawable/background">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="45px" >
 
+    <ImageView
+        android:id="@+id/helpConfirmation"
+        android:layout_width="45px"
+        android:layout_height="45px"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/help" />
+
+    <TextView
+        android:id="@+id/title_confirmation"
+        android:layout_width="wrap_content"
+        android:layout_height="45px"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/helpResult"
+        android:background="#70FFFFFF"
+        android:gravity="center"
+        android:text="@string/title_confirmation"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:typeface="monospace" />
+
+</RelativeLayout>
     <TextView
         android:id="@+id/confirmation_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:gravity="center"
         android:layout_marginTop="10dp"/>
 
     <TextView
         android:id="@+id/confirmation_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:gravity="center"
         android:layout_marginTop="30dp"/>
 
-    <TextView
+
+	<TextView
         android:id="@+id/confirmation_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="14sp"
+         android:gravity="center"
         android:layout_marginTop="30dp"/>
 
-    <Button
+    <ImageView
         android:id="@+id/confirmation_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:padding="5dp"
-        android:background="@color/green_transparent"
-        android:text="@string/confirmation_button" />
+        android:layout_gravity="center"
+        android:background="@drawable/button_accept"/>
+    
+       <ImageView
+        android:id="@+id/btnBackConfirmation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/arrow_back"
+        />
 
 </LinearLayout>

@@ -26,9 +26,11 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -44,7 +46,9 @@ public class ParseURLActivity extends Activity {
 	public static final String GREEN_2 = "#3F5300";
 	TableLayout table_layout;
 	TableLayout table;
-	private Button btnBack;
+	private ImageView btnBack;
+	private ImageView help;
+	private TextView title;
 	ParseURL parseURL = new ParseURL();
 
 
@@ -61,7 +65,16 @@ public class ParseURLActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				finish();
+				Intent intent = new Intent(ParseURLActivity.this, Main.class);
+				startActivity(intent);
+			}
+		});
+		
+		help.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(ParseURLActivity.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
 			}
 		});
 	}
@@ -69,8 +82,9 @@ public class ParseURLActivity extends Activity {
 	private void setupView() {
 		table_layout = (TableLayout) findViewById(R.id.tableLayout1);
 		table = (TableLayout) findViewById(R.id.table);
-		btnBack = (Button) findViewById(R.id.btnBack);
-
+		btnBack = (ImageView) findViewById(R.id.btnBack);
+		help = (ImageView) findViewById(R.id.helpResult);
+		title = (TextView) findViewById(R.id.title_result);
 	}
 
 	public class ParseURL extends AsyncTask<String, Void, String> {
@@ -108,6 +122,8 @@ public class ParseURLActivity extends Activity {
 			return null;
 		}
 
+		
+		
 		public void createXML(Elements description2) throws Exception {
 
 			// count quantity book
@@ -168,7 +184,6 @@ public class ParseURLActivity extends Activity {
 					availibility.appendChild(baza);				
 				}
 				book.appendChild(availibility);
-				
 			}
 			// create Transformer object
 			Transformer transformer = TransformerFactory.newInstance()

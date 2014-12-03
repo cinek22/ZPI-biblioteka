@@ -4,7 +4,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/background" >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="45px" >
 
+    <ImageView
+        android:id="@+id/helpBookingActivity"
+        android:layout_width="45px"
+        android:layout_height="45px"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/help" />
+
+    <TextView
+        android:id="@+id/title_booking_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="45px"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/helpBookingActivity"
+        android:background="#70FFFFFF"
+        android:gravity="center"
+        android:text="@string/title_booking_activity"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:typeface="monospace" />
+
+</RelativeLayout>
     <TableLayout
         android:id="@+id/table_booking"
         android:layout_width="fill_parent"
@@ -32,14 +58,14 @@
         </TableLayout>
     </ScrollView>
 
-    <Button
+    <ImageView
         android:id="@+id/btnBackBooking"
         android:layout_width="wrap_content"
-        android:layout_height="33dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:background="#458b74"
-        android:text="@string/btnString" />
+        android:background="@drawable/arrow_back"
+        />
 
 </LinearLayout>

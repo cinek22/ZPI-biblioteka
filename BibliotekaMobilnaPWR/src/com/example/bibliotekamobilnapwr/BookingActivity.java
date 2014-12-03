@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -39,8 +40,11 @@ public class BookingActivity extends Activity {
 	
 	TableLayout table_layout_booking;
 	TableLayout table_booking;
-    private Button btnBack;
+    private ImageView btnBack;
+    private ImageView help;
+	private TextView title;
 	Booking booking = new Booking();
+	ProgressDialog mProgressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +55,8 @@ public class BookingActivity extends Activity {
 
 
 		booking.doInBackground("");
-
+//booking.execute();
+		
 		/*SessionManager.relog(BookingActivity.this);*/
 
 		
@@ -59,17 +64,26 @@ public class BookingActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				finish();
+				Intent intent = new Intent(BookingActivity.this, ParseURLActivity.class);
+				startActivity(intent);;
 			}
 		});
-		 
+		help.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(BookingActivity.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
+			}
+		});
 
 	}
 
 	private void setupView() {
 		table_layout_booking = (TableLayout) findViewById(R.id.tableLayout_booking);
 		table_booking = (TableLayout) findViewById(R.id.table_booking);
-		btnBack = (Button) findViewById(R.id.btnBackBooking);
+		btnBack = (ImageView) findViewById(R.id.btnBackBooking);
+		help = (ImageView) findViewById(R.id.helpBookingActivity);
+		title = (TextView) findViewById(R.id.title_booking_activity);
 
 	}
 
@@ -78,7 +92,25 @@ public class BookingActivity extends Activity {
 		StringBuilder resultTextFmt = new StringBuilder();
 
 		@Override
+		protected void onPostExecute(String resp) {
+		if(mProgressDialog != null){
+			mProgressDialog.dismiss();
+		}
+		}
+		
+		@Override
 		protected String doInBackground(String... params) {
+			mHandler.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					mProgressDialog = new ProgressDialog(BookingActivity.this);
+					mProgressDialog.setTitle("Przygotowujê dane ksi¹¿ki");
+					mProgressDialog.setMessage("£adowanie...");
+					mProgressDialog.setIndeterminate(false);
+					mProgressDialog.show();
+				}
+			});
 			try {
 				// Document jsoupe
 				Connection connection = Jsoup.connect("http://aleph.bg.pwr.wroc.pl" + StringsAndLinks.BOOKING_URL);
@@ -167,6 +199,7 @@ public class BookingActivity extends Activity {
 			StreamResult result = new StreamResult(writer);
 			transformer.transform(new DOMSource(doc), result);
 			createTable(quantityBook, doc);
+			
 			mHandler.post(new Runnable() {
 				
 				@Override
@@ -346,4 +379,11 @@ public class BookingActivity extends Activity {
 
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if(mProgressDialog != null){
+			mProgressDialog.dismiss();
+		}
+	}
 }

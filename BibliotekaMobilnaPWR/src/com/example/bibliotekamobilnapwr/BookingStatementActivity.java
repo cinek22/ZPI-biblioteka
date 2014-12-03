@@ -32,6 +32,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,8 +41,10 @@ public class BookingStatementActivity extends Activity{
 	private Handler handler = new Handler();
 	
 	TextView tvStatement;
-	Button btnOK;
-
+	ImageView btnOK;
+	private ImageView help;
+	private TextView title;
+	
 	Statement statement = new Statement();
 
 	@Override
@@ -53,7 +56,13 @@ public class BookingStatementActivity extends Activity{
 
 		
 		statement.doInBackground("");
+		help.setOnClickListener(new View.OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(BookingStatementActivity.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
+			}
+		});
 
 		SessionManager.relog(BookingStatementActivity.this);
 
@@ -62,7 +71,9 @@ public class BookingStatementActivity extends Activity{
 
 	private void setView() {
 		tvStatement = (TextView) findViewById(R.id.tvstatement);
-		btnOK = (Button) findViewById(R.id.btnstatement);
+		btnOK = (ImageView) findViewById(R.id.btnstatement);
+		help = (ImageView) findViewById(R.id.helpResult);
+		title = (TextView) findViewById(R.id.title_result);
 	}
 
 	class Statement extends AsyncTask<String, Void, String> {

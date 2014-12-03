@@ -18,7 +18,6 @@ public class Main extends Activity {
 	private EditText mTitle;
 	private EditText mAuthor;
 	private Button mSearch;
-	private Button mReservations;
 	private Button mBooks;
 	private Button mAccount;
 	private Button mLogout;
@@ -70,7 +69,6 @@ public class Main extends Activity {
 		mTitle = (EditText) findViewById(R.id.main_title_et);
 		mAuthor = (EditText) findViewById(R.id.main_author_et);
 		mSearch = (Button) findViewById(R.id.main_search);
-		mReservations = (Button) findViewById(R.id.main_reservations);
 		mBooks  = (Button) findViewById(R.id.main_books);
 		mAccount  = (Button) findViewById(R.id.main_account);
 		mLogout  = (Button) findViewById(R.id.main_logout);
@@ -86,12 +84,10 @@ public class Main extends Activity {
 	
 	private void setFieldsVisibility(boolean isLogged){
 		if(isLogged){
-			mReservations.setVisibility(View.VISIBLE);
 			mBooks.setVisibility(View.VISIBLE);
 			mAccount.setVisibility(View.VISIBLE);
 			mLogout.setText(getText(R.string.main_logout));
 		} else{
-			mReservations.setVisibility(View.INVISIBLE);
 			mBooks.setVisibility(View.INVISIBLE);
 			mAccount.setVisibility(View.INVISIBLE);
 			mLogout.setText(getText(R.string.main_login));
@@ -172,15 +168,6 @@ public class Main extends Activity {
 			public void onClick(View v) {
 //				startActivity(new Intent(Main.this,WypozyczeniaActivity.class));
 				startActivity(new Intent(Main.this,KomunikatActivity.class));
-			}
-		});
-		
-		mReservations.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				//Toast.makeText(Main.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
-				startActivity(new Intent(Main.this,ListReserveActivity.class));
 			}
 		});
 		

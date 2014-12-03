@@ -80,20 +80,7 @@
 	        android:gravity="center"
 	        android:background="@color/green_transparent"
 	        android:text="@string/main_search"/>
-	    
-	    <Button 
-            android:id="@+id/main_reservations"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_marginBottom="10dp"
-	        android:layout_marginRight="25dp"
-	        android:layout_marginLeft="25dp"
-	        android:padding="5dp"
-	        android:gravity="center"
-	        android:background="@color/blue_transparent"
-	        android:layout_gravity="right"
-	        android:text="@string/main_reservations" />
-
+	 
 	    <Button
 	        android:id="@+id/main_books"
 	        android:layout_width="match_parent"

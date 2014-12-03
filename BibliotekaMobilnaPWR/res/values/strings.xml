@@ -88,5 +88,10 @@
     <string name="email">Wyślij e-mail</string>
     <string name="twitter">Opublikuj na twitter</string>
     <string name="rec_back">Powrót</string>
+    <string name="title_result">Wyniki wyszukania</string>
+    <string name="title_booking_activity">Informacje o książce</string>
+    <string name="title_confirmation">Potwierdzenie rezerwacji</string>
+    <string name="title_Statement">Stan rezerwacji</string>
+     <string name="title_History">Historia wypożyczeń</string>
 
 </resources>

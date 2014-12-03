@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,8 +37,11 @@ public class ConfirmationActivity extends Activity {
 	TextView tvTitle;
 	TextView tvBody;
 	TextView tvInfo;
-	Button btnPotwierdz;
-
+	ImageView btnPotwierdz;
+	ImageView btnBack;
+	private ImageView help;
+	private TextView title;
+	
 	Confirmation confirmation = new Confirmation();
 
 	@Override
@@ -50,14 +54,31 @@ public class ConfirmationActivity extends Activity {
 		confirmation.doInBackground("");
 
 		SessionManager.relog(ConfirmationActivity.this);
+		btnBack.setOnClickListener(new View.OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(ConfirmationActivity.this, BookingActivity.class);
+				startActivity(intent);
+			}
+		});
+		help.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(ConfirmationActivity.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
+			}
+		});
 	}
 
 	private void setView() {
 		tvTitle = (TextView) findViewById(R.id.confirmation_title);
 		tvBody = (TextView) findViewById(R.id.confirmation_body);
 		tvInfo = (TextView) findViewById(R.id.confirmation_info);
-		btnPotwierdz = (Button) findViewById(R.id.confirmation_button);
+		btnPotwierdz = (ImageView) findViewById(R.id.confirmation_button);
+		btnBack = (ImageView) findViewById(R.id.btnBackConfirmation);
+		help = (ImageView) findViewById(R.id.helpConfirmation);
+		title = (TextView) findViewById(R.id.title_confirmation);
 	}
 
 	class Confirmation extends AsyncTask<String, Void, String> {

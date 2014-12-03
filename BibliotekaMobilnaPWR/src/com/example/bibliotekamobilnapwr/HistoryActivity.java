@@ -59,8 +59,9 @@ public class HistoryActivity extends Activity {
 	private Handler handler = new Handler();
 	TableLayout history_table;// history_table
 	TableLayout history_table_2;// history_table_2
-
-	private Button backBtn;
+	private ImageView help;
+	private TextView title;
+	private ImageView backBtn;
 	ProgressDialog mProgressDialog;
 	
 
@@ -86,12 +87,22 @@ public class HistoryActivity extends Activity {
 
 			}
 		});
+	help.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(HistoryActivity.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
+			}
+		});
+		
 	}
 
 	private void setupView() {
 		history_table = (TableLayout) findViewById(R.id.history_table);
 		history_table_2 = (TableLayout) findViewById(R.id.history_table_2);
-		backBtn = (Button) findViewById(R.id.btnBack_hisory);
+		backBtn = (ImageView) findViewById(R.id.btnBack_hisory);
+		help = (ImageView) findViewById(R.id.helpHistory);
+		title = (TextView) findViewById(R.id.title_History);
 	}
 
 	public class History extends AsyncTask<String, Void, String> {
@@ -327,7 +338,7 @@ public class HistoryActivity extends Activity {
 						popup.setFocusable(true);
 						// Show view to button
 						popup.setBackgroundDrawable(new BitmapDrawable());
-						popup.showAsDropDown(btnRecommend);
+						popup.showAsDropDown(btnRecommend, -250,-50);
 //						popup.showAsDropDown(popupView);
 
 						ImageView popupsms;
