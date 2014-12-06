@@ -27,7 +27,6 @@
         android:background="#70FFFFFF"
         android:gravity="center"
         android:text="@string/title_result"
-        android:textAlignment="center"
         android:typeface="monospace"
         android:textSize="20sp" />
 
