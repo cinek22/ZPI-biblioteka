@@ -1,7 +1,10 @@
 package com.example.bibliotekamobilnapwr;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -255,4 +258,6 @@ public class Main extends Activity {
                      return result;
 	
 	}
+	
+	
 }

@@ -30,8 +30,11 @@ import org.jsoup.select.Elements;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -67,8 +70,33 @@ public class WypozyczeniaActivity extends Activity {
 		setContentView(R.layout.activity_wypozyczenia);
 		setupView();
 		setupListeners();
-		history.execute();
-//		history.doInBackground("");
+		if(isConnectedtoInternet())
+		{
+			
+			history.execute();
+		}
+		else {
+		      // alert dialog
+			try {			    
+			    AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+			    alertDialog.setTitle("Info");
+			    alertDialog.setMessage("Brak po³¹czenia z internetem");
+			    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+			    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+			       public void onClick(DialogInterface dialog, int which) {
+			         finish();
+
+			       }
+			    });
+
+			    alertDialog.show();
+			    }
+			    catch(Exception e)
+			    {
+			        e.printStackTrace();
+			    }			   
+
+		}
 	}
 	
 	@Override
@@ -95,6 +123,21 @@ public class WypozyczeniaActivity extends Activity {
 		history_table_2=(TableLayout) findViewById(R.id.history_table_2);
 		backBtn = (Button) findViewById(R.id.btnBack_hisory);
 		
+	}
+	
+public boolean isConnectedtoInternet(){
+		
+		ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+		if(con!=null){
+			NetworkInfo [] info = con.getAllNetworkInfo();
+			if(info!=null)
+				for(int i =0;i<info.length;i++)
+					if(info[i].getState()==NetworkInfo.State.CONNECTED){
+						return true;
+					}
+		}
+		
+		return false;
 	}
 	
 	public class History extends AsyncTask<String, Void, String>

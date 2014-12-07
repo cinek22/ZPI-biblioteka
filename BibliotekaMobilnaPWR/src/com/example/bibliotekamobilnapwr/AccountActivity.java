@@ -19,11 +19,18 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -52,13 +59,36 @@ public class AccountActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mkonto);
 		setupView();
-		setupListeners();
+		setupListeners();		
 		
-		Intent intent = getIntent();		
-		String message = intent.getStringExtra("URL_account");
-		new GetAccountByRafal().execute(); 
+		if(isConnectedtoInternet())
+		{
+			
+			new GetAccountByRafal().execute();
+		}
+		else {
+		      // alert dialog
+			try {			    
+			    AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+			    alertDialog.setTitle("Info");
+			    alertDialog.setMessage("Brak po³¹czenia z internetem");
+			    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+			    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+			       public void onClick(DialogInterface dialog, int which) {
+			         finish();
+
+			       }
+			    });
+
+			    alertDialog.show();
+			    }
+			    catch(Exception e)
+			    {
+			        e.printStackTrace();
+			    }			   
+
+		}
 //		new GetAccountByRafal().onPreExecute();
-//		accountURL.execute(message);
 //		Log.d("TEST", "AccountActivity accountURL = "+accountURL.toString());
 		SessionManager.relog(AccountActivity.this);
 		
@@ -123,6 +153,21 @@ public class AccountActivity extends Activity{
 				
 			}
 		});
+	}
+	
+	public boolean isConnectedtoInternet(){
+		
+		ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+		if(con!=null){
+			NetworkInfo [] info = con.getAllNetworkInfo();
+			if(info!=null)
+				for(int i =0;i<info.length;i++)
+					if(info[i].getState()==NetworkInfo.State.CONNECTED){
+						return true;
+					}
+		}
+		
+		return false;
 	}
 	
 	
@@ -204,13 +249,14 @@ public class AccountActivity extends Activity{
 				
 				}catch(Exception e){
 					e.printStackTrace();
-					mHandler.post(new Runnable() {
+					/*mHandler.post(new Runnable() {
 						
 						@Override
 						public void run() {
 							Toast.makeText(AccountActivity.this, "Wyst¹pi³ b³¹d po³¹czenia", Toast.LENGTH_LONG).show();
+							; 
 						}
-					});
+					});*/
 					finish();
 				}
 				
