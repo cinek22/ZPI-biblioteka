@@ -93,5 +93,6 @@
     <string name="title_confirmation">Potwierdzenie rezerwacji</string>
     <string name="title_Statement">Stan rezerwacji</string>
      <string name="title_History">Historia wypożyczeń</string>
+     <string name="title_Orders">Zamówienia</string>
 
 </resources>

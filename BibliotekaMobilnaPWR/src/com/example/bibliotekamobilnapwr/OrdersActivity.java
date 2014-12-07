@@ -46,6 +46,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TableLayout;
@@ -60,8 +61,10 @@ public class OrdersActivity extends Activity {
 	private Handler handler = new Handler();
 	TableLayout orders_table;
 	TableLayout orders_table_2;
-	private Button backBtn;
+	private ImageView backBtn;
+	private ImageView helpBtn;
 	ProgressDialog mProgressDialog;
+	private TextView tv;
 	
 	Orders orders = new Orders();
 	
@@ -111,13 +114,22 @@ public class OrdersActivity extends Activity {
 			}
 		});
 		
+		helpBtn.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(OrdersActivity.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
+			}
+		});
+		
 	}
 
 	private void setupView() {
 		orders_table = (TableLayout) findViewById(R.id.orders_table);
 		orders_table_2 = (TableLayout) findViewById(R.id.orders_table_2);
-		backBtn = (Button) findViewById(R.id.btnBack_orders);
-		
+		backBtn = (ImageView) findViewById(R.id.btnBack_orders);
+		helpBtn = (ImageView) findViewById(R.id.helpOrders);
+		tv = (TextView) findViewById(R.id.tvO);
 	}
 	
 public boolean isConnectedtoInternet(){
