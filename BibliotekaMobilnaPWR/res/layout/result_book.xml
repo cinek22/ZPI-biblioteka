@@ -32,6 +32,27 @@
 
 </RelativeLayout>
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="45px">
+
+    <ImageView
+        android:id="@+id/arrow_prev"
+        android:layout_width="45px"
+        android:layout_height="45px"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/arrow_prev" />
+
+    <ImageView
+        android:id="@+id/arrow_next"
+        android:layout_width="45px"
+        android:layout_height="45px"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/arrow_next" />
+</RelativeLayout>
+
     <TableLayout
         android:id="@+id/table"
         android:layout_width="match_parent"

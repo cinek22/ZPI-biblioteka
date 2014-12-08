@@ -20,9 +20,12 @@ import org.w3c.dom.NodeList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -48,6 +51,8 @@ public class ParseURLActivity extends Activity {
 	TableLayout table;
 	private ImageView btnBack;
 	private ImageView help;
+	private ImageView arrow_prev;
+	private ImageView arrow_next;
 	private TextView title;
 	ParseURL parseURL = new ParseURL();
 
@@ -59,7 +64,33 @@ public class ParseURLActivity extends Activity {
 		setContentView(R.layout.result_book);
 		setupView();
 
-		parseURL.doInBackground("");
+		if(isConnectedtoInternet())
+		{
+			
+			parseURL.doInBackground("");
+		}
+		else {
+		      // alert dialog
+			try {			    
+			    AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+			    alertDialog.setTitle("Info");
+			    alertDialog.setMessage("Brak po³¹czenia z internetem");
+			    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+			    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+			       public void onClick(DialogInterface dialog, int which) {
+			         finish();
+
+			       }
+			    });
+
+			    alertDialog.show();
+			    }
+			    catch(Exception e)
+			    {
+			        e.printStackTrace();
+			    }			   
+
+		}
 		
 		btnBack.setOnClickListener(new View.OnClickListener() {
 
@@ -79,12 +110,32 @@ public class ParseURLActivity extends Activity {
 		});
 	}
 
+public boolean isConnectedtoInternet(){
+		
+		ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+		if(con!=null){
+			NetworkInfo [] info = con.getAllNetworkInfo();
+			if(info!=null)
+				for(int i =0;i<info.length;i++)
+					if(info[i].getState()==NetworkInfo.State.CONNECTED){
+						return true;
+					}
+		}
+		
+		return false;
+	}
+	
 	private void setupView() {
 		table_layout = (TableLayout) findViewById(R.id.tableLayout1);
 		table = (TableLayout) findViewById(R.id.table);
 		btnBack = (ImageView) findViewById(R.id.btnBack);
 		help = (ImageView) findViewById(R.id.helpResult);
+		arrow_prev = (ImageView) findViewById(R.id.arrow_prev);
+		arrow_next = (ImageView) findViewById(R.id.arrow_next);
 		title = (TextView) findViewById(R.id.title_result);
+		
+		arrow_prev.setVisibility(View.INVISIBLE);
+		arrow_next.setVisibility(View.INVISIBLE);
 	}
 
 	public class ParseURL extends AsyncTask<String, Void, String> {
@@ -99,13 +150,16 @@ public class ParseURLActivity extends Activity {
 				connection.timeout(20000);
 				Document document = connection.get();	
 
+				
+				
+				
 				Elements description2 = document
 						.select("body table#short_table tr[valign=baseline]");
 				if (description2.size() != 0) {
 					createXML(description2);
-				} else {
-					errorMessage();	
-				}
+				}else Toast.makeText(ParseURLActivity.this, "blad", Toast.LENGTH_LONG).show();			
+				
+				
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -124,6 +178,19 @@ public class ParseURLActivity extends Activity {
 
 		
 		
+		@Override
+		protected void onPostExecute(String result) {
+			
+			 Toast.makeText(ParseURLActivity.this, "jestem tu", Toast.LENGTH_LONG).show();
+			if(result.contains("limit wyszukanych pozycji")){
+				errorMessage("Przekroczony limit wyszukiwañ");
+			}else{
+				errorMessage("Nie odnaleziono rekordów odpowiadaj¹cych zapytaniu");
+			}
+		}
+
+
+
 		public void createXML(Elements description2) throws Exception {
 
 			// count quantity book
@@ -302,13 +369,13 @@ public class ParseURLActivity extends Activity {
 		}
 	}
 	
-	private void errorMessage (){
+	private void errorMessage (String text){
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				ParseURLActivity.this);
  
 			// set dialog message
 			alertDialogBuilder
-				.setMessage("Nie odnaleziono rekordów odpowiadaj¹cych zapytaniu")
+				.setMessage(text)
 				.setCancelable(false)
 				.setPositiveButton("OK",new DialogInterface.OnClickListener() {
 					@Override

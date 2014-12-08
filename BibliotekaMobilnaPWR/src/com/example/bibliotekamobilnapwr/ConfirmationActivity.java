@@ -21,7 +21,12 @@ import org.jsoup.select.Elements;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,7 +56,33 @@ public class ConfirmationActivity extends Activity {
 		setContentView(R.layout.confirmation_booking_activity);
 		setView();
 
-		confirmation.doInBackground("");
+		if(isConnectedtoInternet())
+		{
+			
+			confirmation.doInBackground("");
+		}
+		else {
+		      // alert dialog
+			try {			    
+			    AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+			    alertDialog.setTitle("Info");
+			    alertDialog.setMessage("Brak po³¹czenia z internetem");
+			    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+			    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+			       public void onClick(DialogInterface dialog, int which) {
+			         finish();
+
+			       }
+			    });
+
+			    alertDialog.show();
+			    }
+			    catch(Exception e)
+			    {
+			        e.printStackTrace();
+			    }			   
+
+		}
 
 		SessionManager.relog(ConfirmationActivity.this);
 		btnBack.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +102,21 @@ public class ConfirmationActivity extends Activity {
 		});
 	}
 
+public boolean isConnectedtoInternet(){
+		
+		ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+		if(con!=null){
+			NetworkInfo [] info = con.getAllNetworkInfo();
+			if(info!=null)
+				for(int i =0;i<info.length;i++)
+					if(info[i].getState()==NetworkInfo.State.CONNECTED){
+						return true;
+					}
+		}
+		
+		return false;
+	}
+	
 	private void setView() {
 		tvTitle = (TextView) findViewById(R.id.confirmation_title);
 		tvBody = (TextView) findViewById(R.id.confirmation_body);

@@ -17,8 +17,11 @@ import org.jsoup.select.Elements;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -53,12 +56,33 @@ public class BookingActivity extends Activity {
 		setContentView(R.layout.booking_activity);
 		setupView();
 
+		if(isConnectedtoInternet())
+		{
+			
+			booking.doInBackground("");
+		}
+		else {
+		      // alert dialog
+			try {			    
+			    AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+			    alertDialog.setTitle("Info");
+			    alertDialog.setMessage("Brak po³¹czenia z internetem");
+			    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+			    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+			       public void onClick(DialogInterface dialog, int which) {
+			         finish();
 
-		booking.doInBackground("");
-//booking.execute();
-		
-		/*SessionManager.relog(BookingActivity.this);*/
+			       }
+			    });
 
+			    alertDialog.show();
+			    }
+			    catch(Exception e)
+			    {
+			        e.printStackTrace();
+			    }			   
+
+		}
 		
 		btnBack.setOnClickListener(new View.OnClickListener() {
 
@@ -78,6 +102,21 @@ public class BookingActivity extends Activity {
 
 	}
 
+public boolean isConnectedtoInternet(){
+		
+		ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+		if(con!=null){
+			NetworkInfo [] info = con.getAllNetworkInfo();
+			if(info!=null)
+				for(int i =0;i<info.length;i++)
+					if(info[i].getState()==NetworkInfo.State.CONNECTED){
+						return true;
+					}
+		}
+		
+		return false;
+	}
+	
 	private void setupView() {
 		table_layout_booking = (TableLayout) findViewById(R.id.tableLayout_booking);
 		table_booking = (TableLayout) findViewById(R.id.table_booking);

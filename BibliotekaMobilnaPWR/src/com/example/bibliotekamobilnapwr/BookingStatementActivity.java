@@ -23,8 +23,11 @@ import org.jsoup.nodes.Document;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,7 +58,33 @@ public class BookingStatementActivity extends Activity{
 		setView();
 
 		
-		statement.doInBackground("");
+		if(isConnectedtoInternet())
+		{
+			
+			statement.doInBackground("");
+		}
+		else {
+		      // alert dialog
+			try {			    
+			    AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+			    alertDialog.setTitle("Info");
+			    alertDialog.setMessage("Brak po³¹czenia z internetem");
+			    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+			    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+			       public void onClick(DialogInterface dialog, int which) {
+			         finish();
+
+			       }
+			    });
+
+			    alertDialog.show();
+			    }
+			    catch(Exception e)
+			    {
+			        e.printStackTrace();
+			    }			   
+
+		}
 		help.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -64,11 +93,25 @@ public class BookingStatementActivity extends Activity{
 			}
 		});
 
-		SessionManager.relog(BookingStatementActivity.this);
-
+		SessionManager.relog(BookingStatementActivity.this);	
 
 	}
 
+public boolean isConnectedtoInternet(){
+		
+		ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+		if(con!=null){
+			NetworkInfo [] info = con.getAllNetworkInfo();
+			if(info!=null)
+				for(int i =0;i<info.length;i++)
+					if(info[i].getState()==NetworkInfo.State.CONNECTED){
+						return true;
+					}
+		}
+		
+		return false;
+	}
+	
 	private void setView() {
 		tvStatement = (TextView) findViewById(R.id.tvstatement);
 		btnOK = (ImageView) findViewById(R.id.btnstatement);
