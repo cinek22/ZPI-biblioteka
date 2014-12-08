@@ -25,13 +25,14 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class LoginActivity extends Activity {
 	
 	private EditText mLogin;
 	private EditText mPassword;
-	private Button mLoginButton;
+	private RelativeLayout mLoginButton;
 	private String mLoginUrl;
 
 	
@@ -50,7 +51,7 @@ public class LoginActivity extends Activity {
 	private void setupView(){
 		mLogin = (EditText) findViewById(R.id.login_login_et);
 		mPassword = (EditText) findViewById(R.id.login_password_et);
-		mLoginButton  = (Button) findViewById(R.id.login_login_btn);
+		mLoginButton  = (RelativeLayout) findViewById(R.id.login_rl);
 	}
 	
 	private void setupListeners(){

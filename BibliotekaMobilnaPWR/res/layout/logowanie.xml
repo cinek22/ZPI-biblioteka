@@ -59,8 +59,36 @@
             android:hint="@string/login_password"
             android:layout_weight="5"/>
     </LinearLayout>
-	    
-	    <Button 
+	  
+     <RelativeLayout
+            android:id="@+id/login_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button_rounded_green" >
+
+            <ImageView
+                android:id="@+id/login_icon"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/login"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/login_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/login_icon"
+                android:text="@string/main_login"
+                android:textSize="23dp" />
+        </RelativeLayout>
+    
+<!-- 	    <Button 
 	        android:id="@+id/login_login_btn"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
@@ -70,6 +98,6 @@
 	        android:padding="5dp"
 	        android:gravity="center"
 	        android:background="@color/green_transparent"
-	        android:text="@string/main_login"/>
+	        android:text="@string/main_login"/> -->
 </LinearLayout>
 

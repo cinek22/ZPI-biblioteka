@@ -52,8 +52,6 @@ public class ParseURLActivity extends Activity {
 	TableLayout table;
 	private ImageView btnBack;
 	private ImageView help;
-	private ImageView arrow_prev;
-	private ImageView arrow_next;
 	private TextView title;
 	ParseURL parseURL = new ParseURL();
 
@@ -131,12 +129,8 @@ public boolean isConnectedtoInternet(){
 		table = (TableLayout) findViewById(R.id.table);
 		btnBack = (ImageView) findViewById(R.id.btnBack);
 		help = (ImageView) findViewById(R.id.helpResult);
-		arrow_prev = (ImageView) findViewById(R.id.arrow_prev);
-		arrow_next = (ImageView) findViewById(R.id.arrow_next);
 		title = (TextView) findViewById(R.id.title_result);
-		
-		arrow_prev.setVisibility(View.INVISIBLE);
-		arrow_next.setVisibility(View.INVISIBLE);
+
 	}
 
 	public class ParseURL extends AsyncTask<String, Void, String> {
