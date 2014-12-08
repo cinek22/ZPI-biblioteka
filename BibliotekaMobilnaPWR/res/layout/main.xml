@@ -1,99 +1,131 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context="com.example.bibliotekamobilnapwr.Main" >
-    
-    <TextView 
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:text="@string/title_main"
-        android:textSize="22dp"
-        android:textColor="@color/blue"/>
-    
-    <LinearLayout 
+        android:textColor="@color/blue"
+        android:textSize="22dp" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:orientation="horizontal"
         android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp">
-        <TextView 
+        android:layout_marginRight="25dp"
+        android:orientation="horizontal" >
+
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/main_title"
-            android:layout_weight="1"/>
-        
-        <EditText 
+            android:layout_weight="1"
+            android:text="@string/main_title" />
+
+        <EditText
             android:id="@+id/main_title_et"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:layout_weight="5"
             android:hint="@string/main_title"
-            android:layout_weight="5"/>
+            android:inputType="text" />
     </LinearLayout>
-    
-    <LinearLayout 
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:orientation="horizontal"
         android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp">
-        <TextView 
+        android:layout_marginRight="25dp"
+        android:orientation="horizontal" >
+
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/main_author"
-            android:layout_weight="1"/>
-        
-        <EditText 
+            android:layout_weight="1"
+            android:text="@string/main_author" />
+
+        <EditText
             android:id="@+id/main_author_et"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:layout_weight="5"
             android:hint="@string/main_author"
-            android:layout_weight="5"/>
+            android:inputType="text" />
     </LinearLayout>
-    
-    <LinearLayout 
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="right">
+        android:gravity="right"
+        android:orientation="vertical" >
+
         <Spinner
             android:id="@+id/spinner1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
-	    <Button 
+
+        <Button
             android:id="@+id/main_search"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginBottom="15dp"
-	        android:layout_marginRight="25dp"
-	        android:layout_marginLeft="25dp"
-	        android:padding="5dp"
-	        android:gravity="center"
-	        android:background="@color/green_transparent"
-	        android:text="@string/main_search"/>
-	 
-	    <Button
-	        android:id="@+id/main_books"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_marginBottom="10dp"
-	        android:layout_marginLeft="25dp"
-	        android:layout_marginRight="25dp"
-	        android:background="@color/blue_transparent"
-	        android:gravity="center"
-	        android:padding="5dp"
-	        android:text="@string/main_books" />
-	    
-	    <Button 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button_rounded_green"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/main_search" />
+
+        <!-- <Button
+            android:id="@+id/main_books"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button_rounded_blue"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/main_books" />  -->
+        
+        <RelativeLayout
+            android:id="@+id/main_books"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button_rounded_blue" >
+
+            <ImageView
+                android:id="@+id/main_books_icon"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/messagebox_warning"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/main_books_icon"
+                android:text="@string/main_books"
+                android:textSize="23dp" />
+        </RelativeLayout>
+
+        <!--
+             <Button 
 	        android:id="@+id/main_account"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
@@ -102,12 +134,68 @@
 	        android:layout_marginLeft="25dp"
 	        android:padding="5dp"
 	        android:gravity="center"
-	        android:background="@color/blue_transparent"
+	        android:background="@drawable/button_rounded_blue"
 	        android:layout_gravity="right"
 	        android:text="@string/main_account"/>
-	    
-	    
-	    <Button 
+        -->
+
+        <RelativeLayout
+            android:id="@+id/main_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button_rounded_blue" >
+
+            <ImageView
+                android:id="@+id/main_account_icon"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/user"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/main_account_icon"
+                android:text="@string/main_account"
+                android:textSize="23dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/main_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button_rounded_red" >
+
+            <ImageView
+                android:id="@+id/main_logout_icon"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/login"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/main_logout_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/main_logout_icon"
+                android:text="@string/main_logout"
+                android:textSize="23dp" />
+        </RelativeLayout>
+
+        <!--
+              <Button 
 	        android:id="@+id/main_logout"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
@@ -116,9 +204,10 @@
 	        android:layout_marginLeft="25dp"
 	        android:padding="5dp"
 	        android:gravity="center"
-	        android:background="@color/red_transparent"
+	        android:background="@drawable/button_rounded_red"
 	        android:layout_gravity="right"
 	        android:text="@string/main_logout"/>
+        -->
     </LinearLayout>
-</LinearLayout>
 
+</LinearLayout>

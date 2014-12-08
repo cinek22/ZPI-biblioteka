@@ -13,7 +13,10 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Main extends Activity {
@@ -21,9 +24,12 @@ public class Main extends Activity {
 	private EditText mTitle;
 	private EditText mAuthor;
 	private Button mSearch;
-	private Button mBooks;
-	private Button mAccount;
-	private Button mLogout;
+	private RelativeLayout mAlerts;
+//	private Button mAccount;
+	private RelativeLayout mAccount;
+	private RelativeLayout mLogout;
+	private TextView mLogoutTV;
+	private ImageView mLogoutIC;
 	private Spinner spinner;
 	
 	@Override
@@ -72,9 +78,11 @@ public class Main extends Activity {
 		mTitle = (EditText) findViewById(R.id.main_title_et);
 		mAuthor = (EditText) findViewById(R.id.main_author_et);
 		mSearch = (Button) findViewById(R.id.main_search);
-		mBooks  = (Button) findViewById(R.id.main_books);
-		mAccount  = (Button) findViewById(R.id.main_account);
-		mLogout  = (Button) findViewById(R.id.main_logout);
+		mAlerts  = (RelativeLayout) findViewById(R.id.main_books);
+		mAccount  = (RelativeLayout) findViewById(R.id.main_account);
+		mLogout  = (RelativeLayout) findViewById(R.id.main_logout);
+		mLogoutTV = (TextView) findViewById(R.id.main_logout_tv);
+		mLogoutIC  = (ImageView) findViewById(R.id.main_logout_icon);
 		
 		spinner = (Spinner)findViewById(R.id.spinner1);
 		
@@ -87,13 +95,17 @@ public class Main extends Activity {
 	
 	private void setFieldsVisibility(boolean isLogged){
 		if(isLogged){
-			mBooks.setVisibility(View.VISIBLE);
+			mAlerts.setVisibility(View.VISIBLE);
 			mAccount.setVisibility(View.VISIBLE);
-			mLogout.setText(getText(R.string.main_logout));
+			mLogoutTV.setText(getText(R.string.main_logout));
+			mLogout.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_rounded_red));
+			mLogoutIC.setImageDrawable(getResources().getDrawable(R.drawable.logout));
 		} else{
-			mBooks.setVisibility(View.INVISIBLE);
+			mAlerts.setVisibility(View.INVISIBLE);
 			mAccount.setVisibility(View.INVISIBLE);
-			mLogout.setText(getText(R.string.main_login));
+			mLogoutTV.setText(getText(R.string.main_login));
+			mLogout.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_rounded_green));
+			mLogoutIC.setImageDrawable(getResources().getDrawable(R.drawable.login));
 		}
 	}
 	
@@ -165,7 +177,7 @@ public class Main extends Activity {
 			}
 		});
 		
-		mBooks.setOnClickListener(new View.OnClickListener() {
+		mAlerts.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
