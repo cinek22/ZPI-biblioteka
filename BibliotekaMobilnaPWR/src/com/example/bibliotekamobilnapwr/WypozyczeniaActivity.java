@@ -369,8 +369,8 @@ public boolean isConnectedtoInternet(){
 				@Override
 				public void run() {
 					mProgressDialog = new ProgressDialog(WypozyczeniaActivity.this);
-					mProgressDialog.setTitle("Rent history");
-					mProgressDialog.setMessage("Loading...");
+					mProgressDialog.setTitle("Wypo¿yczenia");
+					mProgressDialog.setMessage("£adujê...");
 					mProgressDialog.setIndeterminate(false);
 					mProgressDialog.show();
 				}

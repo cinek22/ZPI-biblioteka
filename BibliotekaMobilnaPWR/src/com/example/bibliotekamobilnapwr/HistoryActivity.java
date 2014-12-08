@@ -444,8 +444,8 @@ public boolean isConnectedtoInternet(){
 				@Override
 				public void run() {
 					mProgressDialog = new ProgressDialog(HistoryActivity.this);
-					mProgressDialog.setTitle("Rent history");
-					mProgressDialog.setMessage("Loading...");
+					mProgressDialog.setTitle("Historia Wypo¿yczeñ");
+					mProgressDialog.setMessage("£adujê...");
 					mProgressDialog.setIndeterminate(false);
 					mProgressDialog.show();
 				}

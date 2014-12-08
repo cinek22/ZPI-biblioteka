@@ -159,7 +159,7 @@ public class AccountActivity extends Activity{
 		
 		ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 		if(con!=null){
-			NetworkInfo [] info = con.getAllNetworkInfo();
+			NetworkInfo [] info = con.getAllNetworkInfo(); 
 			if(info!=null)
 				for(int i =0;i<info.length;i++)
 					if(info[i].getState()==NetworkInfo.State.CONNECTED){
@@ -181,8 +181,8 @@ public class AccountActivity extends Activity{
 				@Override
 				public void run() {
 					mProgressDialog = new ProgressDialog(AccountActivity.this);
-					mProgressDialog.setTitle("Loadaing page");
-					mProgressDialog.setMessage("Loading...");
+					mProgressDialog.setTitle("Konto");
+					mProgressDialog.setMessage("£adujê...");
 					mProgressDialog.setIndeterminate(false); 
 					mProgressDialog.show();
 				}

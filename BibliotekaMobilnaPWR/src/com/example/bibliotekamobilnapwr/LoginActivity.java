@@ -17,6 +17,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -75,6 +76,7 @@ public class LoginActivity extends Activity {
 
 	    @Override
 		protected String doInBackground(String... urls) {
+	    	
 	       return postData();
 	    }
 
@@ -83,14 +85,10 @@ public class LoginActivity extends Activity {
 	       if(resp != null){
 	    	   Log.d("TEST", "Odpowiedü "+resp);
 	    	   if(!resp.contains("Identyfikator/Has")){
-	    		   if(mLogin.getText().toString().startsWith("PWR")){
 	    		   Toast.makeText(LoginActivity.this, "Zalogowano pomyúlnie", Toast.LENGTH_LONG).show();
 	    		   getSharedPreferences("LIBRARY", MODE_PRIVATE).edit().putString("LOGIN", mLogin.getText().toString()).commit();
 	    		   getSharedPreferences("LIBRARY", MODE_PRIVATE).edit().putString("PASSWORD", mLogin.getText().toString()).commit();
 	    		   finish();
-	    		   }else{
-	    			   Toast.makeText(LoginActivity.this, "Nieprawid≥owy login/haslo", Toast.LENGTH_LONG).show();
-	    		   }
 	    	   }else{
 	    		   Toast.makeText(LoginActivity.this, "Nieprawid≥owy login/haslo", Toast.LENGTH_LONG).show();
 	    	   }

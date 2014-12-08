@@ -17,8 +17,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -28,6 +30,8 @@ public class SessionManager {
 	private static String mPassword;
 	private static Context sContext;
 	private static boolean wasLogged = false;
+	private static ProgressDialog mProgressDialog;
+	private static Handler mHandler = new Handler();
 
 	
 	public static void setContext(Context sContext) {
@@ -46,6 +50,11 @@ public class SessionManager {
 	public static void login(Context context, String login, String password){
 		sContext = context; mLogin = login; mPassword = password;
 		Log.d("TEST", "Login: "+login+" password: "+password);
+		mProgressDialog = new ProgressDialog(sContext);
+		mProgressDialog.setTitle("Logowanie");
+		mProgressDialog.setMessage("Logujê...");
+		mProgressDialog.setIndeterminate(false); 
+		mProgressDialog.show();
 		new LoginTask().execute();
 	}
 	
@@ -53,7 +62,8 @@ public class SessionManager {
 		sContext = context;
 		mLogin = sContext.getSharedPreferences("LIBRARY", Context.MODE_PRIVATE).getString("LOGIN", ""); 
 		mPassword = sContext.getSharedPreferences("LIBRARY", Context.MODE_PRIVATE).getString("PASSWORD", mLogin);
-		login(context, mLogin, mPassword);
+//		login(context, mLogin, mPassword);
+		new LoginTask().execute();
 	}
 	
 	static class LoginTask extends AsyncTask<String, Void, String> {
@@ -67,6 +77,9 @@ public class SessionManager {
 
 	    @Override
 		protected void onPostExecute(String resp) {
+	    	if(mProgressDialog != null){
+				mProgressDialog.dismiss();
+			}
 	       if(resp != null){
 	    	   StringsAndLinks.parseLinks(resp);
 	    	   Log.d("TEST", "OdpowiedŸ "+resp);
