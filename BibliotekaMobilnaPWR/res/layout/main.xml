@@ -5,8 +5,10 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
+     android:background="@drawable/background"
     tools:context="com.example.bibliotekamobilnapwr.Main" >
-
+     
+    
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,7 +75,34 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
-        <Button
+        <RelativeLayout
+            android:id="@+id/main_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button_rounded_green" >
+
+            <ImageView
+                android:id="@+id/main_search_icon"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/search"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/main_search_icon"
+                android:text="@string/main_search"
+                android:textSize="23dp" />
+        </RelativeLayout>
+        
+        <!-- <Button
             android:id="@+id/main_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -83,19 +112,7 @@
             android:background="@drawable/button_rounded_green"
             android:gravity="center"
             android:padding="5dp"
-            android:text="@string/main_search" />
-
-        <!-- <Button
-            android:id="@+id/main_books"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:background="@drawable/button_rounded_blue"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/main_books" />  -->
+            android:text="@string/main_search" /> -->
         
         <RelativeLayout
             android:id="@+id/main_books"

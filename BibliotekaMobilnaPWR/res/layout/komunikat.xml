@@ -3,6 +3,7 @@
     android:id="@+id/container"
     android:orientation="vertical"
     android:layout_width="fill_parent"
+     android:background="@drawable/background"
     android:layout_height="match_parent" >
     
     <TextView 

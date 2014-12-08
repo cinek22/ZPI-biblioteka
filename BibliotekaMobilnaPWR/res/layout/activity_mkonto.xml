@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+     android:background="@drawable/background"
     android:gravity="center" >
     
     <TextView 
@@ -65,7 +66,7 @@
         android:layout_marginRight="25dp"
         android:gravity="right">
 
-        <Button
+        <!-- <Button
             android:id="@+id/account_button_pass"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -125,8 +126,123 @@
             android:background="@color/green_transparent"
             android:gravity="left"
             android:padding="10dp"
-            android:text="@string/btnString"/>
+            android:text="@string/btnString"/> -->
+            
+             <RelativeLayout
+            android:id="@+id/account_chanegePass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button_rounded_blue" >
+
+            <ImageView
+                android:id="@+id/account_chanegePass_icon"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/lockoverlay"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/account_chanegePass_icon"
+                android:text="@string/account_butt_pass"
+                android:textSize="23dp" />
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/account_rents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button_rounded_blue" >
+
+            <ImageView
+                android:id="@+id/account_rents_icon"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/book"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/account_rents_icon"
+                android:text="@string/rent_button"
+                android:textSize="23dp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/account_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button_rounded_blue" >
+
+            <ImageView
+                android:id="@+id/account_history_icon"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/emblem_library"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/account_history_icon"
+                android:text="@string/history_button"
+                android:textSize="23dp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/account_orders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button_rounded_blue" >
+
+            <ImageView
+                android:id="@+id/account_orders_icon"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/clipboard_check"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/account_orders_icon"
+                android:text="@string/orders_button"
+                android:textSize="23dp" />
+        </RelativeLayout>
+            
 	    </LinearLayout>
-	    "
+	    <ImageView
+        android:id="@+id/back_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="left"
+        android:background="@drawable/arrow_back" />
 
 </LinearLayout>

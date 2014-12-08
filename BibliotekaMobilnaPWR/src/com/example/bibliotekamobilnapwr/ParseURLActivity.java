@@ -1,6 +1,7 @@
 package com.example.bibliotekamobilnapwr;
 
 import java.io.StringWriter;
+import java.text.BreakIterator;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -142,24 +143,24 @@ public boolean isConnectedtoInternet(){
 
 		StringBuilder resultTextFmt = new StringBuilder();
 
+		
 		@Override
 		protected String doInBackground(String... params) {
 			try {
 				// Document jsoupe
 				Connection connection = Jsoup.connect(StringsAndLinks.SEARCH_URL);
 				connection.timeout(20000);
-				Document document = connection.get();	
+				Document document = connection.get();
 
-				
-				
 				
 				Elements description2 = document
 						.select("body table#short_table tr[valign=baseline]");
 				if (description2.size() != 0) {
 					createXML(description2);
-				}else Toast.makeText(ParseURLActivity.this, "blad", Toast.LENGTH_LONG).show();			
-				
-				
+				}else
+				{
+					errorMessage();
+				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -174,21 +175,7 @@ public boolean isConnectedtoInternet(){
 			}
 
 			return null;
-		}
-
-		
-		
-		@Override
-		protected void onPostExecute(String result) {
-			
-			 Toast.makeText(ParseURLActivity.this, "jestem tu", Toast.LENGTH_LONG).show();
-			if(result.contains("limit wyszukanych pozycji")){
-				errorMessage("Przekroczony limit wyszukiwañ");
-			}else{
-				errorMessage("Nie odnaleziono rekordów odpowiadaj¹cych zapytaniu");
-			}
-		}
-
+		}		
 
 
 		public void createXML(Elements description2) throws Exception {
@@ -369,13 +356,13 @@ public boolean isConnectedtoInternet(){
 		}
 	}
 	
-	private void errorMessage (String text){
+	private void errorMessage (){
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				ParseURLActivity.this);
  
 			// set dialog message
 			alertDialogBuilder
-				.setMessage(text)
+				.setMessage("Nie odnaleziono rekordów odpowiadaj¹cych zapytaniu")
 				.setCancelable(false)
 				.setPositiveButton("OK",new DialogInterface.OnClickListener() {
 					@Override

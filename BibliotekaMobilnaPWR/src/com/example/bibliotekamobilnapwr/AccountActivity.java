@@ -35,6 +35,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,11 +44,11 @@ public class AccountActivity extends Activity{
 	
 	private TextView ownName;
 	private TextView ownSurname;
-	private Button password;
-	private Button history;
-	private Button orders;
-	private Button rents;
-	private Button back;
+	private RelativeLayout password;
+	private RelativeLayout history;
+	private RelativeLayout orders;
+	private RelativeLayout rents;
+	private ImageView back;
 	SessionManager session;
 	
 	ProgressDialog mProgressDialog;
@@ -97,11 +99,11 @@ public class AccountActivity extends Activity{
 	private void setupView(){
 		ownName = (TextView)findViewById(R.id.account_name_tv);
 		ownSurname = (TextView)findViewById(R.id.account_surname_tv);
-		password = (Button)findViewById(R.id.account_button_pass);
-		history = (Button) findViewById(R.id.history_button);
-		orders = (Button) findViewById(R.id.orders_button);
-		rents = (Button) findViewById(R.id.rent_button);
-		back = (Button)findViewById(R.id.back_account);
+		password = (RelativeLayout)findViewById(R.id.account_chanegePass);
+		history = (RelativeLayout) findViewById(R.id.account_history);
+		orders = (RelativeLayout) findViewById(R.id.account_orders);
+		rents = (RelativeLayout) findViewById(R.id.account_rents);
+		back = (ImageView)findViewById(R.id.back_account);
 	}
 	
 	private void setupListeners(){

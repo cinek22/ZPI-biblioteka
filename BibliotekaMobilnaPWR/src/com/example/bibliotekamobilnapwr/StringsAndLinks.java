@@ -26,6 +26,8 @@ public class StringsAndLinks {
 	public static final String MESSAGES = "?func=bor-info#messages";
 	public static final String FINANCIAL_TRANS = "?func=bor-cash&adm_library=TUR50";
 	
+
+	
 	
 	/*
 	 * 

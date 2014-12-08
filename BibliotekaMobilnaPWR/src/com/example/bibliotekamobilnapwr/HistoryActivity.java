@@ -385,7 +385,7 @@ public boolean isConnectedtoInternet(){
 						popup.setFocusable(true);
 						// Show view to button
 						popup.setBackgroundDrawable(new BitmapDrawable());
-						popup.showAsDropDown(btnRecommend, -250,-50);
+						popup.showAsDropDown(btnRecommend);
 //						popup.showAsDropDown(popupView);
 
 						ImageView popupsms;

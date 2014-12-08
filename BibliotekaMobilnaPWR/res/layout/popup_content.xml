@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="350px"
+    android:layout_width="wrap_content"
     android:layout_height="150px"
+    android:layout_gravity="right"
     android:background="@drawable/popup">
-    
+
     <ImageView
         android:id="@+id/popupsms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45px"
-        android:layout_marginLeft="15px"
         android:layout_alignParentLeft="true"
- 
+        android:layout_centerVertical="true"
+        android:gravity="right"
         android:src="@drawable/sms" />
-
-    <ImageView
+     <ImageView 
         android:id="@+id/popupemail"
+        android:layout_toRightOf="@id/popupsms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-android:layout_marginTop="45px"
-        android:layout_toRightOf="@+id/popupsms"
-        android:src="@drawable/email" />
-
-    <ImageView
+        android:layout_centerVertical="true"
+        android:src="@drawable/email"
+        />
+     
+      <ImageView 
         android:id="@+id/popuptwitter"
+        android:layout_toRightOf="@id/popupemail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-android:layout_marginTop="45px"
-        android:layout_toRightOf="@+id/popupemail"
-        android:src="@drawable/twitter" />
+        android:layout_centerVertical="true"
+        android:src="@drawable/twitter"
+        />
 </RelativeLayout>

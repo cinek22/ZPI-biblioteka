@@ -18,6 +18,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class ChangePassActivity extends Activity{
@@ -33,7 +36,9 @@ public class ChangePassActivity extends Activity{
 	private EditText currentPass;
 	private EditText newPass;
 	private EditText newPassConfirm;
-	private Button save;
+	private RelativeLayout save;
+	private ImageView back;
+	private ImageView help;
 	private String ChangePassUrl;
 	
 	
@@ -51,7 +56,9 @@ public class ChangePassActivity extends Activity{
 		currentPass = (EditText)findViewById(R.id.changePass_current_et);
 		newPass = (EditText)findViewById(R.id.changePass_new_et);
 		newPassConfirm = (EditText)findViewById(R.id.changePass_newConfirm_et);
-		save = (Button)findViewById(R.id.changePass_butt_save);
+		save = (RelativeLayout)findViewById(R.id.chanegePassAccept);
+		back = (ImageView) findViewById(R.id.btnBackChangePass);
+		help = (ImageView) findViewById(R.id.helpChangePass);
 	}
 	
 	private void setupListeners(){
@@ -79,7 +86,21 @@ public class ChangePassActivity extends Activity{
 					}
 			}
 		});
-		
+		back.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {				
+				finish();
+			}
+		});
+		help.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(ChangePassActivity.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
+			}
+		});
+	
 	}
 	
 	

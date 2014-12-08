@@ -23,9 +23,8 @@ public class Main extends Activity {
 	
 	private EditText mTitle;
 	private EditText mAuthor;
-	private Button mSearch;
+	private RelativeLayout mSearch;
 	private RelativeLayout mAlerts;
-//	private Button mAccount;
 	private RelativeLayout mAccount;
 	private RelativeLayout mLogout;
 	private TextView mLogoutTV;
@@ -77,7 +76,7 @@ public class Main extends Activity {
 	private void setupView(){
 		mTitle = (EditText) findViewById(R.id.main_title_et);
 		mAuthor = (EditText) findViewById(R.id.main_author_et);
-		mSearch = (Button) findViewById(R.id.main_search);
+		mSearch = (RelativeLayout) findViewById(R.id.main_search);
 		mAlerts  = (RelativeLayout) findViewById(R.id.main_books);
 		mAccount  = (RelativeLayout) findViewById(R.id.main_account);
 		mLogout  = (RelativeLayout) findViewById(R.id.main_logout);
