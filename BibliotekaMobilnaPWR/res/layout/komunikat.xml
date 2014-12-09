@@ -16,7 +16,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
-        android:textColor="@color/blue"/>
+        android:textColor="@color/black"/>
     
     <ListView 
         android:id="@+id/comm_list"
