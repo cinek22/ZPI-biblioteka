@@ -120,7 +120,7 @@ public class ChangePassActivity extends Activity{
 				if(!resp.contains("nie odpowiada identyfikatorowi")){
 					SessionManager.login(ChangePassActivity.this,SessionManager.getLogin(),newPass.getText().toString());
 					Toast.makeText(ChangePassActivity.this, "Has這 zosta這 zmienione", Toast.LENGTH_LONG).show();	    		   
-	    		   
+	    		    
 				}else{
 					Toast.makeText(ChangePassActivity.this, "Has這 nie zosta這 zmienione", Toast.LENGTH_LONG).show();
 					currentPass.setTextColor(Color.RED);
