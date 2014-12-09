@@ -70,7 +70,7 @@ public class ChangePassActivity extends Activity{
 						&&!newPassConfirm.getText().toString().equals("")&&newPass.getText().toString().equals(newPassConfirm.getText().toString())){					
 					
 					new ChangePassTask().execute();
-					SessionManager.login(ChangePassActivity.this,SessionManager.getLogin(),newPass.getText().toString());
+					
 					Log.d("TEST-H", "Zmienione haslo - context "+ getBaseContext());
 					Log.d("TEST-H", "Zmienione haslo - login "+ SessionManager.getLogin());
 					Log.d("TEST-H", "Zmienione haslo - haslo "+ newPass.getText());
@@ -118,8 +118,9 @@ public class ChangePassActivity extends Activity{
 			if(resp!=null){
 				Log.d("TEST", "Odpowiedü "+resp);
 				if(!resp.contains("nie odpowiada identyfikatorowi")){
+					SessionManager.login(ChangePassActivity.this,SessionManager.getLogin(),newPass.getText().toString());
 					Toast.makeText(ChangePassActivity.this, "Has≥o zosta≥o zmienione", Toast.LENGTH_LONG).show();	    		   
-	    		   
+	    		    
 				}else{
 					Toast.makeText(ChangePassActivity.this, "Has≥o nie zosta≥o zmienione", Toast.LENGTH_LONG).show();
 					currentPass.setTextColor(Color.RED);
