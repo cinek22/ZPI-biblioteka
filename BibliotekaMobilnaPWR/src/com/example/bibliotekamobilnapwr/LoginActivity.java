@@ -18,6 +18,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -34,6 +36,8 @@ public class LoginActivity extends Activity {
 	private EditText mPassword;
 	private RelativeLayout mLoginButton;
 	private String mLoginUrl;
+	private ImageView help;
+	private ImageView btnBack;
 
 	
 	@Override
@@ -52,6 +56,8 @@ public class LoginActivity extends Activity {
 		mLogin = (EditText) findViewById(R.id.login_login_et);
 		mPassword = (EditText) findViewById(R.id.login_password_et);
 		mLoginButton  = (RelativeLayout) findViewById(R.id.login_rl);
+		help  = (ImageView) findViewById(R.id.helpLoginActivity);
+		btnBack  = (ImageView) findViewById(R.id.back_logowanie);
 	}
 	
 	private void setupListeners(){
@@ -66,6 +72,23 @@ public class LoginActivity extends Activity {
 				}else{
 					Toast.makeText(LoginActivity.this, "Obydwa pola musz¹ byæ wype³nione", Toast.LENGTH_LONG).show();
 				}
+			}
+		});
+		
+		btnBack.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(LoginActivity.this, Main.class);
+				startActivity(intent);;
+			}
+		});
+		
+		help.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(LoginActivity.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
 			}
 		});
 	}

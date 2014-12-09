@@ -3,23 +3,62 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+   
     android:orientation="vertical"
      android:background="@drawable/background"
     tools:context="com.example.bibliotekamobilnapwr.Main" >
-     
+  
+     <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="45px" >
+
+    <ImageView
+        android:id="@+id/helpMainActivity"
+        android:layout_width="45px"
+        android:layout_height="45px"
+        android:layout_toLeftOf="@+id/exitMainActivity"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/help" />
     
-    <TextView
+    <ImageView
+        android:id="@+id/exitMainActivity"
+        android:layout_width="45px"
+        android:layout_height="45px"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/exit" />
+
+<!--     <TextView
+        android:id="@+id/title_main_activity"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
+        android:layout_height="45px"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/helpMainActivity"
+        android:background="#70FFFFFF"
+        android:gravity="center"
         android:text="@string/title_main"
-        android:textColor="@color/black"
-        android:textSize="22dp" />
+        android:textSize="20sp"
+        android:typeface="monospace" /> -->
+
+</RelativeLayout>
+    
+     <TextView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+         android:layout_marginBottom="5dp"
+         android:gravity="center"
+         android:text="@string/title_main"
+         android:textColor="@color/black"
+         android:textSize="22dp"
+         android:typeface="monospace" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
@@ -29,6 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="17sp"
             android:text="@string/main_title" />
 
         <EditText
@@ -52,6 +92,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+             android:textSize="17sp"
             android:text="@string/main_author" />
 
         <EditText

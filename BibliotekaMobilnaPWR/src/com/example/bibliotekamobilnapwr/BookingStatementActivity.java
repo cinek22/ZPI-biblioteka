@@ -124,7 +124,6 @@ public boolean isConnectedtoInternet(){
 		@Override
 		protected String doInBackground(String... urls) {
 			HttpClient httpclient = new DefaultHttpClient();
-//			HttpPost httppost = new HttpPost(URL);
 			HttpPost httppost = SessionManager.buildLink("?func="+StringsAndLinks.PARAM_FUNC+"&doc_library="+StringsAndLinks.PARAM_DOC_LIBRARY+"&adm_doc_number="+StringsAndLinks.PARAM_ADM_DOC_NUMBER+"&item_squence="+StringsAndLinks.PARAM_ITEM_SEQUENCE+"&bib_request="+StringsAndLinks.PARAM_BIB_REQUEST+"&PICKUP="+StringsAndLinks.PARAM_PICKUP+"&from="+StringsAndLinks.PARAM_FROM+"&to="+StringsAndLinks.PARAM_TO);
 	
 			

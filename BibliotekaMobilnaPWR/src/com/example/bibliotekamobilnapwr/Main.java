@@ -1,7 +1,9 @@
 package com.example.bibliotekamobilnapwr;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -29,6 +31,8 @@ public class Main extends Activity {
 	private RelativeLayout mLogout;
 	private TextView mLogoutTV;
 	private ImageView mLogoutIC;
+	private ImageView help;
+	private ImageView exit;
 	private Spinner spinner;
 	
 	@Override
@@ -82,6 +86,8 @@ public class Main extends Activity {
 		mLogout  = (RelativeLayout) findViewById(R.id.main_logout);
 		mLogoutTV = (TextView) findViewById(R.id.main_logout_tv);
 		mLogoutIC  = (ImageView) findViewById(R.id.main_logout_icon);
+		help  = (ImageView) findViewById(R.id.helpMainActivity);
+		exit  = (ImageView) findViewById(R.id.exitMainActivity);
 		
 		spinner = (Spinner)findViewById(R.id.spinner1);
 		
@@ -195,6 +201,47 @@ public class Main extends Activity {
 					Intent intent = new Intent(Main.this, LoginActivity.class);
 					startActivityForResult(intent, 200);
 				}
+			}
+		});
+		
+		help.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(Main.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
+			}
+		});
+		
+		exit.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				Main.this);
+		
+			// set dialog message
+			alertDialogBuilder
+				.setMessage("Czy na pewno chcesz wy³¹czyæ aplikacje?")
+				.setCancelable(false)
+				.setPositiveButton("TAK",new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog,int id) {
+						dialog.cancel();
+						// tutaj obs³u¿yæ zamykanie aplikacji
+					}
+				  })
+				.setNegativeButton("NIE",new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog,int id) {
+						dialog.cancel();
+					}
+				});
+ 
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+ 
+				// show it
+				alertDialog.show();
 			}
 		});
 	}

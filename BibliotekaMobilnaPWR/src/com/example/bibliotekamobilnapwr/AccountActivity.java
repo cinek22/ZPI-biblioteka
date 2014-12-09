@@ -48,6 +48,7 @@ public class AccountActivity extends Activity{
 	private RelativeLayout history;
 	private RelativeLayout orders;
 	private RelativeLayout rents;
+	private ImageView help;
 	private ImageView back;
 	SessionManager session;
 	
@@ -92,6 +93,14 @@ public class AccountActivity extends Activity{
 		}
 //		new GetAccountByRafal().onPreExecute();
 //		Log.d("TEST", "AccountActivity accountURL = "+accountURL.toString());
+		help.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(AccountActivity.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
+			}
+		});
+		
 		SessionManager.relog(AccountActivity.this);
 		
 	}
@@ -104,6 +113,7 @@ public class AccountActivity extends Activity{
 		orders = (RelativeLayout) findViewById(R.id.account_orders);
 		rents = (RelativeLayout) findViewById(R.id.account_rents);
 		back = (ImageView)findViewById(R.id.back_account);
+		help = (ImageView)findViewById(R.id.helpAccountActivity);
 	}
 	
 	private void setupListeners(){

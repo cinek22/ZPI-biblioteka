@@ -94,5 +94,6 @@
     <string name="title_Statement">Stan rezerwacji</string>
      <string name="title_History">Historia wypożyczeń</string>
      <string name="title_Orders">Zamówienia</string>
+     <string name="title_wypozyczenia_activity">Wypożyczenia</string>
 
 </resources>
