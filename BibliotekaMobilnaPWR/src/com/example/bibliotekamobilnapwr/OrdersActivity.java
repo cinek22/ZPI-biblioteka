@@ -26,317 +26,114 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
-import android.widget.TableRow.LayoutParams;
 
 public class OrdersActivity extends Activity {
 
-	
-	private Handler handler = new Handler();
-	TableLayout orders_table;
-	TableLayout orders_table_2;
-	private ImageView backBtn;
-	private ImageView helpBtn;
-	ProgressDialog mProgressDialog;
-	private TextView tv;
-	
-	Orders orders = new Orders();
+	private final String TAG = OrdersActivity.class.getName();
+	private ListView mListView;
+	private ImageView help;
+	private ProgressDialog mProgressDialog;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		Log.v(TAG,"onCreate()");
 		setContentView(R.layout.activity_orders);
-		setupView();
+		mListView = (ListView) findViewById(R.id.listaRezKsiazki);
+		help = (ImageView) findViewById(R.id.helpReservation);
 		setupListeners();
-		
-		if(isConnectedtoInternet())
-		{
-			orders.doInBackground();
-			
-		}
-		else {
-		      // alert dialog
-			try {			    
-			    AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-			    alertDialog.setTitle("Info");
-			    alertDialog.setMessage("Brak po³¹czenia z internetem");
-			    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
-			    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-			       public void onClick(DialogInterface dialog, int which) {
-			         finish();
-
-			       }
-			    });
-
-			    alertDialog.show();
-			    }
-			    catch(Exception e)
-			    {
-			        e.printStackTrace();
-			    }			   
-
-		}
+		fetchDataFromNetwork();
 	}
-
+	
 	private void setupListeners() {
-		backBtn.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {				
-				finish();
 
-			}
-		});
-		
-		helpBtn.setOnClickListener(new View.OnClickListener() {
+	help.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(OrdersActivity.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
+				Toast.makeText(OrdersActivity.this, "KiedyÅ› tutaj pojawi siÄ™ pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
 			}
 		});
 		
 	}
-
-	private void setupView() {
-		orders_table = (TableLayout) findViewById(R.id.orders_table);
-		orders_table_2 = (TableLayout) findViewById(R.id.orders_table_2);
-		backBtn = (ImageView) findViewById(R.id.btnBack_orders);
-		helpBtn = (ImageView) findViewById(R.id.helpOrders);
-		tv = (TextView) findViewById(R.id.tvO);
+	
+	private void fetchDataFromNetwork(){
+		new ReservationAsyncTask().execute();
+		
 	}
-	
-public boolean isConnectedtoInternet(){
-		
-		ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-		if(con!=null){
-			NetworkInfo [] info = con.getAllNetworkInfo();
-			if(info!=null)
-				for(int i =0;i<info.length;i++)
-					if(info[i].getState()==NetworkInfo.State.CONNECTED){
-						return true;
-					}
+	private void initListView(List<Book> listReservation) {
+		if(listReservation == null || listReservation.size()==0){
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+					OrdersActivity.this);
+	 
+				// set dialog message
+				alertDialogBuilder
+					.setMessage("Lista rezerwacji jest pusta")
+					.setCancelable(false)
+					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							dialog.cancel();
+							finish();
+						}
+					  });
+			
+					// create alert dialog
+					AlertDialog alertDialog = alertDialogBuilder.create();
+					alertDialog.show();
 		}
-		
-		return false;
+		else{
+			OrdersListAdapter listAdapter = new OrdersListAdapter(
+					OrdersActivity.this,
+					R.layout.order_list_row , 
+					(ArrayList)listReservation);
+			
+			mListView.setAdapter(listAdapter);
+			mListView.invalidate();
+		}
 	}
-	
-	
-	public class Orders extends AsyncTask<String, Void, String>
-	{
+	class ReservationAsyncTask extends AsyncTask<Void,Void,String>{
 
-				
-
-		protected void onPostExecute(String resp) {
-		
-			try{						
-				Document document = Jsoup.parse(resp);
-				
-				Elements description2 = document.select("body table[cellspacing=2] tr");
-				Log.d("TEST","Order request: "+ description2.text());
-				
-				createXML(description2);
-					
-//				mProgressDialog.dismiss();
-			}catch(Exception e){
-				e.printStackTrace();
-				Log.d("TEST", "Order exception"+ e.toString());
-//				Toast.makeText(OrdersActivity.this, "Jakiœ b³¹d", Toast.LENGTH_LONG).show();
-			}
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			mProgressDialog = new ProgressDialog(OrdersActivity.this);
+			mProgressDialog.setTitle("Orders");
+			mProgressDialog.setMessage("Loading...");
+			mProgressDialog.setIndeterminate(false);
+			mProgressDialog.show();
 		}
-
-
-		private void createXML(Elements description) throws Exception {
-			
-			//count quantity rent
-			int quantityRent=0;
-			
-			//XML
-			org.w3c.dom.Document doc = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder().newDocument();
-			
-			//create root rent
-			org.w3c.dom.Element root = doc.createElement("order");
-			doc.appendChild(root);
-			
-			for(Element desc:description){
-				
-				if (desc.select("td.td1").hasText()) {
-				
-				//create:<book>
-				org.w3c.dom.Element book  = doc.createElement("book");
-				root.appendChild(book);
-				book.setTextContent(desc.select("td.td1").get(0).text());
-				quantityRent++;
-				
-				// create: <author>
-				org.w3c.dom.Element author = doc.createElement("author");
-				book.appendChild(author);
-				author.setTextContent(desc.select("td.td1").get(1)
-						.text());
-				
-				// create: <title>
-				org.w3c.dom.Element title = doc.createElement("title");
-				root.appendChild(title);
-				title.setTextContent(desc.select("td.td1").get(2)
-						.text()
-						+ " \n" +desc.select("td.td1").get(3).text());
-				}
-			}
-			// create Transformer object
-						Transformer transformer = TransformerFactory.newInstance()
-								.newTransformer();
-						StringWriter writer = new StringWriter();
-						StreamResult result = new StreamResult(writer);
-						transformer.transform(new DOMSource(doc), result);
-						createTable(quantityRent, doc);
-						handler.post(new Runnable() {
-							
-							@Override
-							public void run() {
-								orders_table.invalidate();
-								orders_table.requestLayout();
-								orders_table_2.invalidate();
-								orders_table.requestLayout();
-							}
-						});
-			
-		}
-
-		private void createTable(int quantityRent, org.w3c.dom.Document doc) {
-			
-			DisplayMetrics metrics = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(metrics);
-			
-			int width = metrics.widthPixels;
-			int height = 45;
-			
-			int wUsun = 50;
-			int wAutor = (width - wUsun) / 3;			
-			int wTytul= (((width - wUsun) - wAutor)) - 1 ;
-			
-			
-			if(doc.getElementsByTagName("author").item(0) == null){
-
-				handler.post(new Runnable() {
-					
-					@Override
-					public void run() {
-						orders_table.setVisibility(View.INVISIBLE);
-						orders_table_2.setVisibility(View.INVISIBLE);
-						Toast.makeText(OrdersActivity.this, "Brak zamówieñ", Toast.LENGTH_LONG).show();
-					}
-				});
-										
-			}
-			
-			
-			TableRow rowMenu = new TableRow(OrdersActivity.this);
-			
-			TextView menuAuthor = new TextView(OrdersActivity.this);
-			menuAuthor.setHeight(height);
-			menuAuthor.setWidth(wAutor);
-			menuAuthor.setText("Autor");
-			menuAuthor.setTextSize(18);
-			rowMenu.addView(menuAuthor);
-			
-			TextView menuTitle = new TextView(OrdersActivity.this);
-			menuTitle.setHeight(height);
-			menuTitle.setWidth(wTytul);
-			menuTitle.setText("Tytu³");
-			menuTitle.setTextSize(18);
-			rowMenu.addView(menuTitle);
-			
-			TextView deleteTitle = new TextView(OrdersActivity.this);
-			deleteTitle.setHeight(height);
-			deleteTitle.setWidth(wUsun);
-			deleteTitle.setText("Usuñ");
-			deleteTitle.setTextSize(18);
-			rowMenu.addView(deleteTitle);
-			
-			orders_table.addView(rowMenu);
-			
-			
-			
-			for(int i=0;i<quantityRent;i++)
-			{
-				
-				TableRow row = new TableRow(OrdersActivity.this);
-				// author
-				final TextView tvAuthor = new TextView(OrdersActivity.this);//				
-				tvAuthor.setPadding(0, 0, 5, 5);
-				tvAuthor.setText(doc.getElementsByTagName("author").item(i)
-						.getTextContent());				
-				row.addView(tvAuthor);
-
-				// title
-				final TextView tvTitle = new TextView(OrdersActivity.this);
-				tvTitle.setPadding(0, 0, 5, 5);
-				tvTitle.setText(doc.getElementsByTagName("title").item(i)
-						.getTextContent());				
-				row.addView(tvTitle);
-				
-				//usun
-				ImageView btnDelete = new ImageView(OrdersActivity .this);//				
-				btnDelete.setPadding(0, 0, 5, 5);
-				btnDelete.setMinimumWidth(wUsun);
-				btnDelete.setBackgroundResource(R.drawable.minus);				
-				row.addView(btnDelete);
-				 
-				btnDelete.setOnClickListener(new View.OnClickListener(){
-
-					@Override
-					public void onClick(View v) {						
-						//dopisaæ obs³ugê usuwania rezerwacji
-					}
-				}
-				);				
-				
-				orders_table_2.addView(row);
-			}
-			
-		}
-		
 		
 		@Override
-		protected String doInBackground(String... params) {
+		protected String doInBackground(Void... params) {
 			try {
 				HttpClient httpclient = new DefaultHttpClient();
 				HttpPost httppost = SessionManager.buildLink(StringsAndLinks.ORDERS);
 
-				Log.d("TEST", "Orders test URL: " + StringsAndLinks.ORDERS);
 				
 				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 				nameValuePairs.add(new BasicNameValuePair("bor_id", SessionManager.getLogin()));
 				nameValuePairs.add(new BasicNameValuePair("bor_verification", SessionManager.getPasword()));
 				nameValuePairs.add(new BasicNameValuePair("func", "bor-hold"));
-				//sprawdziæ jeszcze poprawnoœæ tego
+				//sprawdziÄ‡ jeszcze poprawnoÅ›Ä‡ tego
 				nameValuePairs.add(new BasicNameValuePair("doc_library", "TUR50"));
 		        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				
@@ -356,45 +153,81 @@ public boolean isConnectedtoInternet(){
 				while ((bufferedStrChunk = bufferedReader.readLine()) != null) {
 					stringBuilder.append(bufferedStrChunk);
 				}
-				onPostExecute(stringBuilder.toString());
 				return stringBuilder.toString();
-			} catch (ClientProtocolException e) {
-				Log.e("TEST", "Error getting response: " + e);
-			} catch (IOException e) {
-				Log.e("TEST", "Error getting response: " + e);
-			}
-			return null;
-		}
-
-	
-		public void spamTEST(){
-			try {
-				HttpClient httpclient = new DefaultHttpClient();
-				HttpPost httppost = SessionManager.buildLink(StringsAndLinks.MY_ACCOUNT);
 				
-				HttpResponse response = httpclient.execute(httppost);
-		        InputStream inputStream = response.getEntity().getContent();
-	
-	            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-	
-	            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-	
-	            StringBuilder stringBuilder = new StringBuilder();
-	
-	            String bufferedStrChunk = null;
-	
-	            
-	            while((bufferedStrChunk = bufferedReader.readLine()) != null){
-	                stringBuilder.append(bufferedStrChunk);
-	            }
-	            Log.d("TEST", "AccountActivity logowanie - odpowiedŸ serwera: "+stringBuilder.toString());
 			} catch (ClientProtocolException e) {
-			     Log.e("TEST", "Error getting response: "+e);
+				Log.e("TEST", "Error getting response: " + e);
 			} catch (IOException e) {
-				 Log.e("TEST", "Error getting response: "+e);
+				Log.e("TEST", "Error getting response: " + e);
+			}
+			return "";
+		
+	
+		}
+	@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			mProgressDialog.cancel();
+			parseResponse(result);
+		}
+	
+	}
+	private void parseResponse(String result) {
+		Document document = Jsoup.parse(result);
+		Elements description = document.select("body table[cellspacing=2] tr");
+		Log.v("TEST","Reservation request: "+ description.text());
+		try {
+			createXML(description);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+	private void createXML(Elements description) throws Exception {
+		
+		List<Book> listReservation = new ArrayList<Book>();
+		
+		for(Element desc:description){
+			
+			if (desc.select("td.td1").hasText()) {
+				
+				Book b = new Book();
+				//book
+				b.setBook(desc.select("td.td1").get(0).text());
+				//author
+				b.setAuthor(desc.select("td.td1").get(1).text());
+				//title
+				b.setTitle(desc.select("td.td1").get(2).text());
+				//date
+				b.setDate(desc.select("td.td1").get(3).text());
+				//biblioteka
+				b.setBiblioteka(desc.select("td.td1").get(4).text());
+				//status zamowienia
+				b.setStatus(desc.select("td.td1").get(5).text());
+				//sygnatira
+				b.setSygnatura(desc.select("td.td1").get(6).text());
+				//opis egzemplarza
+				b.setOpisEgzemplarza(desc.select("td.td1").get(7).text());
+				//miejsce odbioru
+				b.setMiejsceOdbioru(desc.select("td.td1").get(8).text());
+				//czas wypozyczenia
+				b.setCzasWypozyczenia(desc.select("td.td1").get(9).text());
+				
+				Book b1 = new Book();
+				b1.setAuthor("CHuj1");
+				b1.setTitle("Bardzo dÅ‚ugiiiiiii ntytusadasj ijodfjodsf");
+				b1.setStatus("Chuj wam w dupe");
+				
+				listReservation.add(b1);
+				listReservation.add(b);
+				listReservation.add(b);
+				listReservation.add(b);
+				listReservation.add(b);
+								
 			}
 		}
-		
+		initListView(listReservation);
 	}
-	
+
 }

@@ -76,11 +76,6 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ListReserveActivity"
-            android:label="@string/title_activity_list_reserve"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".BookingActivity"
             android:label="@string/title_activity_rezerwacje"
             android:screenOrientation="portrait" >
@@ -102,6 +97,11 @@
         </activity>
         <activity
             android:name=".OrdersActivity"
+            android:label="@string/title_activity_orders"
+            android:screenOrientation="portrait" >
+        </activity>
+         <activity
+            android:name=".OrderDetailsActivity"
             android:label="@string/title_activity_orders"
             android:screenOrientation="portrait" >
         </activity>

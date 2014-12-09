@@ -65,6 +65,7 @@
     <string name="book_order">Zamówienie</string>
     <string name="reserve_button">Rezerwuj</string>
     <string name="title_account">Moje konto</string>
+    <string name="reserve_books_title">Zarezerwowane egzemplarze</string>
     <string name="account_name">Imię</string>
     <string name="account_surname">Nazwisko</string>
     <string name="account_butt_pass">Zmiana hasła</string>
@@ -86,14 +87,21 @@
     <string name="title_activity_recommend">RecommendActivity</string>
     <string name="SMS">Wyślij SMS</string>
     <string name="email">Wyślij e-mail</string>
+    <string name="reserve_details_title">Szczegóły rezerwacji</string>
     <string name="twitter">Opublikuj na twitter</string>
     <string name="rec_back">Powrót</string>
     <string name="title_result">Wyniki wyszukania</string>
     <string name="title_booking_activity">Informacje o książce</string>
     <string name="title_confirmation">Potwierdzenie rezerwacji</string>
     <string name="title_Statement">Stan rezerwacji</string>
-     <string name="title_History">Historia wypożyczeń</string>
-     <string name="title_Orders">Zamówienia</string>
-     <string name="title_wypozyczenia_activity">Wypożyczenia</string>
+    <string name="title_History">Historia wypożyczeń</string>
+    <string name="title_Orders">Zamówienia</string>
+    <string name="title_wypozyczenia_activity">Wypożyczenia</string>
+    <string name="book_data">Data</string>
+    <string name="book_biblioteka">Biblioteka</string>
+    <string name="book_sygnatura">Sygnatura</string>
+    <string name="book_opis_egzemplarza">Opis Egzemplarza</string>
+    <string name="book_miejsce_odbioru">Miejsce Odbioru</string>
+    <string name="book_czas_wypo">Czas Wypożyczenia</string>
 
 </resources>
