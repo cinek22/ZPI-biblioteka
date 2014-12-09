@@ -32,10 +32,14 @@ import org.w3c.dom.NodeList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -50,93 +54,129 @@ public class OrdersActivity extends Activity {
 	private ListView mListView;
 	private ImageView help;
 	private ProgressDialog mProgressDialog;
+	private View orders_top_view;
+	private ImageView but_back;
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		Log.v(TAG,"onCreate()");
+		Log.v(TAG, "onCreate()");
 		setContentView(R.layout.activity_orders);
 		mListView = (ListView) findViewById(R.id.listaRezKsiazki);
 		help = (ImageView) findViewById(R.id.helpReservation);
+		orders_top_view = (View) findViewById(R.id.orders_top_view);
+		but_back = (ImageView) findViewById(R.id.btnBack_orders);
 		setupListeners();
 		fetchDataFromNetwork();
+
 	}
-	
+
 	private void setupListeners() {
 
-	help.setOnClickListener(new View.OnClickListener() {
+		help.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(OrdersActivity.this, "Kiedyś tutaj pojawi się pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
+				Toast.makeText(OrdersActivity.this,
+						"Kiedyś tutaj pojawi się pomoc, ale kiedy?",
+						Toast.LENGTH_LONG).show();
 			}
 		});
-		
+
+		but_back.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 	}
-	
-	private void fetchDataFromNetwork(){
+
+	public boolean isConnectedtoInternet() {
+
+		ConnectivityManager con = (ConnectivityManager) getApplicationContext()
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (con != null) {
+			NetworkInfo[] info = con.getAllNetworkInfo();
+			if (info != null)
+				for (int i = 0; i < info.length; i++)
+					if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+						return true;
+					}
+		}
+
+		return false;
+	}
+
+	private void fetchDataFromNetwork() {
 		new ReservationAsyncTask().execute();
-		
+
 	}
+
 	private void initListView(List<Book> listReservation) {
-		if(listReservation == null || listReservation.size()==0){
+		if (listReservation == null || listReservation.size() == 0) {
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 					OrdersActivity.this);
-	 
-				// set dialog message
-				alertDialogBuilder
-					.setMessage("Lista rezerwacji jest pusta")
+			orders_top_view.setVisibility(View.INVISIBLE);
+
+			// set dialog message
+			alertDialogBuilder
+					.setMessage("Lista zam�wie� jest pusta")
 					.setCancelable(false)
-					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,int id) {
-							dialog.cancel();
-							finish();
-						}
-					  });
-			
-					// create alert dialog
-					AlertDialog alertDialog = alertDialogBuilder.create();
-					alertDialog.show();
-		}
-		else{
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+									finish();
+								}
+							});
+
+			// create alert dialog
+			AlertDialog alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+		} else {
 			OrdersListAdapter listAdapter = new OrdersListAdapter(
-					OrdersActivity.this,
-					R.layout.order_list_row , 
-					(ArrayList)listReservation);
-			
+					OrdersActivity.this, R.layout.order_list_row,
+					(ArrayList) listReservation);
+
 			mListView.setAdapter(listAdapter);
 			mListView.invalidate();
 		}
 	}
-	class ReservationAsyncTask extends AsyncTask<Void,Void,String>{
+
+	class ReservationAsyncTask extends AsyncTask<Void, Void, String> {
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 			mProgressDialog = new ProgressDialog(OrdersActivity.this);
-			mProgressDialog.setTitle("Orders");
-			mProgressDialog.setMessage("Loading...");
+			mProgressDialog.setTitle("Zam�wienia");
+			mProgressDialog.setMessage("�aduj�...");
 			mProgressDialog.setIndeterminate(false);
 			mProgressDialog.show();
 		}
-		
+
 		@Override
 		protected String doInBackground(Void... params) {
 			try {
 				HttpClient httpclient = new DefaultHttpClient();
-				HttpPost httppost = SessionManager.buildLink(StringsAndLinks.ORDERS);
+				HttpPost httppost = SessionManager
+						.buildLink(StringsAndLinks.ORDERS);
 
-				
-				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-				nameValuePairs.add(new BasicNameValuePair("bor_id", SessionManager.getLogin()));
-				nameValuePairs.add(new BasicNameValuePair("bor_verification", SessionManager.getPasword()));
+				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
+						2);
+				nameValuePairs.add(new BasicNameValuePair("bor_id",
+						SessionManager.getLogin()));
+				nameValuePairs.add(new BasicNameValuePair("bor_verification",
+						SessionManager.getPasword()));
 				nameValuePairs.add(new BasicNameValuePair("func", "bor-hold"));
-				//sprawdzić jeszcze poprawność tego
-				nameValuePairs.add(new BasicNameValuePair("doc_library", "TUR50"));
-		        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-				
+				// sprawdzić jeszcze poprawność tego
+				nameValuePairs.add(new BasicNameValuePair("doc_library",
+						"TUR50"));
+				httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
 				HttpResponse response = httpclient.execute(httppost);
 				InputStream inputStream = response.getEntity().getContent();
 
@@ -154,77 +194,70 @@ public class OrdersActivity extends Activity {
 					stringBuilder.append(bufferedStrChunk);
 				}
 				return stringBuilder.toString();
-				
+
 			} catch (ClientProtocolException e) {
 				Log.e("TEST", "Error getting response: " + e);
 			} catch (IOException e) {
 				Log.e("TEST", "Error getting response: " + e);
 			}
 			return "";
-		
-	
+
 		}
-	@Override
+
+		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			mProgressDialog.cancel();
 			parseResponse(result);
 		}
-	
+
 	}
+
 	private void parseResponse(String result) {
 		Document document = Jsoup.parse(result);
 		Elements description = document.select("body table[cellspacing=2] tr");
-		Log.v("TEST","Reservation request: "+ description.text());
+		Log.v("TEST", "Reservation request: " + description.text());
 		try {
 			createXML(description);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
 	}
+
 	private void createXML(Elements description) throws Exception {
-		
+
 		List<Book> listReservation = new ArrayList<Book>();
-		
-		for(Element desc:description){
-			
+
+		for (Element desc : description) {
+
 			if (desc.select("td.td1").hasText()) {
-				
+
 				Book b = new Book();
-				//book
+				// book
 				b.setBook(desc.select("td.td1").get(0).text());
-				//author
+				// author
 				b.setAuthor(desc.select("td.td1").get(1).text());
-				//title
+				// title
 				b.setTitle(desc.select("td.td1").get(2).text());
-				//date
+				// date
 				b.setDate(desc.select("td.td1").get(3).text());
-				//biblioteka
+				// biblioteka
 				b.setBiblioteka(desc.select("td.td1").get(4).text());
-				//status zamowienia
+				// status zamowienia
 				b.setStatus(desc.select("td.td1").get(5).text());
-				//sygnatira
+				// sygnatira
 				b.setSygnatura(desc.select("td.td1").get(6).text());
-				//opis egzemplarza
+				// opis egzemplarza
 				b.setOpisEgzemplarza(desc.select("td.td1").get(7).text());
-				//miejsce odbioru
+				// miejsce odbioru
 				b.setMiejsceOdbioru(desc.select("td.td1").get(8).text());
-				//czas wypozyczenia
+				// czas wypozyczenia
 				b.setCzasWypozyczenia(desc.select("td.td1").get(9).text());
-				
-				Book b1 = new Book();
-				b1.setAuthor("CHuj1");
-				b1.setTitle("Bardzo długiiiiiii ntytusadasj ijodfjodsf");
-				b1.setStatus("Chuj wam w dupe");
-				
-				listReservation.add(b1);
+
 				listReservation.add(b);
-				listReservation.add(b);
-				listReservation.add(b);
-				listReservation.add(b);
-								
+
 			}
 		}
 		initListView(listReservation);

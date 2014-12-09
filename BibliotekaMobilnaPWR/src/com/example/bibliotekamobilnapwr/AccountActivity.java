@@ -143,7 +143,7 @@ public class AccountActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// check network connection
+				 //check network connection
 				if (checkNetworConnection()) {
 					Intent intent = new Intent(AccountActivity.this,
 							OrdersActivity.class);
@@ -333,30 +333,34 @@ public class AccountActivity extends Activity {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				AccountActivity.this);
 		// set title
-		alertDialogBuilder.setTitle("B³¹d sieci");
+		alertDialogBuilder.setTitle("Info");
+		alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
 
 		// set dialog message
 		alertDialogBuilder
-				.setMessage("Brak po³¹czenia z sieci¹ Intrnet")
+				.setMessage("Brak po³¹czenia z internetem")
+				
 				.setCancelable(false)
-				.setPositiveButton("Ponwów próbê",
+				.setPositiveButton("OK",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
-								if (checkNetworConnection()) {
+								
+								dialog.cancel();
+								/*if (checkNetworConnection()) {
 									Intent intent = new Intent(AccountActivity.this,
 											OrdersActivity.class);
 									startActivity(intent);
 								} else {
 									showAlertDialog();
-								}
+								}*/
 							}
-						})
-				.setNegativeButton("Anuluj",
+						});
+				/*.setNegativeButton("Anuluj",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								dialog.cancel();
 							}
-						});
+						});*/
 
 		// create alert dialog
 		AlertDialog alertDialog = alertDialogBuilder.create();

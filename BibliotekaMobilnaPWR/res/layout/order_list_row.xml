@@ -2,14 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:background="#70FFFFFF" >
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:paddingLeft="2dp" >
+        android:paddingLeft="2dp" 
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/reservation_list_title"
@@ -17,7 +19,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center|left"
-            android:text="Tutuł" />
+            android:text="@string/book_Title" />
 
        
     </LinearLayout>
@@ -27,7 +29,8 @@
         android:layout_height="match_parent"
         android:layout_weight="0.5"
         android:orientation="horizontal"
-        android:paddingLeft="2dp" >
+        android:paddingLeft="2dp"
+        android:padding="10dp" >
 
         <TextView
             android:id="@+id/reservation_list_author"
@@ -35,7 +38,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center|left"
-            android:text="Autor" />
+            android:text="@string/book_Author" />
 
    
     </LinearLayout>
@@ -47,7 +50,8 @@
         android:layout_weight="0.5"
         android:gravity="center|left"
         android:paddingLeft="2dp"
-        android:text="Status" />
+        android:padding="10dp"
+        android:text="@string/book_stat" />
 
 
 </LinearLayout>

@@ -65,7 +65,7 @@
     <string name="book_order">Zamówienie</string>
     <string name="reserve_button">Rezerwuj</string>
     <string name="title_account">Moje konto</string>
-    <string name="reserve_books_title">Zarezerwowane egzemplarze</string>
+    <string name="reserve_books_title">Zamówione egzemplarze</string>
     <string name="account_name">Imię</string>
     <string name="account_surname">Nazwisko</string>
     <string name="account_butt_pass">Zmiana hasła</string>
