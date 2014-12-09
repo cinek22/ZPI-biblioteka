@@ -97,7 +97,7 @@ public class BookingStatementActivity extends Activity{
 
 	}
 
-public boolean isConnectedtoInternet(){
+	public boolean isConnectedtoInternet(){
 		
 		ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 		if(con!=null){
@@ -126,8 +126,6 @@ public boolean isConnectedtoInternet(){
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpPost httppost = SessionManager.buildLink("?func="+StringsAndLinks.PARAM_FUNC+"&doc_library="+StringsAndLinks.PARAM_DOC_LIBRARY+"&adm_doc_number="+StringsAndLinks.PARAM_ADM_DOC_NUMBER+"&item_squence="+StringsAndLinks.PARAM_ITEM_SEQUENCE+"&bib_request="+StringsAndLinks.PARAM_BIB_REQUEST+"&PICKUP="+StringsAndLinks.PARAM_PICKUP+"&from="+StringsAndLinks.PARAM_FROM+"&to="+StringsAndLinks.PARAM_TO);
 	
-			
-			
 			Log.d("TEST", "Statement URL: " + String.valueOf(httppost));
 			
 			httppost.addHeader("Referer",StringsAndLinks.REFERER_CONFIRMATION);
@@ -153,9 +151,7 @@ public boolean isConnectedtoInternet(){
 				nameValuePairs.add(new BasicNameValuePair("y", "10"));
 				nameValuePairs.add(new BasicNameValuePair("Content-Type", "application/x-www-form-urlencoded"));
 		        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-		        
-		        
+		       
 		        // Execute HTTP Post Request
 		        HttpResponse response = httpclient.execute(httppost);
 		        InputStream inputStream = response.getEntity().getContent();
@@ -234,21 +230,16 @@ public boolean isConnectedtoInternet(){
 	 
 					// show it
 					alertDialog.show();
-			}else{
-	
-			
-			
-//			tvStatement.setText(document.text());
+			}else{			
+
 			tvStatement.setText(document.select("body table[cellspacing=2] td.style5").get(0).text()+"\n"+document.select("body table[cellspacing=2] td.style2").get(0).text()+
 					"\n"+document.select("body table[cellspacing=2] td.style5").get(1).text()+"\n"+document.select("body table[cellspacing=2] td.style2").get(1).text());
 
-			
 			 btnOK.setOnClickListener(new View.OnClickListener() {
 			 
 			 @Override 
 			 public void onClick(View v) {
-				 Intent intent = new Intent(BookingStatementActivity.this, Main.class);
-				 startActivity(intent);
+				 finish();
 			 } });
 			 
 

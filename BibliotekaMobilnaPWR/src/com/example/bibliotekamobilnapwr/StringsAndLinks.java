@@ -1,6 +1,6 @@
 package com.example.bibliotekamobilnapwr;
 
-import org.apache.http.message.BasicNameValuePair;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

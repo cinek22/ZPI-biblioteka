@@ -35,14 +35,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -54,14 +52,14 @@ public class WypozyczeniaActivity extends Activity {
 
 	private Handler handler = new Handler();
 
-	TableLayout history_table;// history_table
-	TableLayout history_table_2;// history_table_2
+	TableLayout rents_table;// rents_table
+	TableLayout rents_table2;// rents_table_2
 
 	private ImageView backBtn;
 	private ImageView help;
 	ProgressDialog mProgressDialog;
 
-	History history = new History();
+	Rents rents = new Rents();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +70,7 @@ public class WypozyczeniaActivity extends Activity {
 		setupListeners();
 		if (isConnectedtoInternet()) {
 
-			history.execute();
+			rents.execute();
 		} else {
 			// alert dialog
 			try {
@@ -127,8 +125,8 @@ public class WypozyczeniaActivity extends Activity {
 	}
 
 	private void setupView() {
-		history_table = (TableLayout) findViewById(R.id.history_table);
-		history_table_2 = (TableLayout) findViewById(R.id.history_table_2);
+		rents_table = (TableLayout) findViewById(R.id.rents_table);
+		rents_table2 = (TableLayout) findViewById(R.id.rents_table_2);
 		backBtn = (ImageView) findViewById(R.id.btnBackWypozyczenia);
 		help = (ImageView) findViewById(R.id.helpWypozyczeniaActivity);
 	}
@@ -149,10 +147,9 @@ public class WypozyczeniaActivity extends Activity {
 		return false;
 	}
 
-	public class History extends AsyncTask<String, Void, String> {
+	public class Rents extends AsyncTask<String, Void, String> {
 
-		String URL;
-
+		
 		protected void onPostExecute(String resp) {
 
 			try {
@@ -164,7 +161,7 @@ public class WypozyczeniaActivity extends Activity {
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				Log.d("TEST", "History exception" + e.toString());
+				Log.d("TEST", "Rents exception" + e.toString());
 			}
 			if (mProgressDialog != null) {
 				mProgressDialog.dismiss();
@@ -217,10 +214,10 @@ public class WypozyczeniaActivity extends Activity {
 
 				@Override
 				public void run() {
-					history_table.invalidate();
-					history_table.requestLayout();
-					history_table_2.invalidate();
-					history_table.requestLayout();
+					rents_table.invalidate();
+					rents_table.requestLayout();
+					rents_table2.invalidate();
+					rents_table2.requestLayout();
 				}
 			});
 
@@ -234,17 +231,14 @@ public class WypozyczeniaActivity extends Activity {
 
 				// set dialog message
 				alertDialogBuilder
-						.setMessage("Historia jest pusta")
+						.setMessage("Brak aktualnych wypo¿yczeñ")
 						.setCancelable(false)
 						.setPositiveButton("OK",
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int id) {
-										dialog.cancel();
-										Intent intent = new Intent(
-												WypozyczeniaActivity.this,
-												AccountActivity.class);
-										startActivity(intent);
+										dialog.cancel();										
+										finish();
 									}
 								});
 
@@ -254,11 +248,8 @@ public class WypozyczeniaActivity extends Activity {
 
 					@Override
 					public void run() {
-						history_table.setVisibility(View.INVISIBLE);
-						history_table_2.setVisibility(View.INVISIBLE);
-						Toast.makeText(WypozyczeniaActivity.this,
-								"Brak aktualnych wypo¿yczeñ", Toast.LENGTH_LONG)
-								.show();
+						rents_table.setVisibility(View.INVISIBLE);
+						rents_table2.setVisibility(View.INVISIBLE);					
 					}
 				});
 
@@ -289,7 +280,7 @@ public class WypozyczeniaActivity extends Activity {
 				recomendTitle.setTextSize(18);
 				rowMenu.addView(recomendTitle);
 
-				history_table.addView(rowMenu);
+				rents_table.addView(rowMenu);
 
 				for (int i = 0; i < quantityRent; i++) {
 
@@ -313,11 +304,6 @@ public class WypozyczeniaActivity extends Activity {
 							.getTextContent());
 
 					row.addView(tvTitle);
-				/*	// polecanie
-					Button btnRecommend = new Button(WypozyczeniaActivity.this);
-					btnRecommend.setLayoutParams(new LayoutParams(60,
-							LayoutParams.WRAP_CONTENT));
-					btnRecommend.setText("Ustaw Alert");*/
 
 					ImageView btnAlert = new ImageView(WypozyczeniaActivity.this);
 					btnAlert.setImageResource(R.drawable.plus);
@@ -338,7 +324,7 @@ public class WypozyczeniaActivity extends Activity {
 							startActivity(intent);
 						}
 					});
-					history_table_2.addView(row);
+					rents_table2.addView(row);
 				}
 			}
 		}
@@ -363,7 +349,7 @@ public class WypozyczeniaActivity extends Activity {
 				HttpPost httppost = SessionManager
 						.buildLink(StringsAndLinks.RENT);
 
-				Log.d("TEST", "History test URL: " + StringsAndLinks.RENT);
+				Log.d("TEST", "Rents test URL: " + StringsAndLinks.RENT);
 
 				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
 						2);
@@ -392,8 +378,7 @@ public class WypozyczeniaActivity extends Activity {
 
 				while ((bufferedStrChunk = bufferedReader.readLine()) != null) {
 					stringBuilder.append(bufferedStrChunk);
-				}
-				// onPostExecute(stringBuilder.toString());
+				}			
 				return stringBuilder.toString();
 			} catch (ClientProtocolException e) {
 				Log.e("TEST", "Error getting response: " + e);

@@ -16,9 +16,16 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.example.bibliotekamobilnapwr.ChangePassActivity.ChangePassTask;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -67,8 +74,35 @@ public class LoginActivity extends Activity {
 			public void onClick(View v) {
 				if(!mLogin.getText().toString().equals("")
 						&& !mPassword.getText().toString().equals("")){
-//					new LoginTask().execute();	
-					SessionManager.login(LoginActivity.this, mLogin.getText().toString(), mPassword.getText().toString());
+						
+					//SessionManager.login(LoginActivity.this, mLogin.getText().toString(), mPassword.getText().toString());
+					
+					if(isConnectedtoInternet())
+					{
+						
+						SessionManager.login(LoginActivity.this, mLogin.getText().toString(), mPassword.getText().toString());				
+					}
+					else {
+					      // alert dialog
+						try {			    
+						    AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
+						    alertDialog.setTitle("Info");
+						    alertDialog.setMessage("Brak po³¹czenia z internetem");
+						    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+						    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+						       public void onClick(DialogInterface dialog, int which) {
+						         finish();
+						       }
+						    });
+
+						    alertDialog.show();
+						    }
+						    catch(Exception e)
+						    {
+						        e.printStackTrace();
+						    }			   
+
+						}
 				}else{
 					Toast.makeText(LoginActivity.this, "Obydwa pola musz¹ byæ wype³nione", Toast.LENGTH_LONG).show();
 				}
@@ -79,8 +113,7 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(LoginActivity.this, Main.class);
-				startActivity(intent);;
+				finish();				
 			}
 		});
 		
@@ -91,6 +124,21 @@ public class LoginActivity extends Activity {
 				Toast.makeText(LoginActivity.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
 			}
 		});
+	}
+	
+	public boolean isConnectedtoInternet(){
+		
+		ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+		if(con!=null){
+			NetworkInfo [] info = con.getAllNetworkInfo();
+			if(info!=null)
+				for(int i =0;i<info.length;i++)
+					if(info[i].getState()==NetworkInfo.State.CONNECTED){
+						return true;
+					}
+		}
+		
+		return false;
 	}
 	
 	

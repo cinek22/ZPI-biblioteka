@@ -1,7 +1,5 @@
 package com.example.bibliotekamobilnapwr;
 
-
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +19,6 @@ import org.jsoup.select.Elements;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,11 +27,9 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -65,9 +60,8 @@ public class AccountActivity extends Activity{
 		setupListeners();		
 		
 		if(isConnectedtoInternet())
-		{
-			
-			new GetAccountByRafal().execute();
+		{			
+			new Account().execute();
 		}
 		else {
 		      // alert dialog
@@ -79,7 +73,6 @@ public class AccountActivity extends Activity{
 			    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
 			       public void onClick(DialogInterface dialog, int which) {
 			         finish();
-
 			       }
 			    });
 
@@ -91,8 +84,7 @@ public class AccountActivity extends Activity{
 			    }			   
 
 		}
-//		new GetAccountByRafal().onPreExecute();
-//		Log.d("TEST", "AccountActivity accountURL = "+accountURL.toString());
+
 		help.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -103,6 +95,14 @@ public class AccountActivity extends Activity{
 		
 		SessionManager.relog(AccountActivity.this);
 		
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if(mProgressDialog != null){
+			mProgressDialog.dismiss();
+		}
 	}
 	
 	private void setupView(){
@@ -120,10 +120,8 @@ public class AccountActivity extends Activity{
 		password.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
-			public void onClick(View v) {
-				String URL= StringsAndLinks.RENT_HISTORY;
-				Intent intent = new Intent(AccountActivity.this, ChangePassActivity.class);
-				intent.putExtra("history_url", URL);
+			public void onClick(View v) {				
+				Intent intent = new Intent(AccountActivity.this, ChangePassActivity.class);				
 				startActivityForResult(intent, 200);
 			}
 		});
@@ -183,7 +181,7 @@ public class AccountActivity extends Activity{
 	}
 	
 	
-	class GetAccountByRafal extends AsyncTask<String,Void,String>
+	class Account extends AsyncTask<String,Void,String>
 	{	
 		
 		@Override
@@ -297,12 +295,6 @@ public class AccountActivity extends Activity{
 		
 	}
 	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if(mProgressDialog != null){
-			mProgressDialog.dismiss();
-		}
-	}
+	
 
 }

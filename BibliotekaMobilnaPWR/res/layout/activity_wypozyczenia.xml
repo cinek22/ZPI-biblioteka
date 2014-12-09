@@ -32,7 +32,7 @@
 </RelativeLayout>
     
     <TableLayout 
-        android:id="@+id/history_table"
+        android:id="@+id/rents_table"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
@@ -48,7 +48,7 @@
         android:scrollbars="vertical">
         
         <TableLayout 
-          	android:id="@+id/history_table_2"
+          	android:id="@+id/rents_table_2"
           	android:layout_width="match_parent"
             android:layout_height="270dp"
             android:background="#70FFFFFF"

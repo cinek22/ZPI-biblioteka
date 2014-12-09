@@ -1,7 +1,6 @@
 package com.example.bibliotekamobilnapwr;
 
 import java.io.StringWriter;
-import java.text.BreakIterator;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -33,7 +32,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -64,8 +62,7 @@ public class ParseURLActivity extends Activity {
 		setupView();
 
 		if(isConnectedtoInternet())
-		{
-			
+		{			
 			parseURL.doInBackground("");
 		}
 		else {
@@ -88,15 +85,13 @@ public class ParseURLActivity extends Activity {
 			    {
 			        e.printStackTrace();
 			    }			   
-
 		}
 		
 		btnBack.setOnClickListener(new View.OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(ParseURLActivity.this, Main.class);
-				startActivity(intent);
+			public void onClick(View v) {				
+				finish();
 			}
 		});
 		
