@@ -56,6 +56,7 @@ public class OrdersActivity extends Activity {
 	private ProgressDialog mProgressDialog;
 	private View orders_top_view;
 	private ImageView but_back;
+	private ImageView tutorial;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,14 @@ public class OrdersActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		Log.v(TAG, "onCreate()");
 		setContentView(R.layout.activity_orders);
+		tutorial = (ImageView) findViewById(R.id.tutorial);
+		tutorial.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				tutorial.setVisibility(View.GONE);
+			}
+		});
 		mListView = (ListView) findViewById(R.id.listaRezKsiazki);
 		help = (ImageView) findViewById(R.id.helpReservation);
 		orders_top_view = (View) findViewById(R.id.orders_top_view);
@@ -78,9 +87,7 @@ public class OrdersActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(OrdersActivity.this,
-						"Kiedyś tutaj pojawi się pomoc, ale kiedy?",
-						Toast.LENGTH_LONG).show();
+				tutorial.setVisibility(View.VISIBLE);
 			}
 		});
 

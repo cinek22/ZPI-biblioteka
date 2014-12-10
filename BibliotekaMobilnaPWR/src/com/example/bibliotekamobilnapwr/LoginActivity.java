@@ -45,6 +45,7 @@ public class LoginActivity extends Activity {
 	private String mLoginUrl;
 	private ImageView help;
 	private ImageView btnBack;
+	private ImageView tutorial;
 
 	
 	@Override
@@ -52,6 +53,14 @@ public class LoginActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.logowanie);
+		tutorial = (ImageView) findViewById(R.id.tutorial);
+		tutorial.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				tutorial.setVisibility(View.GONE);
+			}
+		});
 		mLoginUrl = StringsAndLinks.MAIN_PAGE + (!StringsAndLinks.SESSION_ID.equals("") ? StringsAndLinks.SESSION_ID : "") + StringsAndLinks.LOGIN_ADDRESS;
 		Log.d("TEST", "LoginActivity LoginURL = "+mLoginUrl);
 		setupView();
@@ -121,7 +130,7 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(LoginActivity.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
+				tutorial.setVisibility(View.VISIBLE);
 			}
 		});
 	}

@@ -58,6 +58,7 @@ public class WypozyczeniaActivity extends Activity {
 	private ImageView backBtn;
 	private ImageView help;
 	ProgressDialog mProgressDialog;
+	private ImageView tutorial;
 
 	Rents rents = new Rents();
 
@@ -66,6 +67,14 @@ public class WypozyczeniaActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_wypozyczenia);
+		tutorial = (ImageView) findViewById(R.id.tutorial);
+		tutorial.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				tutorial.setVisibility(View.GONE);
+			}
+		});
 		setupView();
 		setupListeners();
 		if (isConnectedtoInternet()) {
@@ -98,9 +107,7 @@ public class WypozyczeniaActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(WypozyczeniaActivity.this,
-						"Kiedyœ tutaj pojawi siê pomoc, ale kiedy?",
-						Toast.LENGTH_LONG).show();
+				tutorial.setVisibility(View.VISIBLE);
 			}
 		});
 

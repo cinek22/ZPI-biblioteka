@@ -46,6 +46,7 @@ public class AccountActivity extends Activity {
 	private ImageView help;
 	private ImageView back;
 	SessionManager session;
+	private ImageView tutorial;
 
 	ProgressDialog mProgressDialog;
 
@@ -58,6 +59,14 @@ public class AccountActivity extends Activity {
 		setContentView(R.layout.activity_mkonto);
 		setupView();
 		setupListeners();
+		tutorial = (ImageView) findViewById(R.id.tutorial);
+		tutorial.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				tutorial.setVisibility(View.GONE);
+			}
+		});
 
 		if (isConnectedtoInternet()) {
 			new Account().execute();
@@ -88,9 +97,7 @@ public class AccountActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(AccountActivity.this,
-						"Kiedyœ tutaj pojawi siê pomoc, ale kiedy?",
-						Toast.LENGTH_LONG).show();
+				tutorial.setVisibility(View.VISIBLE);
 			}
 		});
 

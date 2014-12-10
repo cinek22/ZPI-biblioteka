@@ -62,6 +62,7 @@ public class HistoryActivity extends Activity {
 	private TextView title;
 	private ImageView backBtn;
 	ProgressDialog mProgressDialog;
+	private ImageView tutorial;
 	
 
 	History history = new History();
@@ -71,6 +72,14 @@ public class HistoryActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_history);
+		tutorial = (ImageView) findViewById(R.id.tutorial);
+		tutorial.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				tutorial.setVisibility(View.GONE);
+			}
+		});
 		setupView();
 		setupListeners();
 
@@ -117,7 +126,7 @@ public class HistoryActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(HistoryActivity.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
+				tutorial.setVisibility(View.VISIBLE);
 			}
 		});
 		

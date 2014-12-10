@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:orientation="vertical"
@@ -7,6 +7,11 @@
 
     android:background="@drawable/background"
     tools:context="com.example.bibliotekamobilnapwr.Main" >
+    
+    <LinearLayout 
+   android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
     
    <RelativeLayout
     android:layout_width="match_parent"
@@ -150,3 +155,12 @@
 	
 </LinearLayout>
 
+    <ImageView 
+    android:id="@+id/tutorial"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        android:src="@drawable/tutorial2"/>
+
+</RelativeLayout>

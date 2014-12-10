@@ -42,6 +42,7 @@ public class ChangePassActivity extends Activity{
 	private ImageView back;
 	private ImageView help;
 	private String ChangePassUrl;
+	private ImageView tutorial;
 	
 	
 	@Override
@@ -49,7 +50,14 @@ public class ChangePassActivity extends Activity{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_zmiana_hasla);
-		
+		tutorial = (ImageView) findViewById(R.id.tutorial);
+		tutorial.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				tutorial.setVisibility(View.GONE);
+			}
+		});
 		
 		setupView();
 		setupListeners();
@@ -130,7 +138,7 @@ public class ChangePassActivity extends Activity{
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(ChangePassActivity.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
+				tutorial.setVisibility(View.VISIBLE);
 			}
 		});
 	

@@ -30,6 +30,7 @@ public class Main extends Activity {
 	private ImageView help;
 	private ImageView exit;
 	private Spinner spinner;
+	private ImageView tutorial;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,14 @@ public class Main extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		setupView();
+		tutorial = (ImageView) findViewById(R.id.tutorial);
+		tutorial.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				tutorial.setVisibility(View.GONE);
+			}
+		});
 		setFieldsVisibility(isLoggedIn());
 		setupListeners();
 		KomunikatManager.initialize(this);
@@ -231,7 +240,12 @@ public class Main extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(Main.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
+				if(isLoggedIn()){
+					tutorial.setImageResource(R.drawable.tutorial3);
+				}else{
+					tutorial.setImageResource(R.drawable.tutorial1);
+				}
+				tutorial.setVisibility(View.VISIBLE);
 			}
 		});
 		
