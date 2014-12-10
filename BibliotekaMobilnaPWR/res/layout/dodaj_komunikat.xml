@@ -207,5 +207,13 @@
      android:layout_alignParentBottom="true"
      android:layout_alignParentLeft="true"
      android:background="@drawable/arrow_back" />
+ 
+ <ImageView 
+    android:id="@+id/tutorial"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        android:src="@drawable/tutorial11"/>
     
 </RelativeLayout>

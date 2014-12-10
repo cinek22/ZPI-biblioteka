@@ -40,4 +40,14 @@
         android:id="@+id/comm_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/relativeLayout1" >
+    </ListView>
+<ImageView 
+    android:id="@+id/tutorial"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        android:src="@drawable/tutorial10"/>
 </RelativeLayout>

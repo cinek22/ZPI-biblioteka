@@ -27,6 +27,7 @@ public class DodajKomunikatActivity extends Activity {
 	 private ImageView back;
 	 private String ID = "";
 	 private boolean EDIT_MODE = false;
+	 private ImageView tutorial;
 	
 	
 	@Override
@@ -50,6 +51,14 @@ public class DodajKomunikatActivity extends Activity {
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dodaj_komunikat);
+		tutorial = (ImageView) findViewById(R.id.tutorial);
+		tutorial.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				tutorial.setVisibility(View.GONE);
+			}
+		});
 		tytul = (TextView)findViewById(R.id.dodaj_tytul);
 		typ = (TextView)findViewById(R.id.dodaj_typ);
 		opis = (TextView)findViewById(R.id.dodaj_opis);
@@ -100,7 +109,7 @@ public class DodajKomunikatActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(DodajKomunikatActivity.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
+				tutorial.setVisibility(View.VISIBLE);
 			}
 		});
 		back.setOnClickListener(new View.OnClickListener() {
