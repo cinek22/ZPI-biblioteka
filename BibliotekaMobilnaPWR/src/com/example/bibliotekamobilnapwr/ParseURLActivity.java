@@ -52,7 +52,15 @@ public class ParseURLActivity extends Activity {
 	private ImageView help;
 	private TextView title;
 	ParseURL parseURL = new ParseURL();
-
+	ProgressDialog mProgressDialog;
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (mProgressDialog != null) {
+			mProgressDialog.dismiss();
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +143,18 @@ public boolean isConnectedtoInternet(){
 		
 		@Override
 		protected String doInBackground(String... params) {
+			mHandler.post(new Runnable() {
+
+				@Override
+				public void run() {
+					mProgressDialog = new ProgressDialog(
+							ParseURLActivity.this);
+					mProgressDialog.setTitle("Wyszukiwanie");
+					mProgressDialog.setMessage("£adujê...");
+					mProgressDialog.setIndeterminate(false);
+					mProgressDialog.show();
+				}
+			});
 			try {
 				// Document jsoupe
 				Connection connection = Jsoup.connect(StringsAndLinks.SEARCH_URL);
@@ -151,6 +171,7 @@ public boolean isConnectedtoInternet(){
 						public void run() {
 							try {
 								createXML(description2);
+								mProgressDialog.dismiss();
 							} catch (Exception e) {								
 								e.printStackTrace();
 							}
@@ -174,7 +195,7 @@ public boolean isConnectedtoInternet(){
 				});
 				finish();
 			}
-
+			mProgressDialog.dismiss();
 			return null;
 		}		
 
