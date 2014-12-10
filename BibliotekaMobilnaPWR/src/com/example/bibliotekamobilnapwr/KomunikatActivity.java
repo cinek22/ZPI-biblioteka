@@ -1,6 +1,7 @@
 package com.example.bibliotekamobilnapwr;
 
 import java.util.ArrayList;
+
 import com.example.bibliotekamobilnapwr.util.Komunikat;
 
 import android.app.Activity;
@@ -14,6 +15,7 @@ import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class KomunikatActivity extends Activity {
@@ -75,8 +77,8 @@ public class KomunikatActivity extends Activity {
 			  TextView type;
 			  TextView desc;
 			  TextView date;
-			  Button delete;
-			  Button edit;
+			  RelativeLayout delete;
+			  RelativeLayout edit;
 			}
 
 		@Override
@@ -93,8 +95,8 @@ public class KomunikatActivity extends Activity {
 	                holder.type = ((TextView)convertView.findViewById(R.id.comm_typ));
 	                holder.desc = ((TextView)convertView.findViewById(R.id.comm_opis));
 	                holder.date = ((TextView)convertView.findViewById(R.id.comm_data));
-	                holder.delete = ((Button)convertView.findViewById(R.id.comm_usun));
-	                holder.edit = ((Button)convertView.findViewById(R.id.comm_edytuj));
+	                holder.delete = ((RelativeLayout)convertView.findViewById(R.id.usun_kom));
+	                holder.edit = ((RelativeLayout)convertView.findViewById(R.id.edytuj_kom));
 	                convertView.setTag(holder);
 	            } else {
 	                holder = (ViewHolder)convertView.getTag();
