@@ -27,7 +27,7 @@ public class AlertReceiver extends BroadcastReceiver{
 	private void triggerNotification(Context context, String s) {
 		NotificationCompat.Builder mBuilder =
 			    new NotificationCompat.Builder(context)
-			    .setSmallIcon(R.drawable.ic_launcher)
+			    .setSmallIcon(R.drawable.icon)
 			    .setContentTitle("BibliotekaPWR")
 			    .setContentText(s);
 		
