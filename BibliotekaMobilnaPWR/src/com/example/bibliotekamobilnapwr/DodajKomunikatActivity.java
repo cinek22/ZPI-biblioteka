@@ -55,6 +55,7 @@ public class DodajKomunikatActivity extends Activity {
 		opis = (TextView)findViewById(R.id.dodaj_opis);
 		data = (DatePicker)findViewById(R.id.dodaj_data);
 		godzina = (TimePicker)findViewById(R.id.dodaj_czas);
+		godzina.setIs24HourView(true);
 		zapisz = (RelativeLayout)findViewById(R.id.dodaj_zapisz);
 		help  = (ImageView) findViewById(R.id.helpDodajKomunikatActivity);
 		back = (ImageView)findViewById(R.id.back_DodajKomunikat);
