@@ -115,7 +115,7 @@ public class BookingStatementActivity extends Activity{
 	private void setView() {
 		tvStatement = (TextView) findViewById(R.id.tvstatement);
 		btnOK = (ImageView) findViewById(R.id.btnstatement);
-		help = (ImageView) findViewById(R.id.helpResult);
+		help = (ImageView) findViewById(R.id.helpStatement);
 		title = (TextView) findViewById(R.id.title_result);
 	}
 
@@ -239,7 +239,8 @@ public class BookingStatementActivity extends Activity{
 			 
 			 @Override 
 			 public void onClick(View v) {
-				 finish();
+				 Intent intent = new Intent(BookingStatementActivity.this, Main.class);
+				 startActivity(intent);
 			 } });
 			 
 
