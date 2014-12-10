@@ -14,15 +14,18 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class KomunikatActivity extends Activity {
 	
 	private ArrayList<Komunikat> mKomunikaty = new ArrayList<Komunikat>();
 	private KomunikatListAdapter mAdapter;
 	private ListView mList;
+	private ImageView help;
 	
 	
 	@Override
@@ -40,8 +43,18 @@ public class KomunikatActivity extends Activity {
 		setContentView(R.layout.komunikat);
 		mKomunikaty = KomunikatManager.getEntries();
 		mAdapter =  new KomunikatListAdapter();
+		help = (ImageView)findViewById(R.id.helpAlerty);
 		mList = (ListView) findViewById(R.id.comm_list);
+		
 		mList.setAdapter(mAdapter);
+		 help.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(KomunikatActivity.this, "Pomoc", Toast.LENGTH_LONG).show();
+				
+			}
+		});
 	}
 	
 	@Override
