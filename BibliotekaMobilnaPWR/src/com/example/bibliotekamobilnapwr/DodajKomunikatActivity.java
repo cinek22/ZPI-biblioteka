@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -20,8 +22,9 @@ public class DodajKomunikatActivity extends Activity {
 	 private TextView opis;
 	 private DatePicker data;
 	 private TimePicker godzina;
-	 private Button zapisz;
-	 
+	 private RelativeLayout zapisz;
+	 private ImageView help;
+	 private ImageView back;
 	 private String ID = "";
 	 private boolean EDIT_MODE = false;
 	
@@ -52,8 +55,9 @@ public class DodajKomunikatActivity extends Activity {
 		opis = (TextView)findViewById(R.id.dodaj_opis);
 		data = (DatePicker)findViewById(R.id.dodaj_data);
 		godzina = (TimePicker)findViewById(R.id.dodaj_czas);
-		zapisz = (Button)findViewById(R.id.dodaj_zapisz);
-		
+		zapisz = (RelativeLayout)findViewById(R.id.dodaj_zapisz);
+		help  = (ImageView) findViewById(R.id.helpDodajKomunikatActivity);
+		back = (ImageView)findViewById(R.id.back_DodajKomunikat);
 		if(title != null){
 			tytul.setText(title);
 		}
@@ -90,6 +94,21 @@ public class DodajKomunikatActivity extends Activity {
 				KomunikatManager.add(rand.nextInt(100000), tytul.getText().toString(), typ.getText().toString(), opis.getText().toString(), godzina.getCurrentHour()+":"+godzina.getCurrentMinute(), data.getDayOfMonth()+"."+data.getMonth()+"."+data.getYear());
 				Toast.makeText(DodajKomunikatActivity.this, "Dodano nowy Alert", Toast.LENGTH_LONG).show();
 				finish();
+			}
+		});
+		help.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(DodajKomunikatActivity.this, "Kiedyœ tutaj pojawi siê pomoc, ale kiedy?", Toast.LENGTH_LONG ).show();
+			}
+		});
+		back.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+				
 			}
 		});
 	}

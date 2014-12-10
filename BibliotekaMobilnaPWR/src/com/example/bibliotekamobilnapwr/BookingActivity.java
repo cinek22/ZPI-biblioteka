@@ -47,7 +47,7 @@ public class BookingActivity extends Activity {
     private ImageView help;
 	private TextView title;
 	Booking booking = new Booking();
-	ProgressDialog mProgressDialog;
+	//ProgressDialog mProgressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -101,13 +101,13 @@ public class BookingActivity extends Activity {
 
 	}
 	
-	@Override
+	/*@Override
 	protected void onPause() {
 		super.onPause();
 		if(mProgressDialog != null){
 			mProgressDialog.dismiss();
 		}
-	}
+	}*/
 
 	public boolean isConnectedtoInternet(){
 		
@@ -137,16 +137,16 @@ public class BookingActivity extends Activity {
 
 		StringBuilder resultTextFmt = new StringBuilder();
 
-		@Override
+		/*@Override
 		protected void onPostExecute(String resp) {		
 		if(mProgressDialog != null){
 			mProgressDialog.dismiss();
 		}
-		}
+		}*/
 		
 		@Override
 		protected String doInBackground(String... params) {
-			mHandler.post(new Runnable() {
+			/*mHandler.post(new Runnable() {
 				
 				@Override
 				public void run() {
@@ -156,7 +156,7 @@ public class BookingActivity extends Activity {
 					mProgressDialog.setIndeterminate(false);
 					mProgressDialog.show();
 				}
-			});
+			});*/
 			try {
 				// Document jsoupe
 				Connection connection = Jsoup.connect("http://aleph.bg.pwr.wroc.pl" + StringsAndLinks.BOOKING_URL);

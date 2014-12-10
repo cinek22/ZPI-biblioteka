@@ -1,6 +1,7 @@
 package com.example.bibliotekamobilnapwr;
 
 import java.util.ArrayList;
+
 import com.example.bibliotekamobilnapwr.util.Komunikat;
 
 import android.app.Activity;
@@ -13,14 +14,19 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class KomunikatActivity extends Activity {
 	
 	private ArrayList<Komunikat> mKomunikaty = new ArrayList<Komunikat>();
 	private KomunikatListAdapter mAdapter;
 	private ListView mList;
+	private ImageView help;
+	private ImageView tutorial;
 	
 	
 	@Override
@@ -36,10 +42,29 @@ public class KomunikatActivity extends Activity {
 			mNotifyMgr.cancel(AlertReceiver.NOTIFICATION_ID);
 		}
 		setContentView(R.layout.komunikat);
+		
+		tutorial = (ImageView) findViewById(R.id.tutorial);
+		tutorial.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				tutorial.setVisibility(View.GONE);
+			}
+		});
 		mKomunikaty = KomunikatManager.getEntries();
 		mAdapter =  new KomunikatListAdapter();
+		help = (ImageView)findViewById(R.id.helpAlerty);
 		mList = (ListView) findViewById(R.id.comm_list);
+		
 		mList.setAdapter(mAdapter);
+		 help.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				tutorial.setVisibility(View.VISIBLE);
+				
+			}
+		});
 	}
 	
 	@Override
@@ -75,8 +100,8 @@ public class KomunikatActivity extends Activity {
 			  TextView type;
 			  TextView desc;
 			  TextView date;
-			  Button delete;
-			  Button edit;
+			  RelativeLayout delete;
+			  RelativeLayout edit;
 			}
 
 		@Override
@@ -93,8 +118,8 @@ public class KomunikatActivity extends Activity {
 	                holder.type = ((TextView)convertView.findViewById(R.id.comm_typ));
 	                holder.desc = ((TextView)convertView.findViewById(R.id.comm_opis));
 	                holder.date = ((TextView)convertView.findViewById(R.id.comm_data));
-	                holder.delete = ((Button)convertView.findViewById(R.id.comm_usun));
-	                holder.edit = ((Button)convertView.findViewById(R.id.comm_edytuj));
+	                holder.delete = ((RelativeLayout)convertView.findViewById(R.id.usun_kom));
+	                holder.edit = ((RelativeLayout)convertView.findViewById(R.id.edytuj_kom));
 	                convertView.setTag(holder);
 	            } else {
 	                holder = (ViewHolder)convertView.getTag();

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Biblioteka Mobilna PWR</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_notifications">Alerty</string>
+    <string name="title_main">Biblioteka PWR</string>
+    <string name="main_title">Tytuł</string>
+    <string name="main_author">Autor</string>
+    <string name="main_search">Szukaj</string>
+    <string name="main_reservations">Rezerwacje</string>
+    <string name="main_books">Alerty</string>
+    <string name="main_account">Konto</string>
+    <string name="main_logout">Wyloguj</string>
+    <string name="main_login">Zaloguj</string>
+    <string name="login_title">Logowanie</string>
+    <string name="login_login">Login</string>
+    <string name="login_password">Hasło</string>
+    <string name="comm_title">Alerty</string>
+
+    <string-array name="where_search">
+        <item>Katalog Główny PWr</item>
+        <item>Czasopisma</item>
+        <item>Narodowy Zasób Biblioteczny</item>
+        <item>Wypożyczalnia Główna</item>
+        <item>Czytelnia Główna</item>
+        <item>Sekcja Informacji Naukowo-Technicznej</item>
+        <item>Czytelnia Kowale</item>
+        <item>Zbiory Specjalne</item>
+        <item>Oddział Centrum przy Wydziale Architektury (bud. E4)</item>
+        <item>Oddział Centrum przy Wydziale Architektury (bud. E1)</item>
+        <item>Oddział Centrum przy Wydziale Budownictwa Lądowego i Wodnego</item>
+        <item>Oddział Centrum przy Wydziale Chemicznym</item>
+        <item>Oddział Centrum przy Wydziale Elektroniki (bud. C6)</item>
+        <item>Oddział Centrum przy Wydziale Elektroniki (bud. C5)</item>
+        <item>Oddział Centrum przy Wydziale Elektroniki (bud. C3)</item>
+        <item>Oddział Centrum przy Wydziale Elektrycznym</item>
+        <item>Oddział Centrum przy Wydziale Geoinżynierii, Górnictwa i Geologii</item>
+        <item>Oddział Centrum przy Wydziale Inżynierii Środowiska</item>
+        <item>Oddział Centrum przy Wydziale Informatyki i Zarządzania</item>
+        <item>Oddział Centrum przy Wydziale Mechaniczno-Energetycznym</item>
+        <item>Oddział Centrum przy Wydziale Mechanicznym</item>
+        <item>Oddział Centrum przy Wydziale Podstawowych Problemów Techniki (bud. A1)</item>
+        <item>Oddział Centrum przy Wydziale Podstawowych Problemów Techniki (bud. C11)</item>
+        <item>Oddział Centrum przy Studium Języków Obcych</item>
+        <item>Oddział Centrum przy Studium Wychowania Fizycznego i Sportu</item>
+        <item>Oddział Centrum przy Wydziale Techniczno-Przyrodniczym w Legnicy</item>
+        <item>Oddział Centrum przy Wydziale Techniczno-Informatycznym w Jeleniej Górze</item>
+        <item>Oddział Centrum przy Wydziale Techniczno-Inżynieryjnym w Wałbrzychu</item>
+    </string-array>
+
+    <string name="title_activity_rezerwacje">Rezerwacje</string>
+    <string name="title_activity_konto">Konto</string>
+    <string name="title_activity_ksiazki">KsiazkiActivity</string>
+    <string name="title_activity_edytuj_konto">EdytujKonto</string>
+    <string name="btnString">Powrót</string>
+    <string name="title_activity_account">AccountActivity</string>
+    <string name="doneButton">Zatwierdź</string>
+    <string name="backButton">Anuluj</string>
+    <string name="book_Author">Autor</string>
+    <string name="book_Title">Tytuł</string>
+    <string name="find_books">Wyszukane egzemplarze</string>
+    <string name="book_stat">Status</string>
+    <string name="book_order">Zamówienie</string>
+    <string name="reserve_button">Rezerwuj</string>
+    <string name="title_account">Moje konto</string>
+    <string name="reserve_books_title">Zarezerwowane egzemplarze</string>
+    <string name="account_name">Imię</string>
+    <string name="account_surname">Nazwisko</string>
+    <string name="account_butt_pass">Zmiana hasła</string>
+    <string name="changePass_title">Zmiana hasła</string>
+    <string name="current_pass">Podaj bieżące hasło</string>
+    <string name="new_pass">Podaj nowe hasło</string>
+    <string name="new_pass_confirm">Potwierdź nowe hasło</string>
+    <string name="button_save_pass">Zmień hasło</string>
+    <string name="button_back_pass">Anuluj</string>
+    <string name="title_activity_change_pass">ChangePassActivity</string>
+    <string name="title_activity_list_reserve">ListReserveActivity</string>
+    <string name="title_activity_history">HistoryActivity</string>
+    <string name="history_button">Historia wypożyczeń</string>
+    <string name="rent_button">Wypożyczenia</string>
+    <string name="orders_button">Zamówienia</string>
+    <string name="title_activity_orders">OrdersActivity</string>
+    <string name="title_activity_rents">RentsActivity</string>
+    <string name="confirmation_button">Potwierdzam</string>
+    <string name="title_activity_recommend">RecommendActivity</string>
+    <string name="SMS">Wyślij SMS</string>
+    <string name="email">Wyślij e-mail</string>
+    <string name="reserve_details_title">Szczegóły rezerwacji</string>
+    <string name="twitter">Opublikuj na twitter</string>
+    <string name="rec_back">Powrót</string>
+    <string name="title_result">Wyniki wyszukania</string>
+    <string name="title_booking_activity">Informacje o książce</string>
+    <string name="title_confirmation">Potwierdzenie rezerwacji</string>
+    <string name="title_Statement">Stan rezerwacji</string>
+    <string name="title_History">Historia wypożyczeń</string>
+    <string name="title_Orders">Zamówienia</string>
+    <string name="title_wypozyczenia_activity">Wypożyczenia</string>
+    <string name="book_data">Data</string>
+    <string name="book_biblioteka">Biblioteka</string>
+    <string name="book_sygnatura">Sygnatura</string>
+    <string name="book_opis_egzemplarza">Opis Egzemplarza</string>
+    <string name="book_miejsce_odbioru">Miejsce Odbioru</string>
+    <string name="book_czas_wypo">Czas Wypożyczenia</string>
+
+</resources>

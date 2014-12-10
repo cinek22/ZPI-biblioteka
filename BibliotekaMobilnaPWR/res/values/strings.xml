@@ -97,11 +97,15 @@
     <string name="title_History">Historia wypożyczeń</string>
     <string name="title_Orders">Zamówienia</string>
     <string name="title_wypozyczenia_activity">Wypożyczenia</string>
+    <string name="main_save">Zapisz</string>
+    <string name="title_add_alert">Dodaj Alert</string> 
     <string name="book_data">Data</string>
     <string name="book_biblioteka">Biblioteka</string>
     <string name="book_sygnatura">Sygnatura</string>
     <string name="book_opis_egzemplarza">Opis Egzemplarza</string>
     <string name="book_miejsce_odbioru">Miejsce Odbioru</string>
     <string name="book_czas_wypo">Czas Wypożyczenia</string>
-
+	<string name="usun_kom"> Usuń  </string>
+	<string name="edytuj_kom">Edytuj</string>
 </resources>
+

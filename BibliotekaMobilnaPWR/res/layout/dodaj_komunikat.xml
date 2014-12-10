@@ -2,132 +2,210 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-     android:background="@drawable/background"
-    android:gravity="center_vertical" >
-    
-    <ScrollView 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/dodaj_zapisz">
-    <LinearLayout 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-    	android:orientation="vertical">
-    <TextView 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        android:text="Dodaj Alert"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp"/>
-    <LinearLayout 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
-        <TextView 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-        	android:textStyle="bold"
-            android:layout_marginRight="10dp"
-            android:textSize="20dp"
-            android:text="Tytuł:"/>
-        
-        <TextView 
-            android:id="@+id/dodaj_tytul"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="Tytul Książki"/>
-    </LinearLayout>
-    
-    <LinearLayout 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
-        <TextView 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginRight="10dp"
-        	android:textStyle="bold"
-            android:textSize="20dp"
-            android:text="Typ:"/>
-        
-        <TextView 
-            android:id="@+id/dodaj_typ"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="Przypomnienie"/>
-    </LinearLayout>
-    
-    <RelativeLayout 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
-        <TextView 
-            android:id="@+id/spam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-        	android:textStyle="bold"
-            android:layout_marginRight="10dp"
-            android:textSize="20dp"
-            android:text="Opis:"/>
-        
-        <EditText 
-            android:id="@+id/dodaj_opis"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/spam"
-            android:layout_alignParentRight="true"
-            android:inputType="text"
-            android:textSize="20dp"/>
-    </RelativeLayout>
-    <TextView 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Godzina:"
-        android:textStyle="bold"/>
-    <TimePicker 
-        android:id="@+id/dodaj_czas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp"/>
-    
-    <TextView 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Data:"
-        android:textStyle="bold"/>
-    
-    <DatePicker 
-        android:id="@+id/dodaj_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp"/>
-    </LinearLayout>
-    </ScrollView>
+    android:background="@drawable/background" >
 
-    <Button 
+  <RelativeLayout
+      android:id="@+id/helpAndTitleAlert"
+      android:layout_width="match_parent"
+      android:layout_height="45px" >
+
+    <ImageView
+        android:id="@+id/helpDodajKomunikatActivity"
+        android:layout_width="45px"
+        android:layout_height="45px"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/help" />
+
+    <TextView
+        android:id="@+id/title_dodajkomunikat_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="45px"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/helpDodajKomunikatActivity"
+        android:background="#70FFFFFF"
+        android:gravity="center"
+        android:text="@string/title_add_alert"
+        android:textSize="20sp"
+        android:typeface="monospace" />
+
+</RelativeLayout>
+    <!--
+         <Button 
         android:id="@+id/dodaj_zapisz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/green"
         android:layout_alignParentBottom="true"
         android:text="Zapisz"/>
+    -->
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/helpAndTitleAlert"
+        android:layout_above="@+id/dodaj_zapisz"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="399dp"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+        <!--     <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:text="Dodaj Alert"
+                android:textSize="25dp"
+                android:textStyle="bold" /> -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginRight="10dp"
+                    android:text="Tytuł:"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/dodaj_tytul"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tytul Książki"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginRight="10dp"
+                    android:text="Typ:"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/dodaj_typ"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Przypomnienie"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/spam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="10dp"
+                    android:text="Opis:"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/dodaj_opis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/spam"
+                    android:inputType="text"
+                    android:textSize="20dp" >
+
+                    <requestFocus />
+                </EditText>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Godzina:"
+                android:textStyle="bold" />
+
+            <TimePicker
+                android:id="@+id/dodaj_czas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Data:"
+                android:textStyle="bold" />
+
+            <DatePicker
+                android:id="@+id/dodaj_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/dodaj_zapisz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_rounded_green"
+        android:gravity="bottom" >
+
+        <ImageView
+            android:id="@+id/main_save_icon"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/save"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/main_save_icon"
+            android:text="@string/main_save"
+            android:textSize="23dp" />
+    </RelativeLayout>
+
+ <ImageView
+     android:id="@+id/back_DodajKomunikat"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_alignParentBottom="true"
+     android:layout_alignParentLeft="true"
+     android:background="@drawable/arrow_back" />
     
 </RelativeLayout>
