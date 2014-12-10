@@ -47,7 +47,7 @@ public class BookingActivity extends Activity {
     private ImageView help;
 	private TextView title;
 	Booking booking = new Booking();
-	ProgressDialog mProgressDialog;
+	//ProgressDialog mProgressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +88,7 @@ public class BookingActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(BookingActivity.this, ParseURLActivity.class);
-				startActivity(intent);;
+				finish();
 			}
 		});
 		help.setOnClickListener(new View.OnClickListener() {
@@ -101,8 +100,16 @@ public class BookingActivity extends Activity {
 		});
 
 	}
+	
+	/*@Override
+	protected void onPause() {
+		super.onPause();
+		if(mProgressDialog != null){
+			mProgressDialog.dismiss();
+		}
+	}*/
 
-public boolean isConnectedtoInternet(){
+	public boolean isConnectedtoInternet(){
 		
 		ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 		if(con!=null){
@@ -130,16 +137,16 @@ public boolean isConnectedtoInternet(){
 
 		StringBuilder resultTextFmt = new StringBuilder();
 
-		@Override
-		protected void onPostExecute(String resp) {
+		/*@Override
+		protected void onPostExecute(String resp) {		
 		if(mProgressDialog != null){
 			mProgressDialog.dismiss();
 		}
-		}
+		}*/
 		
 		@Override
 		protected String doInBackground(String... params) {
-			mHandler.post(new Runnable() {
+			/*mHandler.post(new Runnable() {
 				
 				@Override
 				public void run() {
@@ -149,7 +156,7 @@ public boolean isConnectedtoInternet(){
 					mProgressDialog.setIndeterminate(false);
 					mProgressDialog.show();
 				}
-			});
+			});*/
 			try {
 				// Document jsoupe
 				Connection connection = Jsoup.connect("http://aleph.bg.pwr.wroc.pl" + StringsAndLinks.BOOKING_URL);
@@ -171,7 +178,7 @@ public boolean isConnectedtoInternet(){
 				});
 				finish();
 			}
-
+			
 			return null;
 		}
 
@@ -222,13 +229,6 @@ public boolean isConnectedtoInternet(){
 					book.appendChild(biblioteka);
 					biblioteka.setTextContent(desc.select("td.td1").get(4)
 							.text());
-
-					/*// create: <sygnatura>
-					org.w3c.dom.Element sygnatura = doc
-							.createElement("sygnatura");
-					book.appendChild(sygnatura);
-					sygnatura.setTextContent(desc.select("td.td1").get(6)
-							.text());*/
 				}
 			}
 			// create Transformer object
@@ -264,7 +264,7 @@ public boolean isConnectedtoInternet(){
 			int wStatus = (width - wRezerwacja) / 4;
 			int wData = (width - wRezerwacja) / 4;
 			int wBiblioteka = (((width - wRezerwacja) - wStatus) - wData) - 1 ;
-			/*int wSygnatura = (width - wRezerwacja) / 3;*/
+			
 
 			TableRow rowMenuBooking = new TableRow(BookingActivity.this);
 			TextView menuStatus = new TextView(BookingActivity.this);
@@ -286,14 +286,7 @@ public boolean isConnectedtoInternet(){
 			menuBiblioteka.setWidth(wBiblioteka);
 			menuBiblioteka.setText("Biblioteka");
 			menuBiblioteka.setTextSize(18);
-			rowMenuBooking.addView(menuBiblioteka);
-
-			/*TextView menuSygnatura = new TextView(BookingActivity.this);
-			menuSygnatura.setHeight(height);
-			menuSygnatura.setWidth(wSygnatura);
-			menuSygnatura.setText("Sygnatura");
-			menuSygnatura.setTextSize(18);
-			rowMenuBooking.addView(menuSygnatura);*/
+			rowMenuBooking.addView(menuBiblioteka);			
 
 			TextView menuRezerwacja = new TextView(BookingActivity.this);
 			menuRezerwacja.setHeight(height);
@@ -334,13 +327,7 @@ public boolean isConnectedtoInternet(){
 						.item(i).getTextContent());
 				tvBiblioteka.setPadding(3, 3, 5, 5);
 				row.addView(tvBiblioteka);
-
-				/*// Sygnatura
-				TextView tvSygnatura = new TextView(BookingActivity.this);
-				tvSygnatura.setWidth(wSygnatura);
-				tvSygnatura.setText(doc.getElementsByTagName("sygnatura")
-						.item(i).getTextContent());
-				row.addView(tvSygnatura);*/
+			
 
 				final String href = doc.getElementsByTagName("zamowienie").item(i)
 						.getTextContent();
@@ -418,11 +405,4 @@ public boolean isConnectedtoInternet(){
 
 	}
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if(mProgressDialog != null){
-			mProgressDialog.dismiss();
-		}
-	}
 }

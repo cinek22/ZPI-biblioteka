@@ -19,7 +19,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -80,6 +79,8 @@ public class ConfirmationActivity extends Activity {
 			    catch(Exception e)
 			    {
 			        e.printStackTrace();
+			        kom();
+			        
 			    }			   
 
 		}
@@ -101,7 +102,31 @@ public class ConfirmationActivity extends Activity {
 			}
 		});
 	}
-
+	public void kom (){
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				ConfirmationActivity.this);
+		alertDialogBuilder
+		.setTitle("Proces zamawiania nie zosta³ jeszcze zakoñczony.")
+		.setMessage("Ponowiæ próbê rezerwacji?\nJeœli problem bêdzie siê powtarza³ skontaktuj siê z administratorem.")
+		.setCancelable(false)
+		.setPositiveButton("Ponów",new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog,int id) {
+				dialog.cancel();
+				confirmation.doInBackground();
+			}
+		  })
+		.setNegativeButton("Przerwij",new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog,int id) {
+				dialog.cancel();
+				Intent intent = new Intent(ConfirmationActivity.this, Main.class);
+				startActivity(intent);
+			}
+		});	   
+	}
+	
+	
 public boolean isConnectedtoInternet(){
 		
 		ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -174,6 +199,9 @@ public boolean isConnectedtoInternet(){
 				Log.e("TEST", "Error getting response: " + e);
 			} catch (IOException e) {
 				Log.e("TEST", "Error getting response: " + e);
+			} catch(Exception e)
+			{
+				kom();
 			}
 			return null;
 		}

@@ -26,9 +26,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import com.example.bibliotekamobilnapwr.AccountActivity.GetAccountByRafal;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -44,19 +41,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.TableRow.LayoutParams;
 
 public class HistoryActivity extends Activity {
 
@@ -79,7 +73,7 @@ public class HistoryActivity extends Activity {
 		setContentView(R.layout.activity_history);
 		setupView();
 		setupListeners();
-//		history.doInBackground("");
+
 		
 		if(isConnectedtoInternet())
 		{
@@ -252,7 +246,7 @@ public boolean isConnectedtoInternet(){
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 						HistoryActivity.this);
 
-				/*// set dialog message
+				// set dialog message
 				alertDialogBuilder
 						.setMessage("Historia jest pusta")
 						.setCancelable(false)
@@ -262,28 +256,25 @@ public boolean isConnectedtoInternet(){
 									public void onClick(DialogInterface dialog,
 											int id) {
 										dialog.cancel();
-										Intent intent = new Intent(
-												HistoryActivity.this,
-												AccountActivity.class);
-										startActivity(intent);
+										finish();
 									}
 								});
 
 				// create alert dialog
 				AlertDialog alertDialog = alertDialogBuilder.create();
-*/
+
 				handler.post(new Runnable() {
 					
 					@Override
 					public void run() {
 						history_table.setVisibility(View.INVISIBLE);
 						history_table_2.setVisibility(View.INVISIBLE);
-						Toast.makeText(HistoryActivity.this, "Brak aktualnych wypo¿yczeñ", Toast.LENGTH_LONG).show();
+						
 					}
 				});
 			
 				// show it
-				//alertDialog.show();
+				alertDialog.show();
 			}
 			
 
@@ -359,13 +350,7 @@ public boolean isConnectedtoInternet(){
 				btnRecommend.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						/*
-						 * Intent intent = new Intent(HistoryActivity.this,
-						 * RecommendActivity.class);
-						 * intent.putExtra("tytul",tvTitle.getText() );
-						 * intent.putExtra("autor",tvAuthor.getText());
-						 * startActivity(intent);
-						 */
+						
 						displayPopupWindow(v);
 					}
 					
@@ -386,7 +371,6 @@ public boolean isConnectedtoInternet(){
 						// Show view to button
 						popup.setBackgroundDrawable(new BitmapDrawable());
 						popup.showAsDropDown(btnRecommend);
-//						popup.showAsDropDown(popupView);
 
 						ImageView popupsms;
 						ImageView popupemail;
@@ -541,11 +525,8 @@ public boolean isConnectedtoInternet(){
 		    } catch (android.content.ActivityNotFoundException ex) {
 			       Toast.makeText(HistoryActivity.this, 
 			       "Brak zainstalowanego klienta poczty", Toast.LENGTH_SHORT).show();
-		    }
-		 
-			
-		}
-		
+		    } 			
+		}		
 	}
 	
 	@Override

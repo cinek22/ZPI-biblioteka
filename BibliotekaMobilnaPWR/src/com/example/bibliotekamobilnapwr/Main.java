@@ -2,18 +2,14 @@ package com.example.bibliotekamobilnapwr;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -53,6 +49,38 @@ public class Main extends Activity {
 		if(isLoggedIn()){
 			SessionManager.relog(this);
 		}
+	}
+	@Override
+	public void onBackPressed() {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				Main.this);
+		
+			// set dialog message
+			alertDialogBuilder
+				.setMessage("Czy na pewno chcesz wy³¹czyæ aplikacje?")
+				.setCancelable(false)
+				.setPositiveButton("TAK",new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog,int id) {
+						dialog.cancel();
+						// tutaj obs³u¿yæ zamykanie aplikacji
+						finish();
+						System.exit(0);
+					}
+				  })
+				.setNegativeButton("NIE",new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog,int id) {
+						dialog.cancel();
+					}
+				});
+ 
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+ 
+				// show it
+				alertDialog.show();
+		
 	}
 
 	@Override
@@ -171,22 +199,17 @@ public class Main extends Activity {
 		mAccount.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
-			public void onClick(View v) {			
+			public void onClick(View v) {							
+				Intent intent = new Intent(Main.this, AccountActivity.class);				
+				startActivity(intent);		
 				
-				
-				String siteUrl = (StringsAndLinks.MAIN_PAGE+StringsAndLinks.MY_ACCOUNT);			
-				Intent intent = new Intent(Main.this, AccountActivity.class);
-				intent.putExtra("URL_account", siteUrl);
-				startActivity(intent);				
-				//Toast.makeText(Main.this, "DO ZAIMPLEMENTOWANIA", Toast.LENGTH_LONG).show();
 			}
 		});
 		
 		mAlerts.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
-			public void onClick(View v) {
-//				startActivity(new Intent(Main.this,WypozyczeniaActivity.class));
+			public void onClick(View v) {			
 				startActivity(new Intent(Main.this,KomunikatActivity.class));
 			}
 		});
@@ -216,32 +239,7 @@ public class Main extends Activity {
 
 			@Override
 			public void onClick(View v) {
-					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-				Main.this);
-		
-			// set dialog message
-			alertDialogBuilder
-				.setMessage("Czy na pewno chcesz wy³¹czyæ aplikacje?")
-				.setCancelable(false)
-				.setPositiveButton("TAK",new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog,int id) {
-						dialog.cancel();
-						// tutaj obs³u¿yæ zamykanie aplikacji
-					}
-				  })
-				.setNegativeButton("NIE",new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog,int id) {
-						dialog.cancel();
-					}
-				});
- 
-				// create alert dialog
-				AlertDialog alertDialog = alertDialogBuilder.create();
- 
-				// show it
-				alertDialog.show();
+				onBackPressed();
 			}
 		});
 	}

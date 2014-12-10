@@ -17,15 +17,17 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -46,7 +48,8 @@ public class ChangePassActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState){
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_zmiana_hasla);		
+		setContentView(R.layout.activity_zmiana_hasla);
+		
 		
 		setupView();
 		setupListeners();
@@ -69,22 +72,52 @@ public class ChangePassActivity extends Activity{
 				if(!currentPass.getText().toString().equals("")&&!newPass.getText().toString().equals("")
 						&&!newPassConfirm.getText().toString().equals("")&&newPass.getText().toString().equals(newPassConfirm.getText().toString())){					
 					
-					new ChangePassTask().execute();
+					if(isConnectedtoInternet())
+					{
+						
+						new ChangePassTask().execute();						
+					}
+					else {
+					      // alert dialog
+						try {			    
+						    AlertDialog alertDialog = new AlertDialog.Builder(ChangePassActivity.this).create();
+						    alertDialog.setTitle("Info");
+						    alertDialog.setMessage("Brak po³¹czenia z internetem");
+						    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+						    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+						       public void onClick(DialogInterface dialog, int which) {
+						         finish();
+						       }
+						    });
+
+						    alertDialog.show();
+						    }
+						    catch(Exception e)
+						    {
+						        e.printStackTrace();
+						    }			   
+
+						}
 					
 					Log.d("TEST-H", "Zmienione haslo - context "+ getBaseContext());
 					Log.d("TEST-H", "Zmienione haslo - login "+ SessionManager.getLogin());
 					Log.d("TEST-H", "Zmienione haslo - haslo "+ newPass.getText());
-				}else {
-					Toast.makeText(ChangePassActivity.this,"Wszystkie pola musz¹ byæ wype³nione/Podane has³a s¹ ró¿ne",Toast.LENGTH_LONG).show();
-					if(currentPass.getText().toString().equals(""))currentPass.setTextColor(Color.RED);
-					else if(newPass.getText().toString().equals("")||newPassConfirm.getText().toString().equals("")||!newPass.getText().toString().equals(newPassConfirm.getText().toString()))
-					{
-						currentPass.setTextColor(Color.BLACK);
-						newPass.setTextColor(Color.RED);
-						newPassConfirm.setTextColor(Color.RED);
+				}else 
+					{					
+						if(currentPass.getText().toString().equals(""))
+							{
+							currentPass.setTextColor(Color.RED);
+							Toast.makeText(ChangePassActivity.this,"Wype³nij polê obecne has³o",Toast.LENGTH_LONG).show();
+							}
+						else if(newPass.getText().toString().equals("")||newPassConfirm.getText().toString().equals("")||!newPass.getText().toString().equals(newPassConfirm.getText().toString()))
+						{
+							Toast.makeText(ChangePassActivity.this, "Wype³nij poprawnie pola nowe has³o i potwierdzenie nowego has³a", Toast.LENGTH_LONG).show();
+							currentPass.setTextColor(Color.BLACK);
+							newPass.setTextColor(Color.RED);
+							newPassConfirm.setTextColor(Color.RED);
+						}
 					}
-					}
-			}
+				}
 		});
 		back.setOnClickListener(new View.OnClickListener() {
 
@@ -102,7 +135,20 @@ public class ChangePassActivity extends Activity{
 		});
 	
 	}
-	
+		public boolean isConnectedtoInternet(){
+			
+			ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+			if(con!=null){
+				NetworkInfo [] info = con.getAllNetworkInfo();
+				if(info!=null)
+					for(int i =0;i<info.length;i++)
+						if(info[i].getState()==NetworkInfo.State.CONNECTED){
+							return true;
+						}
+			}
+			
+			return false;
+		}
 	
 	class ChangePassTask extends AsyncTask<String, Void, String>
 	{

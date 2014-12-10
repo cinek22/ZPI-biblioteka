@@ -1,76 +1,104 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/background" >
-    
-    <RelativeLayout 
-     	android:layout_width="match_parent"
-    	android:layout_height="45px">
-       
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="53dp" >
+
         <ImageView
-        android:id="@+id/helpOrders"
-        android:layout_width="45px"
-        android:layout_height="45px"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/help"  />
-        
-        <TextView 
-        android:id="@+id/tvO"
-        android:layout_width="wrap_content"
-        android:layout_height="45px"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/helpOrders"
-        android:background="#70FFFFFF"
-        android:gravity="center"
-        android:text="@string/title_Orders"        
-        android:textSize="20sp"
-        android:typeface="monospace"/>
-        
-        
+            android:id="@+id/helpReservation"
+            android:layout_width="45px"
+            android:layout_height="45px"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/help" />
+
+        <TextView
+            android:id="@+id/title_Reservation"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/helpReservation"
+            android:background="#70FFFFFF"
+            android:gravity="center"
+            android:text="@string/reserve_books_title"
+            android:textSize="20sp"
+            android:typeface="monospace" />
     </RelativeLayout>
-     
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/background"
+        android:padding="10dp" />
+
+    <LinearLayout
+        android:id="@+id/orders_top_view"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#4285f4"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="left"
+                android:text="@string/book_Title" />
+
     
-    <TableLayout 
-        android:id="@+id/orders_table"
+        </LinearLayout>
+
+          <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="left"
+                android:text="@string/book_Author"
+                android:padding="10dp" />
+
+        
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="left"
+            android:text="@string/book_stat"
+            android:padding="10dp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listaRezKsiazki"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="#4285f4"
-        android:shrinkColumns="*"
-        android:stretchColumns="*">        
-    </TableLayout>
+        android:layout_weight="1" >
+    </ListView>
     
-    <ScrollView 
-        android:layout_width="fill_parent"
-        android:layout_height="379dp"
-        android:layout_weight="0.71"
-        android:scrollbars="vertical">
-        
-        <TableLayout 
-          	android:id="@+id/orders_table_2"
-          	android:layout_width="match_parent"
-            android:layout_height="270dp"
-            android:layout_weight="0.65"
-            android:background="#EFFFBC"
-            android:padding="10dp"
-            android:shrinkColumns="*"
-            android:stretchColumns="*" >            
-        </TableLayout>        
-        
-    </ScrollView>
-    
-    <ImageView
+     <ImageView
         android:id="@+id/btnBack_orders"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/arrow_back"
-        
-        />
- </LinearLayout>
+        android:background="@drawable/arrow_back" />
+
+</LinearLayout>
