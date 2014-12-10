@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import com.example.bibliotekamobilnapwr.util.Komunikat;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,7 +28,7 @@ public class KomunikatActivity extends Activity {
 	private KomunikatListAdapter mAdapter;
 	private ListView mList;
 	private ImageView help;
-	
+	private ImageView btnBack;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class KomunikatActivity extends Activity {
 		mAdapter =  new KomunikatListAdapter();
 		help = (ImageView)findViewById(R.id.helpAlerty);
 		mList = (ListView) findViewById(R.id.comm_list);
+		btnBack = (ImageView) findViewById(R.id.back_Komunikat);
 		
 		mList.setAdapter(mAdapter);
 		 help.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +58,14 @@ public class KomunikatActivity extends Activity {
 				
 			}
 		});
+		 
+		 btnBack.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					finish();
+				}
+			});
 	}
 	
 	@Override
@@ -119,13 +130,37 @@ public class KomunikatActivity extends Activity {
 	            holder.type.setText(komunikat.getType());
 	            holder.desc.setText(komunikat.getDescription());
 	            holder.date.setText(komunikat.getTime()+" "+komunikat.getDate());
-            	holder.delete.setOnClickListener(new View.OnClickListener() {
-				
+            	holder.delete.setOnClickListener(new View.OnClickListener() {	
 				@Override
 				public void onClick(View v) {
-					KomunikatManager.remove(mKomunikaty.get(position).getId());
-					mKomunikaty = KomunikatManager.getEntries();
-					mList.setAdapter(mAdapter= new KomunikatListAdapter());
+					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+							KomunikatActivity.this);
+					
+						// set dialog message
+						alertDialogBuilder
+							.setMessage("Czy na pewno chcesz usun¹æ powiadomienie?")
+							.setCancelable(false)
+							.setPositiveButton("TAK",new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,int id) {
+									dialog.cancel();
+									KomunikatManager.remove(mKomunikaty.get(position).getId());
+									mKomunikaty = KomunikatManager.getEntries();
+									mList.setAdapter(mAdapter= new KomunikatListAdapter());
+								}
+							  })
+							.setNegativeButton("NIE",new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,int id) {
+									dialog.cancel();
+								}
+							});
+			 
+							// create alert dialog
+							AlertDialog alertDialog = alertDialogBuilder.create();
+			 
+							// show it
+							alertDialog.show();
 				}
             	});
             	holder.edit.setOnClickListener(new View.OnClickListener() {
