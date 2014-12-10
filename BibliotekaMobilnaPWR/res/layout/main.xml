@@ -7,6 +7,15 @@
     android:orientation="vertical"
      android:background="@drawable/background"
     tools:context="com.example.bibliotekamobilnapwr.Main" >
+    
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
   
      <RelativeLayout
     android:layout_width="match_parent"
@@ -267,5 +276,7 @@
 	        android:text="@string/main_logout"/>
         -->
     </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
