@@ -63,7 +63,7 @@ public class ParseURLActivity extends Activity {
 
 		if(isConnectedtoInternet())
 		{			
-			parseURL.doInBackground("");
+			parseURL.execute();
 		}
 		else {
 		      // alert dialog
@@ -142,10 +142,22 @@ public boolean isConnectedtoInternet(){
 				Document document = connection.get();
 
 				
-				Elements description2 = document
+				final Elements description2 = document
 						.select("body table#short_table tr[valign=baseline]");
 				if (description2.size() != 0) {
-					createXML(description2);
+					mHandler.post(new Runnable() {
+						
+						@Override
+						public void run() {
+							try {
+								createXML(description2);
+							} catch (Exception e) {								
+								e.printStackTrace();
+							}
+							
+						}
+					});
+					
 				}else
 				{
 					errorMessage();
