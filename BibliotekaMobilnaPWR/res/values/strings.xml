@@ -94,11 +94,11 @@
     <string name="title_booking_activity">Informacje o książce</string>
     <string name="title_confirmation">Potwierdzenie rezerwacji</string>
     <string name="title_Statement">Stan rezerwacji</string>
-     <string name="title_History">Historia wypożyczeń</string>
-     <string name="title_Orders">Zamówienia</string>
-     <string name="title_wypozyczenia_activity">Wypożyczenia</string>
-      <string name="main_save">Zapisz</string>
-      <string name="title_add_alert">Dodaj Alert</string> 
+    <string name="title_History">Historia wypożyczeń</string>
+    <string name="title_Orders">Zamówienia</string>
+    <string name="title_wypozyczenia_activity">Wypożyczenia</string>
+    <string name="main_save">Zapisz</string>
+    <string name="title_add_alert">Dodaj Alert</string> 
     <string name="book_data">Data</string>
     <string name="book_biblioteka">Biblioteka</string>
     <string name="book_sygnatura">Sygnatura</string>
